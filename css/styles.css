@@ -934,7 +934,6 @@ html[data-theme="dark"] .nav-toggle {
 html[data-theme="dark"] .bg-white,
 html[data-theme="dark"] .bg-white\/70,
 html[data-theme="dark"] .bg-white\/90,
-html[data-theme="dark"] footer,
 html[data-theme="dark"] .bg-slate-50,
 html[data-theme="dark"] .bg-slate-100,
 html[data-theme="dark"] .bg-slate-200 {
@@ -1202,6 +1201,134 @@ html[data-theme="dark"] .nav-links__item:focus-visible {
     display: flex;
     margin: 0 auto;
     width: fit-content;
+  }
+}
+
+/* =====================================================
+   PIE DE PÁGINA
+   ===================================================== */
+.site-footer {
+  border-top: 1px solid var(--card-border);
+  background: var(--bg-alt);
+  color: var(--text-soft);
+  font-size: 0.9rem;
+}
+
+.site-footer__inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.75rem 1rem 1.25rem;
+}
+
+/* Fila superior: logo + enlaces (apilados y centrados en móvil) */
+.site-footer__top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.site-footer__logo-link {
+  display: inline-block;
+}
+
+.site-footer__logo {
+  display: block;
+  width: 11rem;
+  max-width: 100%;
+  height: auto;
+}
+
+.site-footer__tagline {
+  max-width: 18rem;
+  margin-top: 0.9rem;
+  line-height: 1.6;
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+}
+
+.site-footer__nav a {
+  color: var(--text-soft);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.site-footer__nav a:hover,
+.site-footer__nav a:focus-visible {
+  color: var(--brand-dark);
+}
+
+/* Barra inferior: copyright + enlaces legales */
+.site-footer__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--card-border);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.site-footer__legal {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.site-footer__legal-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-soft);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.site-footer__legal-btn:hover,
+.site-footer__legal-btn:focus-visible {
+  color: var(--text);
+}
+
+@media (min-width: 640px) {
+  .site-footer__inner {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .site-footer__top {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .site-footer__nav {
+    justify-content: flex-end;
+  }
+
+  .site-footer__bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-footer__inner {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 

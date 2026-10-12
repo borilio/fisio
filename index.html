@@ -386,12 +386,34 @@
   <!-- ========================================================= -->
   <!-- FOOTER -->
   <!-- ========================================================= -->
-  <footer class="border-t border-slate-200 bg-slate-100">
-    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-slate-600 sm:flex-row sm:px-6 lg:px-8">
-      <p class="m-0">&copy; 1995–<span id="year"></span> Fisioterapia Costa del Sol</p>
-      <div class="flex items-center gap-3">
-        <button type="button" class="border-0 bg-transparent p-0 font-medium text-slate-600 underline decoration-slate-400 underline-offset-4 transition hover:text-slate-900" id="open-legal">Aviso legal</button>
-        <button type="button" class="border-0 bg-transparent p-0 font-medium text-slate-600 underline decoration-slate-400 underline-offset-4 transition hover:text-slate-900" id="open-cookies">Cookies</button>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__top">
+        <!-- Logo (y frase opcional) -->
+        <div>
+          <a href="#inicio" class="site-footer__logo-link">
+            <img src="img/logo.png" alt="Clínica Fisioterapia Costa del Sol" class="site-footer__logo" width="1131" height="275" loading="lazy">
+          </a>
+          <!-- <p class="site-footer__tagline">Cuidando de tu salud en la Costa del Sol desde 1995.</p> -->
+        </div>
+
+        <!-- Enlaces a las secciones, en una línea -->
+        <nav class="site-footer__nav" aria-label="Secciones">
+          <a href="#instalaciones">Instalaciones</a>
+          <a href="#tratamientos">Tratamientos</a>
+          <a href="#convenios">Convenios</a>
+          <a href="#accidentes">Accidentes</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+      </div>
+
+      <!-- Barra inferior -->
+      <div class="site-footer__bottom">
+        <p>&copy; 1995–<span id="year"></span> Fisioterapia Costa del Sol</p>
+        <div class="site-footer__legal">
+          <button type="button" class="site-footer__legal-btn" id="open-legal">Aviso legal</button>
+          <button type="button" class="site-footer__legal-btn" id="open-cookies">Cookies</button>
+        </div>
       </div>
     </div>
   </footer>

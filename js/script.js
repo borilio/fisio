@@ -85,7 +85,9 @@
 
   /* -----------------------------------------------------
      Aviso "Abierto ahora / Cerrado ahora" ([data-open-status])
-     - Usa siempre la hora de España (no la del dispositivo).
+     - Toma el reloj del dispositivo y lo convierte a la hora de España
+       (así no influye la zona horaria del visitante; si su reloj
+       está mal puesto, el aviso también lo estará).
      - En festivos no dice "Cerrado": avisa de que PUEDE estar cerrado.
      - data-open-status="long" (tarjeta) o "short" (botón Llamar).
      - Si algo falla, el aviso sigue oculto (mejor nada que algo erróneo).
@@ -93,7 +95,7 @@
   const statusEls = document.querySelectorAll("[data-open-status]");
 
   function madridNow() {
-    // PRUEBA: martes 13-oct-2026, 10:00
+    // PRUEBA: martes 13-oct-2026, 10:00 (si quisiera poner las 13:35, pondría minutes: 13 * 60 + 35)
     // return { y: 2026, m: 10, d: 13, minutes: 10 * 60 + 0 };   
     const parts = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Europe/Madrid", year: "numeric", month: "2-digit", day: "2-digit",
