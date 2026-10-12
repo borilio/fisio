@@ -172,29 +172,29 @@
         </div>
 
         <div class="grid gap-4 md:grid-cols-2">
-          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 md:col-span-2">
+          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 shadow-xl md:col-span-2">
             <img src="img/instalaciones/entrada.webp" alt="Entrada de la clínica" class="image-placeholder aspect-[3/2] w-full object-cover lg:aspect-auto lg:h-[500px]">
-            <figcaption class="bg-white px-4 py-3 text-sm text-center text-slate-600">Entrada de la clínica</figcaption>
+            <figcaption class="bg-brand-50 px-4 py-3 text-sm text-center text-slate-600">Entrada de la clínica</figcaption>
           </figure>
 
-          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 md:col-span-2">
+          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 shadow-xl md:col-span-2">
             <img src="img/instalaciones/espera.webp" alt="Sala de espera y recepción" class="image-placeholder aspect-[1854/848] w-full object-cover lg:aspect-auto lg:h-[400px]">
-            <figcaption class="bg-white px-4 py-3 text-sm text-center text-slate-600">Sala de espera y recepción</figcaption>
+            <figcaption class="bg-brand-50 px-4 py-3 text-sm text-center text-slate-600">Sala de espera y recepción</figcaption>
           </figure>
 
-          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100">
+          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 shadow-xl">
             <img src="img/instalaciones/04.webp" alt="Sala de tratamiento" class="image-placeholder h-[400px] w-full object-cover">
-            <figcaption class="bg-white px-4 py-3 text-sm text-center text-slate-600">Sala de tratamiento</figcaption>
+            <figcaption class="bg-brand-50 px-4 py-3 text-sm text-center text-slate-600">Sala de tratamiento</figcaption>
           </figure>
 
-          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100">
+          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 shadow-xl">
             <img src="img/instalaciones/03.webp" alt="Sala de tratamiento" class="image-placeholder h-[400px] w-full object-cover">
-            <figcaption class="bg-white px-4 py-3 text-sm text-center text-slate-600">Sala de tratamiento</figcaption>
+            <figcaption class="bg-brand-50 px-4 py-3 text-sm text-center text-slate-600">Sala de tratamiento</figcaption>
           </figure>
 
-          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 md:col-span-2">
+          <figure class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 shadow-xl md:col-span-2">
             <img src="img/instalaciones/rehab.webp" alt="Sala general" class="image-placeholder aspect-[1854/848] w-full object-cover lg:aspect-auto lg:h-[400px]">
-            <figcaption class="bg-white px-4 py-3 text-sm text-slate-600">Sala general de fisioterapia dotada de 3 camillas, espejos, mecanoterapia, tracción, cervical, steps, colchonetas, tablas de Freeman y platos de Bohler, así como diverso material para la propiocepción y potenciación (pesas, thera-bands, poleas, escaleras de dedos, etc).</figcaption>
+            <figcaption class="bg-brand-50 px-4 py-3 text-sm text-slate-600">Sala general de fisioterapia dotada de 3 camillas, espejos, mecanoterapia, tracción, cervical, steps, colchonetas, tablas de Freeman y platos de Bohler, así como diverso material para la propiocepción y potenciación (pesas, thera-bands, poleas, escaleras de dedos, etc).</figcaption>
           </figure>
         </div>
       </div>
@@ -298,6 +298,7 @@
             <span>
               <span class="contact-action__title">Llamar</span>
               <span class="contact-action__sub" data-config="telefono">952 44 66 55</span>
+              <span class="open-status open-status--on-brand" data-open-status="short" hidden><span class="open-status__dot"></span><span class="open-status__text"></span></span>
             </span>
           </a>
 
@@ -313,7 +314,7 @@
 
           <a class="contact-action" href="mailto:fisioterapiacostadelsol@hotmail.com?subject=Consulta%20Web" data-config-href="mailto">
             <span class="contact-action__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 7.5 7.4 5.2a1.9 1.9 0 0 0 2.2 0l7.4-5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
             <span>
               <span class="contact-action__title">Enviar email</span>
@@ -322,38 +323,59 @@
           </a>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div class="space-y-4 rounded-[24px] border border-slate-200 bg-slate-50 p-5 sm:p-6">
-            <a class="contact-info-item flex items-start gap-3 text-slate-800 no-underline" href="tel:+34952446655" data-config-href="tel">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-1 h-5 w-5 shrink-0 text-brand-700"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.2Z"/></svg>
-              <span class="contact-copy text-sm sm:text-base" data-config="telefono">952 44 66 55</span>
+        <div id="ficha-contacto" class="contact-grid">
+          <!-- Tarjeta con los datos (se rellenan desde js/config.js) -->
+          <div class="contact-card">
+            <a class="contact-card__item" href="tel:+34952446655" data-config-href="tel">
+              <span class="contact-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.2Z"/></svg>
+              </span>
+              <span class="contact-card__text">
+                <span class="contact-card__label">Teléfono</span>
+                <span class="contact-card__value" data-config="telefono">952 44 66 55</span>
+              </span>
             </a>
 
-            <a class="contact-info-item flex items-start gap-3 text-slate-800 no-underline" href="mailto:fisioterapiacostadelsol@hotmail.com?subject=Consulta%20Web" data-config-href="mailto">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-1 h-5 w-5 shrink-0 text-brand-700"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
-              <span class="contact-copy text-sm sm:text-base" data-config="email">fisioterapiacostadelsol@hotmail.com</span>
+            <a class="contact-card__item" href="mailto:fisioterapiacostadelsol@hotmail.com?subject=Consulta%20Web" data-config-href="mailto">
+              <span class="contact-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 7.5 7.4 5.2a1.9 1.9 0 0 0 2.2 0l7.4-5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="contact-card__text">
+                <span class="contact-card__label">Email</span>
+                <span class="contact-card__value" data-config="email">fisioterapiacostadelsol@hotmail.com</span>
+              </span>
             </a>
 
-            <div class="contact-info-item flex items-start gap-3 text-slate-800">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-1 h-5 w-5 shrink-0 text-brand-700"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span class="contact-copy text-sm leading-6 sm:text-base" data-config="direccion">Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga</span>
-            </div>
+            <a class="contact-card__item" href="https://maps.google.com/?cid=6602559463821632743" data-config-href="mapa.ficha" target="_blank" rel="noopener">
+              <span class="contact-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <span class="contact-card__text">
+                <span class="contact-card__label">Dirección</span>
+                <span class="contact-card__value" data-config="direccion">Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga</span>
+              </span>
+            </a>
 
-            <div class="contact-info-item flex items-start gap-3 text-slate-800">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-1 h-5 w-5 shrink-0 text-brand-700"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-              <span class="contact-copy text-sm leading-6 sm:text-base" data-config-html="horario">Lunes a viernes<br><strong>9:30 – 13:30</strong> y <strong>16:00 – 20:00</strong><br>Sábados y domingos cerrado</span>
+            <div class="contact-card__item">
+              <span class="contact-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              </span>
+              <span class="contact-card__text">
+                <span class="contact-card__label">Horario</span>
+                <span class="contact-card__value" data-config-html="horario">Lunes a viernes<br><strong>9:30 – 13:30</strong> y <strong>16:00 – 20:00</strong><br>Sábado y domingo: cerrado</span>
+                <span class="open-status" data-open-status="long" hidden><span class="open-status__dot"></span><span class="open-status__text"></span></span>
+              </span>
             </div>
           </div>
 
           <!-- El mapa de Google solo se carga si el usuario lo pide (Google instala cookies propias) -->
-          <div id="map-container" class="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 shadow-sm">
-            <div class="map-placeholder flex h-[300px] w-full flex-col items-center justify-center gap-4 px-6 text-center sm:h-[360px]">
-              <span class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-50 text-brand-700">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-7 w-7"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div id="map-container" class="contact-map">
+            <div class="contact-map__placeholder">
+              <span class="contact-map__pin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
               </span>
-              <p class="max-w-xs text-sm leading-6 text-slate-600">Al cargar el mapa, Google puede instalar sus propias cookies.</p>
-              <button type="button" id="load-map" class="inline-flex items-center justify-center rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700">Ver mapa</button>
-              <a href="https://maps.google.com/?cid=6602559463821632743" data-config-href="mapa.ficha" target="_blank" rel="noopener" class="text-sm font-medium text-brand-700 underline underline-offset-4">Abrir en Google Maps</a>
+              <p class="contact-map__note">Al cargar el mapa, Google puede instalar sus propias cookies.</p>
+              <button type="button" id="load-map" class="contact-map__button">Ver mapa</button>
             </div>
           </div>
         </div>

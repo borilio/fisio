@@ -11,17 +11,36 @@ window.SITE_CONFIG = {
   telefono: "952 44 66 55",
 
   // Email y asunto que aparece al pulsar "Enviar email".
-  email: "fisioterapiacostadelsol@hotmail.com",
+  email: "info@fisioterapiacostadelsol.com",
   asuntoEmail: "Consulta Web",
 
   direccion: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga",
 
-  // Una línea por elemento. Se puede usar <strong>...</strong> para negrita.
-  horario: [
-    "Lunes a viernes",
-    "<strong>9:30 – 13:30</strong> y <strong>16:00 – 20:00</strong>",
-    "Sábados y domingos cerrado"
-  ],
+  // Horario de apertura (hora de España). Formato "HH:MM".
+  // Cada día admite varios tramos; [] = cerrado.
+  // A partir de aquí se genera el texto del horario y el aviso "Abierto/Cerrado ahora".
+  horarioSemanal: {
+    lunes:     [["09:30", "13:30"], ["16:00", "20:00"]],
+    martes:    [["09:30", "13:30"], ["16:00", "20:00"]],
+    miercoles: [["09:30", "13:30"], ["16:00", "20:00"]],
+    jueves:    [["09:30", "13:30"], ["16:00", "20:00"]],
+    viernes:   [["09:30", "13:30"], ["16:00", "20:00"]],
+    sabado:    [],
+    domingo:   []
+  },
+
+  // Festivos: ese día no se dice "Cerrado", sino que se avisa de que PUEDE estar cerrado.
+  festivos: {
+    // Se repiten cada año (formato "MM-DD"): nacionales + Andalucía (28-02) + local (24-06, San Juan).
+    fijos: ["01-01", "01-06", "02-28", "05-01", "06-24", "08-15", "10-12", "11-01", "12-06", "12-08", "12-25"],
+    // Jueves y Viernes Santo se calculan solos cada año.
+    semanaSanta: true,
+    // Si un festivo cae en domingo, el lunes siguiente también muestra el aviso de festivo
+    // (a menudo se traslada al lunes).
+    lunesTrasDomingoFestivo: true,
+    // Otros días concretos (formato "AAAA-MM-DD"): festivos locales, vacaciones...
+    otros: []
+  },
 
   mapa: {
     // Google Maps > tu ficha > Compartir > Insertar un mapa > copiar solo lo que va en src="..."
