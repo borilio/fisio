@@ -44,10 +44,12 @@
      Modo oscuro / claro
      - El tema inicial ya lo aplica el script del <head> (evita parpadeo).
      - Sin elección manual, se sigue siempre la preferencia del sistema.
-     - Solo se guarda el tema cuando el usuario pulsa el botón.
+     - Solo se guarda el tema cuando el usuario pulsa un conmutador.
+     - Hay dos conmutadores [data-theme-toggle] (barra en ordenador,
+       menú en móvil); se mantienen sincronizados.
      ----------------------------------------------------- */
   const root = document.documentElement;
-  const themeToggle = document.getElementById("theme-toggle");
+  const themeToggles = document.querySelectorAll("[data-theme-toggle]");
   const media = window.matchMedia("(prefers-color-scheme: dark)");
   const THEME_KEY = "fcds_theme";
 
@@ -55,13 +57,10 @@
     const dark = Boolean(isDark);
     root.setAttribute("data-theme", dark ? "dark" : "light");
 
-    if (themeToggle) {
-      themeToggle.setAttribute(
-        "aria-label",
-        dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"
-      );
-      themeToggle.title = dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
-    }
+    themeToggles.forEach((toggle) => {
+      toggle.setAttribute("aria-checked", String(dark));
+      toggle.title = dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
+    });
   }
 
   let manualOverride = false;
@@ -82,8 +81,8 @@
     if (!manualOverride) applyTheme(e.matches);
   });
 
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
+  themeToggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
       manualOverride = true;
       const isDark = root.getAttribute("data-theme") === "dark";
       applyTheme(!isDark);
@@ -93,7 +92,7 @@
         /* noop */
       }
     });
-  }
+  });
 
   /* -----------------------------------------------------
      Menú móvil

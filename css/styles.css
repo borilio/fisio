@@ -11,6 +11,14 @@
   --on-brand: #ffffff;
   --accent: #e08e3e;
   --shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+
+  /* Barra de navegación */
+  --header-h: 4.5rem;
+  --acrylic-bg: rgba(255, 255, 255, 0.65);
+  --acrylic-menu-bg: rgba(255, 255, 255, 0.78);
+  --acrylic-border: rgba(148, 163, 184, 0.28);
+  --acrylic-fallback: rgba(255, 255, 255, 0.96);
+  --acrylic-blur: blur(16px) saturate(180%);
 }
 
 html[data-theme="dark"] {
@@ -26,11 +34,16 @@ html[data-theme="dark"] {
   --on-brand: #0f1720;
   --accent: #f2b066;
   --shadow: 0 24px 50px rgba(2, 6, 23, 0.42);
+
+  --acrylic-bg: rgba(15, 23, 32, 0.65);
+  --acrylic-menu-bg: rgba(15, 23, 32, 0.8);
+  --acrylic-border: rgba(255, 255, 255, 0.08);
+  --acrylic-fallback: rgba(15, 23, 32, 0.96);
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: var(--header-h);
   overflow-x: hidden;
 }
 
@@ -45,11 +58,6 @@ body {
   font-family: "Inter", system-ui, sans-serif;
   transition: background 0.2s ease, color 0.2s ease;
   overflow-x: hidden;
-  padding-top: 4.5rem;
-}
-
-main {
-  padding-top: 0;
 }
 
 img,
@@ -61,17 +69,30 @@ button {
   max-width: 100%;
 }
 
-header {
-  background: rgba(255, 255, 255, 0.96) !important;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-color: rgba(148, 163, 184, 0.2) !important;
+/* =====================================================
+   BARRA DE NAVEGACIÓN — efecto acrílico (cristal desenfocado)
+   El cristal va en ::before y no en el propio <header>: si el header
+   tuviera backdrop-filter, el menú desplegable (que está dentro)
+   no podría desenfocar lo que hay detrás de él.
+   ===================================================== */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--acrylic-bg);
+  -webkit-backdrop-filter: var(--acrylic-blur);
+  backdrop-filter: var(--acrylic-blur);
+  border-bottom: 1px solid var(--acrylic-border);
 }
 
-html[data-theme="dark"] header {
-  background: rgba(15, 23, 32, 0.96) !important;
-  border-color: rgba(148, 163, 184, 0.18) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+/* Navegadores sin desenfoque: fondo casi opaco para que se lea bien */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root,
+  :root[data-theme="dark"] {
+    --acrylic-bg: var(--acrylic-fallback);
+    --acrylic-menu-bg: var(--acrylic-fallback);
+  }
 }
 
 h1,
@@ -183,6 +204,7 @@ iframe {
 .hero {
   position: relative;
   overflow: hidden;
+  padding-top: var(--header-h); /* el vídeo empieza detrás de la barra de navegación */
   background: #123f39 url("../img/fondos/cuello.webp") center / cover no-repeat;
 }
 
@@ -201,6 +223,36 @@ iframe {
   background: linear-gradient(180deg, rgba(18, 63, 57, 0.72) 0%, rgba(15, 23, 42, 0.68) 100%);
 }
 
+/* Móvil: el vídeo es horizontal y se recorta por los lados.
+   Encuadramos la parte izquierda (0% = borde izquierdo, 50% = centro). */
+@media (max-width: 767px) {
+  .hero,
+  .hero__video {
+    background-position: 0% center;
+    object-position: 0% center;
+  }
+}
+
+/* Difuminado superior: bajo la barra se ve el fondo de la página
+   y el vídeo aparece progresivamente hacia abajo */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1; /* por encima del vídeo y la capa oscura, por debajo del texto (z-10) */
+  height: calc(var(--header-h) + 5rem);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg) 30%, transparent 100%);
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .hero::before {
+    height: calc(var(--header-h) + 2.5rem);
+  }
+}
+
 /* Difuminado inferior: el vídeo se funde con el fondo de la página */
 .hero::after {
   content: "";
@@ -211,6 +263,12 @@ iframe {
   height: 7rem;
   background: linear-gradient(180deg, transparent 0%, var(--bg) 100%);
   pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .hero::after {
+    height: 5rem;
+  }
 }
 
 /* Botón "Ver tratamientos" sobre el vídeo (colores propios para no depender
@@ -235,23 +293,86 @@ iframe {
   }
 }
 
-.cta-neon {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent);
-  color: #fff;
-  border: 1px solid transparent;
-  box-shadow: none;
-  overflow: visible;
-  z-index: 0;
+/* =====================================================
+   BOTÓN NEÓN GIRATORIO — reutilizable en cualquier <a> o <button>
+   Uso: class="btn-neon" (respeta el padding y el redondeo del botón)
+   Personalizable con variables, p. ej.:
+     style="--neon-speed: 4s; --neon-fill: #1f6f64;"
+   ===================================================== */
+@property --neon-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
 }
 
-.cta-neon:hover {
-  background: var(--accent-strong, #d3792e);
-  transform: translateY(-1px);
-  box-shadow: none;
+.btn-neon {
+  --neon-1: #ffc078;           /* color de luz 1 */
+  --neon-2: #7ad7c0;           /* color de luz 2 */
+  --neon-fill: var(--accent);  /* fondo del botón */
+  --neon-fill-hover: #d3792e;  /* fondo al pasar el ratón */
+  --neon-text: #ffffff;        /* color del texto */
+  --neon-width: 2px;           /* grosor del borde de luz */
+  --neon-speed: 5.5s;          /* tiempo de una vuelta */
+
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  color: var(--neon-text);
+  background: conic-gradient(from var(--neon-angle), var(--neon-1), var(--neon-2), #ffffff, var(--neon-1));
+  animation: neon-spin var(--neon-speed) linear infinite;
+  transition: transform 0.2s ease;
+}
+
+/* Resplandor difuminado detrás del botón */
+.btn-neon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: inherit;
+  background: inherit;
+  filter: blur(10px);
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+/* Relleno interior (deja ver el borde de luz alrededor) */
+.btn-neon::after {
+  content: "";
+  position: absolute;
+  inset: var(--neon-width);
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--neon-fill);
+  transition: background 0.2s ease;
+}
+
+.btn-neon:hover,
+.btn-neon:focus-visible {
+  color: var(--neon-text);
+  transform: translateY(-2px);
+}
+
+.btn-neon:hover::before,
+.btn-neon:focus-visible::before {
+  opacity: 0.9;
+}
+
+.btn-neon:hover::after,
+.btn-neon:focus-visible::after {
+  background: var(--neon-fill-hover);
+}
+
+@keyframes neon-spin {
+  to {
+    --neon-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-neon {
+    animation: none;
+  }
 }
 
 /* Botones de acción de contacto (Llamar / Cómo llegar / Email) */
@@ -351,12 +472,125 @@ p {
   margin: 0;
 }
 
-.icon {
-  width: 1.25rem;
-  height: 1.25rem;
+/* =====================================================
+   CONMUTADOR DE TEMA (claro / oscuro)
+   El aspecto depende de html[data-theme], que se aplica antes
+   de pintar la página, así que no hay parpadeo al cargar.
+   ===================================================== */
+.theme-switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  width: 2.75rem;   /* 44px */
+  height: 1.5rem;   /* 24px */
+  padding: 2px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+  background: rgba(226, 232, 240, 0.85);
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.15);
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-.theme-toggle-btn,
+.theme-switch__knob {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 1.125rem;  /* 18px */
+  height: 1.125rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.theme-switch__icon {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.theme-switch__icon--sun {
+  color: #e08e3e;
+}
+
+.theme-switch__icon--moon {
+  color: #7ad7c0;
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.theme-switch:hover,
+.theme-switch:focus-visible {
+  border-color: var(--brand);
+}
+
+.theme-switch:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Modo oscuro: la bolita se desliza a la derecha y muestra la luna */
+html[data-theme="dark"] .theme-switch {
+  background: #0b1218;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .theme-switch__knob {
+  transform: translateX(1.25rem); /* espacio interior (38px) − bolita (18px) = 20px */
+  background: #1b2b2d;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+html[data-theme="dark"] .theme-switch__icon--sun {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+html[data-theme="dark"] .theme-switch__icon--moon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* Fila "Modo oscuro" dentro del menú desplegable (solo móvil) */
+.nav-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.9rem 0.9rem 0.4rem;
+  border: 0;
+  border-top: 1px solid var(--acrylic-border);
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-theme-row:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 0.75rem;
+}
+
+/* Móvil: conmutador en el menú. Ordenador: conmutador en la barra. */
+@media (max-width: 767px) {
+  .theme-switch--header {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .nav-theme-row {
+    display: none;
+  }
+}
+
 .nav-toggle {
   display: inline-flex;
   align-items: center;
@@ -367,33 +601,20 @@ p {
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.96);
   color: var(--text);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
   transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-html[data-theme="dark"] .theme-toggle-btn,
 html[data-theme="dark"] .nav-toggle {
   background: rgba(15, 23, 32, 0.96);
   border-color: rgba(148, 163, 184, 0.18);
 }
 
-.theme-toggle-btn:hover,
 .nav-toggle:hover,
-.theme-toggle-btn:focus-visible,
 .nav-toggle:focus-visible {
   border-color: var(--brand);
   color: var(--brand-dark);
   transform: translateY(-1px);
-}
-
-html[data-theme="dark"] .icon--sun {
-  display: none;
-}
-
-html[data-theme="dark"] .icon--moon {
-  display: block !important;
 }
 
 html[data-theme="dark"] .bg-white,
@@ -458,19 +679,19 @@ html[data-theme="dark"] .text-brand-600 {
   left: 0.75rem;
   right: 0.75rem;
   padding: 0.75rem;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid var(--acrylic-border);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  background: var(--acrylic-menu-bg);
+  -webkit-backdrop-filter: var(--acrylic-blur);
+  backdrop-filter: var(--acrylic-blur);
   box-shadow: 0 20px 35px rgba(15, 23, 42, 0.12);
   z-index: 20;
 }
 
-html[data-theme="dark"] .nav-links {
-  background: rgba(15, 23, 32, 0.96);
-  border-color: rgba(148, 163, 184, 0.18);
-  box-shadow: 0 24px 40px rgba(2, 6, 23, 0.42);
+@media (max-width: 767px) {
+  html[data-theme="dark"] .nav-links {
+    box-shadow: 0 24px 40px rgba(2, 6, 23, 0.42);
+  }
 }
 
 .nav-links.is-open {
@@ -493,6 +714,8 @@ html[data-theme="dark"] .nav-links {
     border: 0;
     border-radius: 0;
     background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     box-shadow: none;
     z-index: auto;
   }
@@ -554,7 +777,6 @@ html[data-theme="dark"] .nav-links__item:focus-visible {
 }
 
 @media (min-width: 768px) {
-  .theme-toggle-btn,
   .nav-toggle {
     width: 2.5rem;
     height: 2.5rem;
@@ -570,13 +792,6 @@ html[data-theme="dark"] .nav-links__item:focus-visible {
     width: 100%;
     max-width: 100%;
     white-space: normal;
-  }
-
-  .theme-toggle-btn {
-    width: 2.35rem;
-    height: 2.35rem;
-    border-radius: 0.9rem;
-    box-shadow: none;
   }
 
   .nav-toggle {
