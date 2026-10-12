@@ -93,6 +93,8 @@
   const statusEls = document.querySelectorAll("[data-open-status]");
 
   function madridNow() {
+    // PRUEBA: martes 13-oct-2026, 10:00
+    // return { y: 2026, m: 10, d: 13, minutes: 10 * 60 + 0 };   
     const parts = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Europe/Madrid", year: "numeric", month: "2-digit", day: "2-digit",
       hour: "2-digit", minute: "2-digit", hourCycle: "h23"
