@@ -6,6 +6,20 @@
    ===================================================== */
 window.SITE_CONFIG = {
 
+  // AVISO IMPORTANTE (eventual): aparece al principio de la portada y se puede cerrar.
+  // - mostrar: true para mostrarlo, false para ignorarlo por completo.
+  // - desde / hasta: se muestra entre esas dos fechas, ambas incluidas ("AAAA-MM-DD").
+  //     desde "" = desde ya;  hasta "" = sin fecha de fin (siempre que mostrar sea true).
+  // - texto: admite <strong>...</strong> para negrita y <br> para salto de línea.
+  aviso: {
+    mostrar: false,
+    titulo: "Aviso importante",
+    texto: "La clínica permanecerá cerrada del 1 al 15 de agosto por vacaciones.",
+    desde: "",
+    hasta: ""
+  },
+
+  // Datos de contacto
   // Teléfono tal y como se muestra. El enlace para llamar se genera solo
   // (si no empieza por +, se añade el prefijo +34).
   telefono: "952 44 66 55",

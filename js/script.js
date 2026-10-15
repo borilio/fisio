@@ -199,6 +199,43 @@
   }
 
   /* -----------------------------------------------------
+     Aviso importante eventual (config.aviso)
+     - Solo se muestra si mostrar === true y hoy está entre "desde" y "hasta"
+       (ambas incluidas; vacías = sin límite; usa la hora de España).
+     - Al cerrarlo no se recuerda: vuelve a salir en la siguiente visita.
+     ----------------------------------------------------- */
+  const notice = document.getElementById("site-notice");
+  const aviso = config.aviso;
+
+  function avisoVigente() {
+    if (!aviso || aviso.mostrar !== true) return false;
+    if (!aviso.desde && !aviso.hasta) return true;
+    try {
+      const now = madridNow();
+      const today = `${now.y}-${String(now.m).padStart(2, "0")}-${String(now.d).padStart(2, "0")}`;
+      // "AAAA-MM-DD" se puede comparar como texto
+      if (aviso.desde && today < aviso.desde) return false;   // aún no ha empezado
+      if (aviso.hasta && today > aviso.hasta) return false;   // ya ha terminado
+      return true;
+    } catch (err) {
+      return true;
+    }
+  }
+
+  if (notice && avisoVigente()) {
+    notice.querySelector(".site-notice__title").textContent = aviso.titulo || "Aviso importante";
+    notice.querySelector(".site-notice__text").innerHTML = aviso.texto || "";
+    notice.hidden = false;
+    // Al cerrar: se desvanece (.is-closing) y luego se elimina.
+    // El setTimeout lo elimina igualmente si no hay animación (p. ej. "reducir movimiento").
+    notice.querySelector(".site-notice__close").addEventListener("click", () => {
+      notice.classList.add("is-closing");
+      notice.addEventListener("transitionend", () => notice.remove(), { once: true });
+      setTimeout(() => notice.remove(), 400);
+    });
+  }
+
+  /* -----------------------------------------------------
      Modo oscuro / claro
      - El tema inicial ya lo aplica el script del <head> (evita parpadeo).
      - Sin elección manual, se sigue siempre la preferencia del sistema.
@@ -363,13 +400,24 @@
     renderMap();
   }
 
+  let bannerHideTimer = null;
+
   function showCookieBanner() {
     if (!cookieBanner) return;
+    clearTimeout(bannerHideTimer);                             // por si se estaba cerrando
+    cookieBanner.classList.remove("is-closing");
     cookieBanner.hidden = false;
   }
 
+  // Se desvanece (.is-closing) y después se oculta
   function hideCookieBanner() {
-    if (cookieBanner) cookieBanner.hidden = true;
+    if (!cookieBanner || cookieBanner.hidden) return;
+    cookieBanner.classList.add("is-closing");
+    clearTimeout(bannerHideTimer);
+    bannerHideTimer = setTimeout(() => {
+      cookieBanner.hidden = true;
+      cookieBanner.classList.remove("is-closing");
+    }, 350);
   }
 
   document.querySelectorAll("[data-cookie-accept]").forEach((el) => {

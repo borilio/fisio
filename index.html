@@ -123,6 +123,16 @@
       <div class="hero__overlay"></div>
 
       <div class="relative z-10 mx-auto max-w-3xl px-4 pb-24 pt-14 text-center sm:px-6 md:pb-32 md:pt-20 lg:px-8 lg:pb-44 lg:pt-32">
+        <!-- Aviso importante eventual: lo muestra script.js si config.aviso.mostrar es true -->
+        <div class="site-notice" id="site-notice" role="region" aria-labelledby="site-notice-title" hidden>
+          <svg class="site-notice__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg>
+          <div class="site-notice__body">
+            <p class="site-notice__title" id="site-notice-title"></p>
+            <p class="site-notice__text"></p>
+          </div>
+          <button type="button" class="site-notice__close" aria-label="Cerrar aviso">&times;</button>
+        </div>
+
         <p class="hero-kicker">Fisioterapia en Benalmádena</p>
         <h1 class="font-display text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
           Comprometidos con<br><span class="hero-highlight">tu bienestar</span>
