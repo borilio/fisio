@@ -278,90 +278,149 @@
   const legalModal = document.getElementById("legal-modal");
   const openLegal = document.getElementById("open-legal");
 
-  if (legalModal && openLegal) {
-    function toggleModal(show) {
-      legalModal.hidden = !show;
-      document.body.style.overflow = show ? "hidden" : "";
-    }
+  // sectionId (opcional): apartado al que desplazarse al abrir, p. ej. "politica-cookies"
+  function toggleModal(show, sectionId) {
+    if (!legalModal) return;
+    legalModal.hidden = !show;
+    document.body.style.overflow = show ? "hidden" : "";
+    if (!show) return;
+    const body = legalModal.querySelector(".site-modal__body");
+    const section = sectionId && document.getElementById(sectionId);
+    if (body) body.scrollTop = section ? section.offsetTop - 16 : 0;
+    const closeButton = legalModal.querySelector(".site-modal__close");
+    if (closeButton) closeButton.focus();
+  }
 
-    openLegal.addEventListener("click", () => toggleModal(true));
+  if (legalModal) {
+    if (openLegal) openLegal.addEventListener("click", () => toggleModal(true));
     legalModal.querySelectorAll("[data-close-modal]").forEach((el) => {
       el.addEventListener("click", () => toggleModal(false));
+    });
+    // Cerrar al pulsar fuera de la ventana (en el fondo oscuro o en el margen del modal)
+    legalModal.addEventListener("click", (e) => {
+      if (!e.target.closest(".site-modal__panel")) toggleModal(false);
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !legalModal.hidden) toggleModal(false);
     });
   }
 
+  // Aviso legal: resalta los datos que siguen como "PENDIENTE" en config.js
+  document.querySelectorAll(".legal-field").forEach((el) => {
+    el.classList.toggle("legal-field--pending", el.textContent.trim().toUpperCase() === "PENDIENTE");
+  });
+
+  // Enlaces "Más información" → aviso legal, apartado de cookies
+  document.querySelectorAll("[data-open-cookie-info]").forEach((el) => {
+    el.addEventListener("click", () => toggleModal(true, "politica-cookies"));
+  });
+
   /* -----------------------------------------------------
-     Aviso de cookies
+     Consentimiento de cookies (guía de cookies de la AEPD)
+     - Lo único que instala cookies es el mapa de Google Maps.
+     - La elección (aceptar / rechazar) se guarda con su fecha y
+       caduca a los 24 meses: entonces se vuelve a preguntar.
+     - Aceptar desde el banner o desde el aviso del mapa es lo mismo.
      ----------------------------------------------------- */
+  const CONSENT_KEY = "fcds_cookies";
+  const CONSENT_MONTHS = 24;
   const cookieBanner = document.getElementById("cookie-banner");
-  const cookieAccept = document.getElementById("cookie-accept");
   const openCookies = document.getElementById("open-cookies");
-  const COOKIE_KEY = "fcds_aviso_cerrado";
+
+  try {
+    localStorage.removeItem("fcds_aviso_cerrado");          // clave del aviso antiguo
+  } catch (err) {
+    /* noop */
+  }
+
+  function readConsent() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(CONSENT_KEY));
+      if (!saved || (saved.choice !== "accepted" && saved.choice !== "rejected")) return null;
+      const expires = new Date(saved.date);
+      expires.setMonth(expires.getMonth() + CONSENT_MONTHS);
+      if (isNaN(expires) || new Date() > expires) {
+        localStorage.removeItem(CONSENT_KEY);                 // caducada: volver a preguntar
+        return null;
+      }
+      return saved.choice;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  // Se guarda también en memoria por si el navegador bloquea localStorage
+  let consent = readConsent();
+
+  function setConsent(choice) {
+    consent = choice;
+    try {
+      localStorage.setItem(CONSENT_KEY, JSON.stringify({ choice, date: new Date().toISOString() }));
+    } catch (err) {
+      /* noop */
+    }
+    hideCookieBanner();
+    renderMap();
+  }
 
   function showCookieBanner() {
     if (!cookieBanner) return;
     cookieBanner.hidden = false;
-    document.body.style.overflow = "hidden";
   }
 
   function hideCookieBanner() {
-    if (!cookieBanner) return;
-    cookieBanner.hidden = true;
-    document.body.style.overflow = "";
+    if (cookieBanner) cookieBanner.hidden = true;
   }
 
-  if (cookieBanner && cookieAccept) {
-    try {
-      if (!localStorage.getItem(COOKIE_KEY)) {
-        cookieBanner.hidden = false;
-      } else {
-        cookieBanner.hidden = true;
-      }
-    } catch (err) {
-      cookieBanner.hidden = false;
-    }
-
-    cookieAccept.addEventListener("click", () => {
-      hideCookieBanner();
-      try {
-        localStorage.setItem(COOKIE_KEY, "1");
-      } catch (err) {
-        /* noop */
-      }
-    });
-  }
+  document.querySelectorAll("[data-cookie-accept]").forEach((el) => {
+    el.addEventListener("click", () => setConsent("accepted"));
+  });
+  document.querySelectorAll("[data-cookie-reject]").forEach((el) => {
+    el.addEventListener("click", () => setConsent("rejected"));
+  });
 
   if (openCookies) {
     openCookies.addEventListener("click", () => {
-      try {
-        localStorage.removeItem(COOKIE_KEY);
-      } catch (err) {
-        /* noop */
-      }
       showCookieBanner();
+      const firstButton = cookieBanner && cookieBanner.querySelector("[data-cookie-reject]");
+      if (firstButton) firstButton.focus();
     });
   }
+
+  if (consent === null) showCookieBanner();
 
   /* -----------------------------------------------------
-     Mapa de Google: se carga solo al pulsar "Ver mapa"
+     Mapa de Google
+     - Sin consentimiento: NO se crea el iframe (ni oculto ni en diferido)
+       y se muestra el aviso #map-notice.
+     - Con consentimiento: se crea el iframe y se oculta el aviso.
+     - Si se retira el consentimiento, se elimina el iframe.
      ----------------------------------------------------- */
-  const mapContainer = document.getElementById("map-container");
-  const loadMap = document.getElementById("load-map");
+  const mapFrame = document.getElementById("map-frame");
+  const mapNotice = document.getElementById("map-notice");
 
-  if (mapContainer && loadMap && getConfig("mapa.embed")) {
-    loadMap.addEventListener("click", () => {
-      const iframe = document.createElement("iframe");
-      iframe.title = "Ubicación de la clínica en el mapa";
-      iframe.src = getConfig("mapa.embed");
-      iframe.referrerPolicy = "strict-origin-when-cross-origin";
-      iframe.allowFullscreen = true;
-      iframe.className = "contact-map__iframe";
-      mapContainer.replaceChildren(iframe);
-    });
+  function renderMap() {
+    if (!mapFrame || !mapNotice) return;
+    let iframe = mapFrame.querySelector("iframe");
+
+    if (consent === "accepted" && getConfig("mapa.embed")) {
+      if (!iframe) {
+        iframe = document.createElement("iframe");
+        iframe.title = "Ubicación de la clínica en el mapa";
+        iframe.src = getConfig("mapa.embed");
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
+        iframe.allowFullscreen = true;
+        iframe.className = "contact-map__iframe";
+        mapFrame.appendChild(iframe);
+      }
+      mapNotice.hidden = true;
+    } else {
+      if (iframe) iframe.remove();
+      mapNotice.hidden = false;
+    }
   }
+
+  renderMap();
 
   /* -----------------------------------------------------
      Año en el footer

@@ -368,14 +368,18 @@
             </div>
           </div>
 
-          <!-- El mapa de Google solo se carga si el usuario lo pide (Google instala cookies propias) -->
+          <!-- Mapa de Google: SOLO se crea (desde script.js) si el usuario ha aceptado
+               las cookies de Google Maps. Mientras tanto se muestra el aviso. -->
           <div id="map-container" class="contact-map">
-            <div class="contact-map__placeholder">
-              <span class="contact-map__pin">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              </span>
-              <p class="contact-map__note">Al cargar el mapa, Google puede instalar sus propias cookies.</p>
-              <button type="button" id="load-map" class="contact-map__button">Ver mapa</button>
+            <div class="contact-map__frame" id="map-frame">
+              <div class="contact-map__placeholder" id="map-notice">
+                <span class="contact-map__pin">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </span>
+                <p class="contact-map__note">Para ver el mapa es necesario aceptar las cookies de Google Maps.</p>
+                <button type="button" class="contact-map__button" data-cookie-accept>Aceptar cookies y ver mapa</button>
+                <button type="button" class="link-button" data-open-cookie-info>Más información</button>
+              </div>
             </div>
           </div>
         </div>
@@ -412,7 +416,7 @@
         <p>&copy; 1995–<span id="year"></span> Fisioterapia Costa del Sol</p>
         <div class="site-footer__legal">
           <button type="button" class="site-footer__legal-btn" id="open-legal">Aviso legal</button>
-          <button type="button" class="site-footer__legal-btn" id="open-cookies">Cookies</button>
+          <button type="button" class="site-footer__legal-btn" id="open-cookies">Configuración de cookies</button>
         </div>
       </div>
     </div>
@@ -420,64 +424,114 @@
 
   <!-- ========================================================= -->
   <!-- MODAL AVISO LEGAL -->
+  <!-- Los datos marcados con class="legal-field" se rellenan desde js/config.js -->
   <!-- ========================================================= -->
-  <div class="modal" id="legal-modal" hidden>
-    <div class="modal__backdrop" data-close-modal></div>
-    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="legal-title">
-      <button type="button" class="modal__close" data-close-modal aria-label="Cerrar">&times;</button>
-      <h2 id="legal-title" class="font-display text-2xl font-bold text-slate-900">Aviso legal</h2>
-      <div class="modal__body mt-4 text-sm leading-7 text-slate-600">
-        <p>En cumplimiento del artículo 10 de la Ley 34/2002, del 11 de julio, de servicios de la Sociedad de la Información y Comercio Electrónico (LSSICE) se exponen a continuación los datos identificativos de la empresa.</p>
+  <div class="site-modal" id="legal-modal" hidden>
+    <div class="site-modal__backdrop" data-close-modal></div>
+    <div class="site-modal__panel" role="dialog" aria-modal="true" aria-labelledby="legal-title">
+      <!-- Cabecera fija: el botón de cerrar siempre está visible -->
+      <div class="site-modal__header">
+        <h2 id="legal-title" class="site-modal__title">Aviso legal y política de privacidad</h2>
+        <button type="button" class="site-modal__close" data-close-modal aria-label="Cerrar">&times;</button>
+      </div>
 
-        <ul class="legal-list mt-4 space-y-2 pl-5">
-          <li><strong>Denominación social:</strong> Fisioterapia Costa del Sol</li>
-          <li><strong>Domicilio social:</strong> C/ Salvador Vicente 11, conjunto Parquemiel nº 6</li>
-          <li><strong>Correo electrónico:</strong> fisioterapiacostadelsol@hotmail.com</li>
-          <li><strong>Teléfono:</strong> 952 44 66 55</li>
+      <div class="site-modal__body legal-text">
+        <h3>1. Datos del titular del sitio web</h3>
+        <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSICE), le informamos de los datos del titular de este sitio web:</p>
+        <ul class="legal-list">
+          <li><strong>Titular:</strong> <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span></li>
+          <li><strong>Nombre comercial:</strong> <span class="legal-field" data-config="legal.nombreComercial">Fisioterapia Costa del Sol</span></li>
+          <li><strong>NIF:</strong> <span class="legal-field" data-config="legal.nif">25708121D</span></li>
+          <li><strong>Domicilio:</strong> <span class="legal-field" data-config="direccion">Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga</span></li>
+          <li><strong>Teléfono:</strong> <span class="legal-field" data-config="telefono">952 44 66 55</span></li>
+          <li><strong>Correo electrónico:</strong> <span class="legal-field" data-config="email">info@fisioterapiacostadelsol.com</span></li>
+        </ul>
+        <ul class="legal-list">
+          <li><strong>Profesión regulada:</strong> Fisioterapeuta</li>
+          <li><strong>Colegio profesional:</strong> <span class="legal-field" data-config="legal.colegioProfesional">PENDIENTE</span></li>
+          <li><strong>Número de colegiada:</strong> <span class="legal-field" data-config="legal.numeroColegiada">PENDIENTE</span></li>
+          <li><strong>Título académico:</strong> <span class="legal-field" data-config="legal.titulo">PENDIENTE</span>, expedido en España</li>
         </ul>
 
-        <h3 class="mt-6 text-base font-bold text-slate-800">Propiedad intelectual e industrial:</h3>
-        <p>Los derechos de propiedad intelectual del contenido de la página Web, su diseño gráfico y códigos, son titularidad de FISIOTERAPIA COSTA DEL SOL por tanto, queda prohibida su reproducción, distribución, comunicación pública y transformación, salvo para uso personal y privado. Igualmente, todos los nombres comerciales, marcas o signos distintos de cualquier clase contenidos en www.fisioterapiacostadelsol.com están protegidos por ley.</p>
+        <h3>2. Finalidad del sitio web</h3>
+        <p>Este sitio web tiene una finalidad exclusivamente informativa sobre los servicios de la clínica. No dispone de formularios, registro de usuarios ni ningún otro medio de recogida de datos personales. Si desea contactar con nosotros, puede hacerlo por teléfono o a través de la dirección de correo electrónico indicada.</p>
 
-        <h3 class="mt-6 text-base font-bold text-slate-800">Contenido de la Web y links:</h3>
-        <p>FISIOTERAPIA COSTA DEL SOL no se responsabiliza del mal uso que se realice de los contenidos de sus páginas Web, siendo exclusiva responsabilidad de la persona que accede a ellos o los utilice. FISIOTERAPIA COSTA DEL SOL no asume responsabilidad alguna por la información contenida en páginas Web de terceros a las que se pueda acceder por enlaces o buscadores de la página Web de www.fisioterapiacostadelsol.com. La presencia de enlaces en la página web de www.fisioterapiacostadelsol.com tiene finalidad meramente informativa y en ningún caso supone sugerencia, invitación o recomendación sobre los mismos.</p>
+        <h3>3. Propiedad intelectual e industrial</h3>
+        <p>Los derechos de propiedad intelectual del contenido de este sitio web, su diseño gráfico y sus códigos son titularidad de <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span>. Por tanto, queda prohibida su reproducción, distribución, comunicación pública y transformación, salvo para uso personal y privado. Igualmente, todos los nombres comerciales, marcas o signos distintivos de cualquier clase contenidos en este sitio web están protegidos por la ley.</p>
 
-        <h3 class="mt-6 text-base font-bold text-slate-800">Información sobre aspectos técnicos:</h3>
-        <p>FISIOTERAPIA COSTA DEL SOL no será responsable de posibles daños o perjuicios que se pudieran derivar de interferencias omisiones, interrupciones, virus informáticos, averías telefónicas o desconexiones en el funcionamiento operativo de este sistema electrónico, motivadas por causas ajenas; de retrasos o bloqueos en el uso del presente sistema electrónico causados por deficiencias o sobrecargas de líneas telefónicas, en el sistema de Internet o en otros sistemas electrónicos; así como de daños que puedan ser causados por terceras personas mediante intromisiones ilegítimas fuera del control de FISIOTERAPIA COSTA DEL SOL. Asimismo, se exonera a nuestra empresa de responsabilidad ante cualquier daño o perjuicio que pudiera sufrir el usuario como consecuencia de errores, defectos u omisiones, en la información facilitada por www.fisioterapiacostadelsol.com siempre que proceda de fuentes ajenas a nuestra empresa.</p>
+        <h3>4. Contenido de la web y enlaces</h3>
+        <p><span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> no se responsabiliza del mal uso que se realice de los contenidos de este sitio web, siendo exclusiva responsabilidad de la persona que accede a ellos o los utiliza. <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> no asume responsabilidad alguna por la información contenida en páginas web de terceros a las que se pueda acceder mediante enlaces o buscadores desde este sitio web. La presencia de enlaces en este sitio web tiene una finalidad meramente informativa y en ningún caso supone sugerencia, invitación o recomendación sobre los mismos.</p>
 
-        <h3 class="mt-6 text-base font-bold text-slate-800">Privacidad e información sobre protección de datos:</h3>
-        <p>María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol mantiene una política de confidencialidad de los datos facilitados por los usuarios del mismo a través de: internet, formularios en papel, comunicación telefónica o cualquier otro medio; María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol se compromete a protegerlos, tanto en la recogida como en su tratamiento posterior, de acuerdo con lo establecido por la Ley Orgánica 15/1999, de 13 de diciembre, de Protección de Datos de Carácter Personal (LOPD), por su Reglamento de desarrollo, aprobado por Real Decreto 1720/2007, de 21 de diciembre (RLOPD), así como por el Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo de 27 de abril de 2016 relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos (RGPD).</p>
+        <h3>5. Información sobre aspectos técnicos</h3>
+        <p><span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> no será responsable de los posibles daños o perjuicios que se pudieran derivar de interferencias, omisiones, interrupciones, virus informáticos, averías o desconexiones en el funcionamiento operativo de este sitio web motivadas por causas ajenas; de retrasos o bloqueos en su uso causados por deficiencias o sobrecargas de las redes de telecomunicaciones, de Internet o de otros sistemas electrónicos; así como de los daños que puedan ser causados por terceras personas mediante intromisiones ilegítimas fuera de su control. Asimismo, <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> queda exonerada de responsabilidad ante cualquier daño o perjuicio que pudiera sufrir el usuario como consecuencia de errores, defectos u omisiones en la información facilitada en este sitio web, siempre que proceda de fuentes ajenas.</p>
 
-        <p>María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol garantiza que utilizará confidencialmente los datos personales de los usuarios, así como que se han adoptado las medidas de seguridad de carácter técnico y organizativo oportunas en sus instalaciones, sistemas y ficheros, en los términos establecidos por la LOPD, por el RLOPD y por el RGPD.</p>
+        <h3>6. Protección de datos personales</h3>
+        <p>La privacidad es de gran importancia para <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> y queremos mantener una actitud abierta y transparente al tratar sus datos personales. A continuación le explicamos cómo se tratan y protegen, en cumplimiento del Reglamento General de Protección de Datos (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, y de la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales.</p>
 
-        <p>María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol podrá comunicar a las autoridades públicas competentes los datos de carácter personal así como cualquier otra información que conste en sus archivos y/o sistemas informáticos, cuando sea requerido para ello y siempre de conformidad con las disposiciones legales y reglamentarias correspondientes.</p>
+        <h4>¿Quién es el responsable del tratamiento de sus datos?</h4>
+        <p><span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> | NIF: <span class="legal-field" data-config="legal.nif">25708121D</span> | Dirección postal: <span class="legal-field" data-config="direccion">Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga</span> | Correo electrónico: <span class="legal-field" data-config="email">info@fisioterapiacostadelsol.com</span></p>
 
-        <p>En cumplimiento de lo establecido por la LOPD, el RLOPD así como por el RGPD, siempre que se soliciten datos de carácter personal a un usuario del sitio web para ser tratados, previamente al tratamiento se le facilitará la siguiente información: identidad y datos de contacto del responsable del tratamiento, datos de contacto del Delegado de Protección de Datos, finalidad para la que se obtienen los datos, plazos o criterios de conservación de los datos, decisiones automatizadas, perfiles y lógica aplicada, legitimación o base jurídica del tratamiento así como obligación o no de facilitar los datos y de las consecuencias de no hacerlo en su caso, previsión o no de cesiones ó de transferencias a terceros países, procedencia de los datos y forma de ejercer los derechos que le corresponden y de los derechos que le corresponden en lo que respecta al tratamiento de sus datos personales. Para hacer compatible la mayor exigencia de información introducida por el RGPD y la concisión y comprensión en la forma de presentarla, se adopta por María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol un modelo de información por capas o niveles que consiste en lo siguiente:</p>
+        <h4>¿Cómo obtenemos sus datos?</h4>
+        <p>A través de este sitio web no se recoge ningún dato personal. Únicamente tratamos los datos que usted nos facilite directamente al contactar con nosotros por correo electrónico o por teléfono, o al acudir a la clínica.</p>
 
-        <ul class="legal-list mt-4 space-y-2 pl-5">
-          <li>Se presenta una información básica en un primer nivel, de forma resumida, en el mismo momento y en el mismo medio en que se recogen los datos;</li>
-          <li>Se remite a la información adicional en un segundo nivel, donde se presentarán detalladamente el resto de las informaciones, en un medio más adecuado para su presentación, comprensión y, si se desea, archivo. La información del segundo nivel se ofrece en nuestra página web oficial: www.fisioterapiacostadelsol.com</li>
+        <h4>¿Qué datos tratamos?</h4>
+        <ul class="legal-list">
+          <li>Datos identificativos.</li>
+          <li>Direcciones postales y electrónicas, y número de teléfono.</li>
+          <li>Datos necesarios para la facturación de los servicios.</li>
+          <li>Información relativa a su salud, únicamente cuando usted decida facilitarla en su consulta o sea necesaria para la prestación del servicio de fisioterapia.</li>
         </ul>
 
-        <p>María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol proporcionará al usuario los recursos técnicos adecuados para que pueda prestar el consentimiento informado previo al tratamiento de sus datos personales.</p>
+        <h4>¿Con qué finalidad tratamos sus datos personales?</h4>
+        <p>Tratamos la información que nos facilitan las personas interesadas con el fin de atender sus consultas, gestionar sus citas, prestarle el servicio solicitado y/o contratado, y realizar la gestión administrativa, contable y fiscal del mismo, incluida su facturación. No utilizamos sus datos para enviar publicidad ni comunicaciones comerciales de ningún tipo.</p>
 
-        <p>Los datos de carácter personal que se faciliten por el interesado a María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol por medio de internet, de formularios en papel, mediante comunicación telefónica así como por cualquier otro medio, pasarán a formar parte de los ficheros correspondientes -creados para la prestación de sus servicios- titularidad de María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol con CIF 25708121D y dirección en C/ Salvador Vicente, Conjunto Parquemiel No 6 (29631) Arroyo de la Miel, Málaga. La actividad desarrollada por María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol es “Fisioterapia”.</p>
+        <h4>¿Cuál es la legitimación para el tratamiento de sus datos?</h4>
+        <ul class="legal-list">
+          <li>Ejecución de un contrato o aplicación de medidas precontractuales a petición del interesado: atención de consultas, gestión de citas y prestación de los servicios solicitados.</li>
+          <li>Cumplimiento de obligaciones legales: facturación y obligaciones contables y fiscales.</li>
+          <li>Datos de salud: su consentimiento explícito y, en el caso de pacientes, la prestación de asistencia sanitaria.</li>
+        </ul>
 
-        <p>María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol utilizará los datos de carácter personal facilitados por el interesado con la finalidad de prestar los servicios que se le soliciten o de gestionar la petición o sugerencia realizada.</p>
+        <h4>¿Está obligado a facilitarnos sus datos?</h4>
+        <p>Únicamente deberá facilitar los datos que sean necesarios para atender su consulta o prestarle el servicio solicitado. Si no los facilita, no podremos gestionar su solicitud.</p>
 
-        <p>Los datos personales tratados por María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol se conservarán mientras sean necesarios para la prestación del servicio solicitado o para la gestión de la petición o sugerencia realizada. Una vez hayan dejado de ser necesarios para la prestación del servicio o gestión de la petición o sugerencia realizados, los datos personales serán cancelados, procediendo su bloqueo y posterior conservación sólo por razones legales vinculadas a la responsabilidad del responsable de los datos y durante el plazo de prescripción de éstas; cumplido este plazo, se procederá a la supresión de los mismos.</p>
+        <h4>¿Por cuánto tiempo conservaremos sus datos?</h4>
+        <p>Los datos se conservarán mientras se mantenga la relación comercial y, en su caso, durante los años necesarios para cumplir con las obligaciones legales que resulten de aplicación.</p>
 
-        <p>La legitimación legal para el tratamiento de los datos de carácter personal que se faciliten por el interesado a María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol a través de internet, formularios en papel, comunicación telefónica o cualquier otro medio, es el propio consentimiento del interesado, que se entiende prestado una vez los facilita tras ser informado al respecto mediante carteles y pegatinas expuestos en las instalaciones de uso público de María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol, mediante locuciones telefónicas, en los propios formularios impresos así como mediante la presente “POLÍTICA DE PRIVACIDAD E INFORMACIÓN SOBRE PROTECCIÓN DE DATOS” expuesta en la web oficial de María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol.</p>
+        <h4>¿A qué destinatarios se comunicarán sus datos?</h4>
+        <p>Sus datos no se cederán a terceros, salvo en los casos en que exista una obligación legal (por ejemplo, cuando sean requeridos por las autoridades públicas competentes) o con su autorización expresa. No obstante, para la gestión del correo electrónico utilizamos servicios de Microsoft, que puede acceder a los datos contenidos en los mensajes en su condición de proveedor de dicho servicio.</p>
 
-        <p>El interesado únicamente estará obligado a facilitar los datos que sean precisos (si es que lo fueran) para atender a la petición o servicio solicitados. En el supuesto que el interesado realice una solicitud sin facilitar los datos que sean necesarios para atender a la misma, María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol no podrá gestionar dicha solicitud y quedará exento de cualquier responsabilidad al respecto.</p>
+        <h4>Confidencialidad y seguridad</h4>
+        <p><span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> tratará sus datos de forma confidencial y ha adoptado las medidas de seguridad técnicas y organizativas adecuadas para protegerlos.</p>
 
-        <p>Los datos personales de los usuarios tratados por María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol no se cederán a terceros, salvo obligación legal o autorización expresa y por escrito del interesado.</p>
+        <h4>Transferencias de datos a terceros países</h4>
+        <p>Los datos que nos envíe por correo electrónico pueden ser tratados por Microsoft en servidores ubicados fuera del Espacio Económico Europeo, principalmente en Estados Unidos. Estas transferencias se realizan al amparo del Marco de Privacidad de Datos UE-EE. UU., en el que Microsoft está certificada, y de las garantías previstas en el RGPD. No se realizan otras transferencias de datos a terceros países.</p>
 
-        <p>El usuario podrá ejercer sus derechos de acceso, oposición, rectificación, supresión o cancelación de sus datos así como solicitar la limitación de su tratamiento, dirigiendo escrito firmado al responsable del fichero María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol, a través del mail fisioterapiacostadelsol@hotmail.com o mediante correo postal dirigido al domicilio social de María José Luzón Rodríguez – Clínica De Fisioterapia Costa del Sol sito en C/ Salvador Vicente, Conjunto Parquemiel No 6 (29631) Arroyo de la Miel, Málaga en el cual indicará como referencia “EJERCICIO DERECHOS ARCO LOPD”.</p>
+        <h4>¿Cuáles son sus derechos cuando nos facilita sus datos?</h4>
+        <p>Cualquier persona tiene derecho a obtener confirmación sobre si en <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> estamos tratando datos personales que le conciernan, o no.</p>
+        <p>Las personas interesadas tienen derecho a acceder a sus datos personales, así como a solicitar la rectificación de los datos inexactos o, en su caso, solicitar su supresión cuando, entre otros motivos, los datos ya no sean necesarios para los fines para los que fueron recogidos. También tienen derecho a la portabilidad de sus datos.</p>
+        <p>En determinadas circunstancias, los interesados podrán solicitar la limitación del tratamiento de sus datos, en cuyo caso únicamente los conservaremos para el ejercicio o la defensa de reclamaciones.</p>
+        <p>En determinadas circunstancias y por motivos relacionados con su situación particular, los interesados podrán oponerse al tratamiento de sus datos. En este caso, <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> dejará de tratar los datos, salvo por motivos legítimos imperiosos, o el ejercicio o la defensa de posibles reclamaciones.</p>
+        <p>Podrá ejercer sus derechos mediante escrito dirigido a la dirección postal o a la dirección de correo electrónico del responsable del tratamiento indicadas anteriormente, adjuntando en ambos casos copia de su DNI o documento de identidad. Si actúa a través de un representante, deberá aportar también la acreditación de dicha representación. El uso de firma electrónica le exime de aportar la copia del documento de identidad.</p>
+        <p>Si ha otorgado su consentimiento para alguna finalidad concreta, tiene derecho a retirarlo en cualquier momento, sin que ello afecte a la licitud del tratamiento basado en el consentimiento previo a su retirada.</p>
+        <p>En caso de que considere vulnerados sus derechos en lo concerniente a la protección de sus datos personales, especialmente cuando no haya obtenido satisfacción en el ejercicio de sus derechos, puede presentar una reclamación ante la Autoridad de Control en materia de Protección de Datos competente a través de su sitio web: <a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a></p>
 
-        <p>El escrito por el que se ejercite alguno de los derechos referenciados en el párrafo anterior deberá contener: nombre y apellidos del interesado; fotocopia de su documento nacional de identidad, o de su pasaporte u otro documento válido que lo identifique y, en su caso, de la persona que lo represente, o instrumentos electrónicos equivalentes; documento o instrumento electrónico acreditativo de tal representación. La utilización de firma electrónica identificativa del solicitante exime de la presentación de las fotocopias del DNI o documento equivalente.</p>
+        <!-- id="politica-cookies": destino de los enlaces "Más información" (banner y mapa). No quitarlo. -->
+        <h3 id="politica-cookies">7. Política de cookies</h3>
 
-        <p>El usuario también tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos, a través de la página web oficial de la Agencia.</p>
+        <h4>¿Qué son las cookies?</h4>
+        <p>Las cookies y otras tecnologías similares, como el almacenamiento local del navegador, permiten a un sitio web guardar pequeños datos en su dispositivo.</p>
+
+        <h4>Almacenamiento propio</h4>
+        <p>Este sitio web no utiliza cookies propias. Únicamente guarda en el almacenamiento local de su navegador dos datos técnicos: su preferencia de tema visual (claro u oscuro) y su elección sobre el aviso de cookies. Estos datos no le identifican, no se envían a ningún servidor y solo sirven para recordar las opciones que usted ha elegido, por lo que están exentos de consentimiento según el artículo 22.2 de la LSSICE. Puede eliminarlos en cualquier momento desde la configuración de su navegador.</p>
+
+        <h4>Cookies de terceros: Google Maps</h4>
+        <p>Para mostrar la ubicación de la clínica, este sitio web incluye un mapa proporcionado por Google Maps, servicio de Google Ireland Limited. Al cargarse el mapa, Google puede instalar cookies en su dispositivo y tratar datos como su dirección IP con fines propios, sobre los que <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> no tiene control. Estos datos pueden transferirse a Estados Unidos, al amparo del Marco de Privacidad de Datos UE-EE. UU.</p>
+        <p>Por ello, el mapa solo se carga si usted acepta las cookies, ya sea desde el aviso de cookies que se muestra al acceder a la web o desde el botón disponible en el lugar del mapa. Si no las acepta, Google no recibe ningún dato: el mapa no se mostrará y podrá consultar la ubicación de la clínica en la dirección indicada en este aviso o abrirla directamente en Google Maps mediante el enlace disponible.</p>
+        <p>Puede obtener más información en la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">política de privacidad de Google</a> y en su <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener">información sobre cookies</a>.</p>
+
+        <h4>¿Cómo cambiar su elección?</h4>
+        <p>Puede cambiar su elección o retirar su consentimiento en cualquier momento desde el enlace «Configuración de cookies» situado al pie de la página, o eliminando los datos de este sitio web desde la configuración de su navegador. Para eliminar las cookies que Google haya podido instalar, deberá hacerlo desde la configuración de su navegador.</p>
       </div>
     </div>
   </div>
@@ -485,9 +539,16 @@
   <!-- ========================================================= -->
   <!-- COOKIE BANNER -->
   <!-- ========================================================= -->
-  <div class="cookie-banner" id="cookie-banner" hidden>
-    <p class="m-0 flex-1 text-sm leading-6 text-slate-600">🍪 Esta web no utiliza cookies propias ni de terceros con fines de análisis o publicidad. Solo guardamos en tu navegador tus preferencias de visualización (tema y cierre de este aviso). El mapa de Google solo se carga si lo solicitas.</p>
-    <button type="button" id="cookie-accept" class="inline-flex items-center justify-center rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700">Entendido</button>
+  <!-- Aceptar y Rechazar tienen el mismo tamaño y estilo (rechazar debe ser igual de fácil) -->
+  <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Aviso de cookies" hidden>
+    <p class="cookie-banner__text">
+      Esta web no usa cookies propias. Solo Google Maps instala cookies si se muestra el mapa de ubicación. ¿Aceptas las cookies de Google Maps?
+      <button type="button" class="link-button" data-open-cookie-info>Más información</button>
+    </p>
+    <div class="cookie-banner__actions">
+      <button type="button" class="cookie-banner__btn" data-cookie-reject>Rechazar</button>
+      <button type="button" class="cookie-banner__btn" data-cookie-accept>Aceptar</button>
+    </div>
   </div>
 
   <script src="js/config.js"></script>

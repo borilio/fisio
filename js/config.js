@@ -16,6 +16,18 @@ window.SITE_CONFIG = {
 
   direccion: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga",
 
+  // Datos del titular para el aviso legal.
+  // (Dirección, teléfono y email del aviso legal se toman de los campos de arriba.)
+  // Lo que esté como "PENDIENTE" se resalta en rojo en el aviso legal.
+  legal: {
+    titular: "María José Luzón Rodríguez",
+    nombreComercial: "Fisioterapia Costa del Sol",
+    nif: "25708121D",
+    colegioProfesional: "Ilustre Colegio Profesional de Fisioterapeutas de Andalucía",
+    numeroColegiada: "29-0051",
+    titulo: "PENDIENTE"
+  },
+
   // Horario de apertura (hora de España). Formato "HH:MM".
   // Cada día admite varios tramos; [] = cerrado.
   // A partir de aquí se genera el texto del horario y el aviso "Abierto/Cerrado ahora".
