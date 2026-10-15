@@ -548,6 +548,28 @@ html[data-theme="dark"] .contact-action:not(.contact-action--primary):focus-visi
   background: rgba(122, 215, 192, 0.08);
 }
 
+/* Aviso "Sección pendiente de desarrollar" (temporal, debajo del título) */
+.dev-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--status-holiday) 35%, transparent);
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--status-holiday) 12%, transparent);
+  color: var(--status-holiday);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.dev-notice__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: currentColor;
+}
+
 /* =====================================================
    FICHA DE CONTACTO (#ficha-contacto): tarjeta de datos + mapa
    ===================================================== */
