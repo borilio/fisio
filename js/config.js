@@ -14,8 +14,8 @@ window.SITE_CONFIG = {
   // - tipo: "urgente" (rojo, con icono de advertencia) o "info" (azul, nota informativa).
   // - texto: admite <strong>...</strong> para negrita y <br> para salto de línea.
   aviso: {
-    mostrar: true,
-    tipo: "urgente",
+    mostrar: false,
+    tipo: "info",
     titulo: "¡¡ Estrenamos WEB !!",
     texto: "Estamos dando un masaje a nuestra web: algunas secciones aún están en rehabilitación 💪.",
     desde: "",
