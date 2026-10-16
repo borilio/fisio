@@ -12,9 +12,9 @@ window.SITE_CONFIG = {
   //     desde "" = desde ya;  hasta "" = sin fecha de fin (siempre que mostrar sea true).
   // - texto: admite <strong>...</strong> para negrita y <br> para salto de línea.
   aviso: {
-    mostrar: false,
-    titulo: "Aviso importante",
-    texto: "La clínica permanecerá cerrada del 1 al 15 de agosto por vacaciones.",
+    mostrar: true,
+    titulo: "Estrenamos WEB",
+    texto: "Estamos poniendo la web en forma; algunas secciones aún tienen agujetas.<br><br>",
     desde: "",
     hasta: ""
   },
