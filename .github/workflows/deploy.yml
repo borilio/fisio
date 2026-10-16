@@ -1,0 +1,32 @@
+name: Desplegar web por SFTP
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Subir archivos por SFTP
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_DIR: ${{ secrets.SFTP_DIR }}
+          LFTP_PASSWORD: ${{ secrets.SFTP_PASS }}
+        run: |
+          lftp <<EOF
+          set sftp:auto-confirm yes
+          set net:max-retries 2
+          open --env-password -u "$SFTP_USER" -p "$SFTP_PORT" "sftp://$SFTP_HOST"
+          mirror --reverse --delete --verbose --exclude '^\.git' --exclude '^\.vscode' --exclude '^README\.md$' ./ "$SFTP_DIR"
+          bye
+          EOF
