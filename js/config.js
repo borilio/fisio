@@ -14,7 +14,7 @@ window.SITE_CONFIG = {
   aviso: {
     mostrar: true,
     titulo: "¡¡ Estrenamos WEB !!",
-    texto: "Estamos poniendo nuestra nueva página en forma. <br><br>💪Algunas secciones aún tienen agujetas",
+    texto: "Estamos poniendo nuestra nueva página en forma. <br>Algunas secciones aún tienen agujetas",
     desde: "",
     hasta: ""
   },
