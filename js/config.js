@@ -42,7 +42,7 @@ window.SITE_CONFIG = {
     nif: "25708121D",
     colegioProfesional: "Ilustre Colegio Profesional de Fisioterapeutas de Andalucía",
     numeroColegiada: "29-0051",
-    titulo: "Diplomado en Fisioterapia"
+    titulo: "Diplomada en Fisioterapia"
   },
 
   // Horario de apertura (hora de España). Formato "HH:MM".
