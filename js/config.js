@@ -2,7 +2,8 @@
    DATOS DE LA CLÍNICA
    Edita aquí y se actualiza toda la web.
    - Respeta las comillas "..." y las comas al final de cada línea.
-   - El aviso legal NO se rellena desde aquí (se edita en index.html).
+   - Del aviso legal, aquí solo están los datos del titular (bloque "legal");
+     el texto en sí se edita en index.html.
    ===================================================== */
 window.SITE_CONFIG = {
 
@@ -10,9 +11,11 @@ window.SITE_CONFIG = {
   // - mostrar: true para mostrarlo, false para ignorarlo por completo.
   // - desde / hasta: se muestra entre esas dos fechas, ambas incluidas ("AAAA-MM-DD").
   //     desde "" = desde ya;  hasta "" = sin fecha de fin (siempre que mostrar sea true).
+  // - tipo: "urgente" (rojo, con icono de advertencia) o "info" (azul, nota informativa).
   // - texto: admite <strong>...</strong> para negrita y <br> para salto de línea.
   aviso: {
     mostrar: true,
+    tipo: "urgente",
     titulo: "¡¡ Estrenamos WEB !!",
     texto: "Estamos dando un masaje a nuestra web: algunas secciones aún están en rehabilitación 💪.",
     desde: "",
@@ -39,7 +42,7 @@ window.SITE_CONFIG = {
     nif: "25708121D",
     colegioProfesional: "Ilustre Colegio Profesional de Fisioterapeutas de Andalucía",
     numeroColegiada: "29-0051",
-    titulo: "PENDIENTE"
+    titulo: "Diplomado en Fisioterapia"
   },
 
   // Horario de apertura (hora de España). Formato "HH:MM".

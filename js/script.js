@@ -223,7 +223,11 @@
   }
 
   if (notice && avisoVigente()) {
-    notice.querySelector(".site-notice__title").textContent = aviso.titulo || "Aviso importante";
+    // Tipo: "info" (azul, informativo) o "urgente" (rojo, por defecto si falta o no se reconoce)
+    const esInfo = aviso.tipo === "info";
+    notice.classList.toggle("site-notice--info", esInfo);
+    notice.querySelector(".site-notice__title").textContent =
+      aviso.titulo || (esInfo ? "Información" : "Aviso importante");
     notice.querySelector(".site-notice__text").innerHTML = aviso.texto || "";
     notice.hidden = false;
     // Al cerrar: se desvanece (.is-closing) y luego se elimina.

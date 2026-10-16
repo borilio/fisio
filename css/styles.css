@@ -254,22 +254,52 @@ iframe {
   }
 }
 
-/* Aviso importante eventual (config.aviso), arriba de la portada.
-   En rojo para que destaque sobre el naranja propio de la web. */
+/* =====================================================
+   AVISO EVENTUAL (config.aviso), arriba de la portada
+   Dos tipos (config.aviso.tipo):
+   - "urgente" (por defecto): rojo + icono de advertencia
+   - "info": azul + icono de información, tono informativo
+   Cada tipo solo redefine las variables --notice-*.
+   ===================================================== */
 .site-notice {
+  /* Urgente (por defecto) */
+  --notice-accent: #dc2626;       /* franja e icono */
+  --notice-title: #b91c1c;
+  --notice-bg: rgba(254, 242, 242, 0.97);
+
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
   max-width: 40rem;
   margin: 0 auto 2rem;
   padding: 0.9rem 0.75rem 0.9rem 1rem;
-  border-left: 4px solid #dc2626;
+  border-left: 4px solid var(--notice-accent);
   border-radius: 1rem;
-  background: rgba(254, 242, 242, 0.97);
+  background: var(--notice-bg);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
   color: #0f172a;
   text-align: left;
   transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* Información */
+.site-notice--info {
+  --notice-accent: #2563eb;
+  --notice-title: #1d4ed8;
+  --notice-bg: rgba(239, 246, 255, 0.97);
+}
+
+html[data-theme="dark"] .site-notice {
+  --notice-accent: #f87171;
+  --notice-title: #fca5a5;
+  --notice-bg: rgba(45, 16, 20, 0.94);
+  color: #e2e8f0;
+}
+
+html[data-theme="dark"] .site-notice--info {
+  --notice-accent: #60a5fa;
+  --notice-title: #93c5fd;
+  --notice-bg: rgba(15, 28, 52, 0.94);
 }
 
 .site-notice[hidden] {
@@ -287,7 +317,17 @@ iframe {
   width: 1.4rem;
   height: 1.4rem;
   margin-top: 0.1rem;
-  color: #dc2626;
+  color: var(--notice-accent);
+}
+
+/* Solo se ve el icono del tipo activo */
+.site-notice__icon--info,
+.site-notice--info .site-notice__icon--urgente {
+  display: none;
+}
+
+.site-notice--info .site-notice__icon--info {
+  display: block;
 }
 
 .site-notice__body {
@@ -299,7 +339,7 @@ iframe {
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.4;
-  color: #b91c1c;
+  color: var(--notice-title);
 }
 
 .site-notice__text {
@@ -307,6 +347,10 @@ iframe {
   font-size: 0.9rem;
   line-height: 1.5;
   color: #334155;
+}
+
+html[data-theme="dark"] .site-notice__text {
+  color: #bfd1cb;
 }
 
 .site-notice__close {
@@ -328,26 +372,10 @@ iframe {
   background: rgba(15, 23, 42, 0.08);
 }
 
-html[data-theme="dark"] .site-notice {
-  border-left-color: #f87171;
-  background: rgba(45, 16, 20, 0.94);
-  color: #e2e8f0;
-}
-
-html[data-theme="dark"] .site-notice__icon,
-html[data-theme="dark"] .site-notice__title {
-  color: #fca5a5;
-}
-
-html[data-theme="dark"] .site-notice__text {
-  color: #bfd1cb;
-}
-
 html[data-theme="dark"] .site-notice__close:hover,
 html[data-theme="dark"] .site-notice__close:focus-visible {
   background: rgba(255, 255, 255, 0.1);
 }
-
 /* Textos de la portada */
 .hero-kicker {
   display: flex;
