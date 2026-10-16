@@ -13,8 +13,8 @@ window.SITE_CONFIG = {
   // - texto: admite <strong>...</strong> para negrita y <br> para salto de línea.
   aviso: {
     mostrar: true,
-    titulo: "Estrenamos WEB",
-    texto: "Estamos poniendo la web en forma; algunas secciones aún tienen agujetas.<br><br>",
+    titulo: "¡¡ Estrenamos WEB !!",
+    texto: "Estamos poniendo nuestra nueva página en forma. <br><br>💪Algunas secciones aún tienen agujetas",
     desde: "",
     hasta: ""
   },
