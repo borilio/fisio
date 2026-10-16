@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Si lo que se pide no existe como archivo ni como carpeta...
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ...redirigir a la página principal
+RewriteRule ^ https://fisioterapiacostadelsol.com/ [R=302,L]
