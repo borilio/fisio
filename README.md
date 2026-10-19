@@ -10,10 +10,28 @@ Web de la clínica Fisioterapia Costa del Sol (Benalmádena, Málaga). Hecha con
 | **GitHub Pages** | <https://borilio.github.io/fisio/> | Copia para probar y compartir durante el desarrollo, y como respaldo |
 | **Netlify** | <https://fisio-provisional.netlify.app> | Versión provisional para enseñar al cliente (sin rastro de GitHub) |
 
+## Editar contenidos: `config.js`
+
+[`js/config.js`](js/config.js) reúne en un solo archivo la información de la web que puede cambiar con el tiempo, para editarla fácilmente sin tocar el HTML. Al guardar los cambios, la web los muestra automáticamente.
+
+✏️ **[Editar `config.js` en GitHub](https://github.com/borilio/fisio/edit/main/js/config.js)**: al confirmar el cambio (*Commit changes*) en `main`, se publica en los sitios que tengan el despliegue automático activado.
+
+> [!NOTE]
+> Cada elemento de `config.js` está explicado en detalle en los comentarios del propio archivo (qué hace, qué valores admite y ejemplos). Al editar, respeta las comillas `"..."` y las comas al final de cada línea.
+
+| Apartado | Qué contiene |
+| --- | --- |
+| **Aviso** | Aviso eventual al principio de la web (cierres, novedades…), con fechas de inicio y fin |
+| **Contacto** | Teléfono, email y dirección |
+| **Legal** | Datos de la titular que aparecen en el aviso legal |
+| **Horario y festivos** | Horario de apertura y festivos, usados para el aviso "Abierto / Cerrado ahora" |
+| **Mapa** | Enlaces del mapa de Google y de "Cómo llegar" |
+
 ## Despliegue en Netlify
 
 Netlify está conectado al repositorio y publica la web automáticamente con cada `push` a `main`. Es la URL que se comparte con el cliente para revisar los cambios, externo a cualquier enlace a GitHub.
 
+> [!WARNING]
 > **Estado actual: desactivado.** Para reactivarlo, en el panel de Netlify del sitio *fisio-provisional*, vuelve a activar las publicaciones automáticas.
 
 ## Despliegue en la web oficial (SFTP)
@@ -26,4 +44,5 @@ El workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) publi
 
 Los datos de conexión se guardan como *secrets* del repositorio: `SFTP_HOST`, `SFTP_PORT`, `SFTP_USER`, `SFTP_PASS` y `SFTP_DIR`.
 
+> [!WARNING]
 > **Estado actual: desactivado.** Ya está probado y funciona. Para activarlo: **Actions** → *Desplegar web por SFTP* → **Enable workflow**. Desde ese momento, cada `push` a `main` se publicará en la web oficial.
