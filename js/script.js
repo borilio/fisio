@@ -84,6 +84,57 @@
   });
 
   /* -----------------------------------------------------
+     SEO: ficha de la clínica para Google (JSON-LD)
+     Se genera a partir de config.js (nombre, teléfono, dirección,
+     horario...) y se añade invisible en el <head>.
+     ----------------------------------------------------- */
+  if (config.web) {
+    const web = config.web.replace(/\/?$/, "/");
+    const legal = config.legal || {};
+    const postal = config.direccionPostal;
+    const SCHEMA_DAYS = {
+      lunes: "Monday", martes: "Tuesday", miercoles: "Wednesday", jueves: "Thursday",
+      viernes: "Friday", sabado: "Saturday", domingo: "Sunday"
+    };
+
+    const openingHours = [];
+    Object.keys(SCHEMA_DAYS).forEach((key) => {
+      ((config.horarioSemanal || {})[key] || []).forEach(([opens, closes]) => {
+        openingHours.push({ "@type": "OpeningHoursSpecification", dayOfWeek: SCHEMA_DAYS[key], opens, closes });
+      });
+    });
+
+    const ficha = config.mapa && config.mapa.ficha;
+    const data = {
+      "@context": "https://schema.org",
+      "@type": "Physiotherapy",
+      "@id": web + "#clinica",
+      name: legal.nombreComercial || "Fisioterapia Costa del Sol",
+      url: web,
+      image: web + "img/og-imagen.jpg",
+      logo: web + "img/logo_cuadrado.png",
+      telephone: links.tel ? links.tel.slice(4) : undefined,      // "+34952446655"
+      email: config.email,
+      address: postal ? {
+        "@type": "PostalAddress",
+        streetAddress: postal.calle,
+        addressLocality: postal.localidad,
+        postalCode: postal.codigoPostal,
+        addressRegion: postal.provincia,
+        addressCountry: "ES"
+      } : undefined,
+      hasMap: ficha,
+      sameAs: ficha ? [ficha] : undefined,
+      openingHoursSpecification: openingHours.length ? openingHours : undefined
+    };
+
+    const jsonLd = document.createElement("script");
+    jsonLd.type = "application/ld+json";
+    jsonLd.textContent = JSON.stringify(data);                 // los campos vacíos (undefined) no se incluyen
+    document.head.appendChild(jsonLd);
+  }
+
+  /* -----------------------------------------------------
      Aviso "Abierto ahora / Cerrado ahora" ([data-open-status])
      - Toma el reloj del dispositivo y lo convierte a la hora de España
        (así no influye la zona horaria del visitante; si su reloj

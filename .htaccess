@@ -1,5 +1,25 @@
 RewriteEngine On
 
+# -----------------------------------------------------------------
+# Dirección única: https://fisioterapiacostadelsol.com (sin www)
+# Así Google ve una sola web en lugar de varias copias.
+# PRUEBA: de momento con R=302 (temporal, el navegador no lo recuerda).
+# Cuando compruebes que funciona, cambia los dos R=302 por R=301 (permanente).
+# Si algo falla, borra este bloque y la web vuelve a estar como antes.
+# -----------------------------------------------------------------
+
+# www.fisioterapiacostadelsol.com → https://fisioterapiacostadelsol.com
+RewriteCond %{HTTP_HOST} ^www\.fisioterapiacostadelsol\.com$ [NC]
+RewriteRule ^ https://fisioterapiacostadelsol.com%{REQUEST_URI} [R=302,L]
+
+# http:// → https://
+# (la segunda condición evita un bucle en servidores donde el https lo gestiona un proxy)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP_HOST} ^fisioterapiacostadelsol\.com$ [NC]
+RewriteRule ^ https://fisioterapiacostadelsol.com%{REQUEST_URI} [R=302,L]
+
+# -----------------------------------------------------------------
 # Si lo que se pide no existe como archivo ni como carpeta...
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

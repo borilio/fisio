@@ -76,6 +76,17 @@ window.SITE_CONFIG = {
 
   direccion: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga",
 
+  // Para Google (no se ve en la web): dirección de la web y dirección postal desglosada.
+  // Se usa para la "ficha" invisible que lee Google (búsquedas locales).
+  // Conviene que coincida con la ficha de Google Maps de la clínica.
+  web: "https://fisioterapiacostadelsol.com/",
+  direccionPostal: {
+    calle: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel",
+    localidad: "Benalmádena",
+    codigoPostal: "29631",
+    provincia: "Málaga"
+  },
+
   // Datos del titular para el aviso legal.
   // (Dirección, teléfono y email del aviso legal se toman de los campos de arriba.)
   // Lo que esté como "PENDIENTE" se resalta en rojo en el aviso legal.

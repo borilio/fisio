@@ -1,0 +1,4 @@
+# Solo lo usa Netlify: pide a los buscadores que NO indexen la copia provisional.
+# (GitHub Pages y el servidor de la clínica ignoran este archivo; el SFTP no lo sube.)
+/*
+  X-Robots-Tag: noindex, nofollow

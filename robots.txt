@@ -1,0 +1,5 @@
+# Los buscadores pueden leer toda la web
+User-agent: *
+Allow: /
+
+Sitemap: https://fisioterapiacostadelsol.com/sitemap.xml

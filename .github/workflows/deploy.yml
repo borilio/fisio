@@ -27,6 +27,6 @@ jobs:
           set sftp:auto-confirm yes
           set net:max-retries 2
           open --env-password -u "$SFTP_USER" -p "$SFTP_PORT" "sftp://$SFTP_HOST"
-          mirror --reverse --delete --no-perms --verbose --exclude '^\.git' --exclude '^\.vscode' --exclude '^README\.md$' ./ "$SFTP_DIR"
+          mirror --reverse --delete --no-perms --verbose --exclude '^\.git' --exclude '^\.vscode' --exclude '^README\.md$' --exclude '^_headers$' ./ "$SFTP_DIR"
           bye
           EOF
