@@ -1600,6 +1600,13 @@ html[data-theme="dark"] .legal-text .legal-field--pending {
   text-align: center;
 }
 
+/* Versión (y emoji de temporada) junto al copyright, en un tono más suave */
+.site-footer__version {
+  margin-left: 0.25rem;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
 .site-footer__legal {
   display: flex;
   gap: 1.25rem;

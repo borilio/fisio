@@ -7,6 +7,9 @@
    ===================================================== */
 window.SITE_CONFIG = {
 
+  // Versión de la web: se muestra en el pie, junto al copyright
+  version: "1.0.0",
+
   // AVISO IMPORTANTE (eventual): aparece al principio de la portada y se puede cerrar.
   // - mostrar: true para mostrarlo, false para ignorarlo por completo.
   // - desde / hasta: se muestra entre esas dos fechas, ambas incluidas ("AAAA-MM-DD").
@@ -27,7 +30,8 @@ window.SITE_CONFIG = {
   //     "navidad"   → nieve cayendo
   //     "halloween"   → emojis flotando hacia arriba que aparecen y desaparecen
   //     "sanvalentin" → emojis flotando hacia arriba que además laten como un corazón
-  // - emojis: (solo en temporadas de emojis) lista de emojis que se mezclan al azar.
+  // - emojis: lista de emojis. En los efectos de emojis se mezclan al azar.
+  //     El PRIMERO de la lista se muestra en el pie, junto a la versión, mientras la temporada esté activa.
   // - mostrar: interruptor general. false = la temporada se ignora por completo.
   // - desde / hasta: fechas SIN año ("MM-DD"), se repiten cada año, ambas incluidas.
   //     Pueden cruzar el cambio de año (p. ej. "12-01" → "01-06").
@@ -40,12 +44,13 @@ window.SITE_CONFIG = {
       mostrar: true,
       forzar: false,
       desde: "12-01",
-      hasta: "01-06"
+      hasta: "01-06",
+      emojis: ["🎄", "❄️", "⛄",  "🎁"]                         // la nieve no los usa; solo el primero para el pie
     },
     {
       id: "halloween",
       mostrar: true,
-      forzar: true,
+      forzar: false,
       desde: "10-20",
       hasta: "10-31",
       emojis: ["🎃", "🎃", "👻", "👻", "🦇", "", "🕷️", "🍬", "🍭"]

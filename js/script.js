@@ -447,6 +447,9 @@
     sanvalentin: (t) => efectoEmojis(t, { latido: true })
   };
 
+  // Primer emoji (no vacío) de cada temporada cuyo efecto se está mostrando → para el pie
+  const emojisTemporadasActivas = [];
+
   try {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const temporadas = Array.isArray(config.temporadas) ? config.temporadas : [];
@@ -454,11 +457,31 @@
       const hoy = fechaTemporadas();
       temporadas.forEach((t) => {
         const efecto = EFECTOS_TEMPORADA[t && t.id];
-        if (efecto && temporadaActiva(t, hoy)) efecto(t);
+        if (efecto && temporadaActiva(t, hoy)) {
+          efecto(t);
+          const primero = (Array.isArray(t.emojis) ? t.emojis : [])
+            .find((e) => typeof e === "string" && e.trim() !== "");
+          if (primero) emojisTemporadasActivas.push(primero);
+        }
       });
     }
   } catch (err) {
     /* un efecto decorativo nunca debe romper la web */
+  }
+
+  /* -----------------------------------------------------
+     Versión en el pie (config.version) + emoji de las temporadas activas
+     Ej.: "· v1.0.0 🎃"
+     ----------------------------------------------------- */
+  const versionEl = document.getElementById("site-version");
+  if (versionEl) {
+    const partes = [];
+    if (config.version) partes.push(`v${config.version}`);
+    partes.push(...emojisTemporadasActivas);
+    if (partes.length) {
+      versionEl.textContent = `· ${partes.join(" ")}`;
+      versionEl.hidden = false;
+    }
   }
 
   /* -----------------------------------------------------
