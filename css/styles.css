@@ -626,11 +626,117 @@ html[data-theme="dark"] .site-notice__close:focus-visible {
   height: 2.75rem;
   border-radius: 9999px;
   background: rgba(31, 111, 100, 0.1);
+  overflow: hidden;                 /* recorta los iconos animados que salen del círculo (sobre) */
 }
 
 .contact-action__icon svg {
   width: 1.35rem;
   height: 1.35rem;
+}
+
+/* Teléfono sonando: el icono vibra al pasar el ratón por su enlace.
+   Uso: class="phone-ring" en el <svg> del icono (dentro de un <a>). */
+a:hover .phone-ring,
+a:focus-visible .phone-ring {
+  animation: phone-ring 1.2s ease-in-out infinite;
+}
+
+@keyframes phone-ring {
+  0%, 40%, 100% { transform: rotate(0); }
+  5%  { transform: rotate(-16deg); }
+  10% { transform: rotate(16deg); }
+  15% { transform: rotate(-14deg); }
+  20% { transform: rotate(14deg); }
+  25% { transform: rotate(-10deg); }
+  30% { transform: rotate(10deg); }
+  35% { transform: rotate(-4deg); }
+}
+
+/* Brújula buscando destino: la flecha gira a un lado y a otro hasta fijar el rumbo.
+   Uso: class="compass-seek" en el <svg> del icono (dentro de un <a>). */
+a:hover .compass-seek,
+a:focus-visible .compass-seek {
+  animation: compass-seek 2.4s ease-in-out infinite;
+}
+
+@keyframes compass-seek {
+  0%, 70%, 100% { transform: rotate(0); }
+  15% { transform: rotate(-60deg); }
+  30% { transform: rotate(45deg); }
+  45% { transform: rotate(-25deg); }
+  57% { transform: rotate(12deg); }
+  65% { transform: rotate(-4deg); }
+}
+
+/* Sobre que se envía: la solapa se abre y se cierra, el sobre sale volando
+   por la derecha y vuelve a entrar por la izquierda.
+   Uso: class="mail-send" en el <svg> y class="mail-send__flap" en el trazo de la solapa.
+   (El círculo del icono recorta el sobre al salir; ver overflow en .contact-action__icon) */
+a:hover .mail-send,
+a:focus-visible .mail-send {
+  animation: mail-send-fly 2.6s ease-in-out infinite;
+}
+
+a:hover .mail-send__flap,
+a:focus-visible .mail-send__flap {
+  transform-box: view-box;          /* coordenadas del icono (0-24) */
+  transform-origin: 12px 6.25px;    /* bisagra: al abrirse, las esquinas de la solapa
+                                       quedan justo sobre el borde superior del sobre */
+  animation: mail-send-flap 2.6s ease-in-out infinite;
+}
+
+/* Líneas de velocidad detrás del sobre (solo se ven mientras sale volando) */
+.mail-send {
+  overflow: visible;                /* las líneas se dibujan a la izquierda, fuera del icono */
+}
+
+.mail-send__lines {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: right center;   /* crecen desde el sobre hacia atrás */
+}
+
+a:hover .mail-send__lines,
+a:focus-visible .mail-send__lines {
+  animation: mail-send-lines 2.6s ease-out infinite;
+}
+
+@keyframes mail-send-lines {
+  0%, 40% { opacity: 0; transform: scaleX(0.2); }
+  47%     { opacity: 1; transform: scaleX(1); }
+  53%     { opacity: 1; transform: scaleX(1.3); }
+  57%, 100% { opacity: 0; transform: scaleX(0.2); }
+}
+
+@keyframes mail-send-flap {
+  0%, 100% { transform: scaleY(1); }                                         /* cerrada */
+  14%, 22% { transform: scaleY(-1); animation-timing-function: ease-in; }    /* abierta hacia arriba */
+  30%      { transform: scaleY(1.12); animation-timing-function: ease-out; } /* se cierra de golpe… */
+  34%      { transform: scaleY(1); }                                         /* …y asienta */
+}
+
+@keyframes mail-send-fly {
+  0%, 34% { transform: none; opacity: 1; }
+  42% { transform: translateX(-3px) rotate(-8deg); opacity: 1; animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.4); }  /* coge impulso */
+  56% { transform: translate(190%, -70%) rotate(-14deg); opacity: 0; }   /* sale volando */
+  57% { transform: translateX(-190%); opacity: 0; animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1); }  /* reaparece por la izquierda */
+  60% { opacity: 1; }
+  74%, 100% { transform: none; opacity: 1; }                             /* vuelve a su sitio */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a:hover .phone-ring,
+  a:focus-visible .phone-ring,
+  a:hover .compass-seek,
+  a:focus-visible .compass-seek,
+  a:hover .mail-send,
+  a:focus-visible .mail-send,
+  a:hover .mail-send__flap,
+  a:focus-visible .mail-send__flap,
+  a:hover .mail-send__lines,
+  a:focus-visible .mail-send__lines {
+    animation: none;
+  }
 }
 
 .contact-action__title {
