@@ -566,16 +566,25 @@
   const navLinks = document.getElementById("nav-links");
 
   if (navToggle && navLinks) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("is-open");
+    const setMenu = (isOpen) => {
+      navLinks.classList.toggle("is-open", isOpen);
       navToggle.setAttribute("aria-expanded", String(isOpen));
+      navToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+    };
+
+    navToggle.addEventListener("click", () => {
+      setMenu(!navLinks.classList.contains("is-open"));
     });
 
     navLinks.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("is-open");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    // Escape cierra el menú y devuelve el foco al botón ☰
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape" || !navLinks.classList.contains("is-open")) return;
+      setMenu(false);
+      navToggle.focus();
     });
   }
 
@@ -585,12 +594,21 @@
   const legalModal = document.getElementById("legal-modal");
   const openLegal = document.getElementById("open-legal");
 
+  let modalOpener = null;                                    // botón que abrió el modal (para devolverle el foco)
+
   // sectionId (opcional): apartado al que desplazarse al abrir, p. ej. "politica-cookies"
   function toggleModal(show, sectionId) {
     if (!legalModal) return;
+    const wasOpen = !legalModal.hidden;
     legalModal.hidden = !show;
     document.body.style.overflow = show ? "hidden" : "";
-    if (!show) return;
+    if (!show) {
+      // Al cerrar, el foco vuelve al botón que lo abrió
+      if (wasOpen && modalOpener && document.contains(modalOpener)) modalOpener.focus();
+      modalOpener = null;
+      return;
+    }
+    if (!wasOpen) modalOpener = document.activeElement;
     const body = legalModal.querySelector(".site-modal__body");
     const section = sectionId && document.getElementById(sectionId);
     if (body) body.scrollTop = section ? section.offsetTop - 16 : 0;
@@ -609,6 +627,26 @@
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !legalModal.hidden) toggleModal(false);
+    });
+    // Con el modal abierto, Tab / Mayús+Tab dan la vuelta dentro de él
+    legalModal.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab") return;
+      const focusables = Array.from(legalModal.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
+      )).filter((el) => el.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!legalModal.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   }
 

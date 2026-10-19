@@ -528,8 +528,8 @@ html[data-theme="dark"] .site-notice__close:focus-visible {
 .btn-neon {
   --neon-1: #ffc078;           /* color de luz 1 */
   --neon-2: #7ad7c0;           /* color de luz 2 */
-  --neon-fill: var(--accent);  /* fondo del botón */
-  --neon-fill-hover: #d3792e;  /* fondo al pasar el ratón */
+  --neon-fill: #c05621;        /* fondo del botón (naranja tostado: contraste 4,6:1 con texto blanco; igual en modo claro y oscuro) */
+  --neon-fill-hover: #a8481a;  /* fondo al pasar el ratón (5,8:1) */
   --neon-text: #ffffff;        /* color del texto */
   --neon-width: 2px;           /* grosor del borde de luz */
   --neon-speed: 5.5s;          /* tiempo de una vuelta */
