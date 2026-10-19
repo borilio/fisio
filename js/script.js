@@ -240,6 +240,228 @@
   }
 
   /* -----------------------------------------------------
+     Temporadas (config.temporadas): efectos visuales por épocas
+     - Se activa si mostrar === true y (forzar === true o hoy está
+       entre "desde" y "hasta", formato "MM-DD", ambas incluidas).
+     - Cada id tiene su efecto en EFECTOS_TEMPORADA.
+     - No se muestran si el usuario prefiere "reducir movimiento".
+     ----------------------------------------------------- */
+
+  // Fecha usada para decidir las temporadas (hora de España).
+  function fechaTemporadas() {
+    // PRUEBA: descomenta la línea de abajo para simular otro día (mes y día).
+    //return { m: 12, d: 25 };   // p. ej. 25 de diciembre
+    const now = madridNow();
+    return { m: now.m, d: now.d };
+  }
+
+  function temporadaActiva(t, hoy) {
+    if (!t || t.mostrar !== true) return false;
+    if (t.forzar === true) return true;
+    if (!t.desde || !t.hasta) return false;
+    const actual = `${String(hoy.m).padStart(2, "0")}-${String(hoy.d).padStart(2, "0")}`;
+    return t.desde <= t.hasta
+      ? actual >= t.desde && actual <= t.hasta                 // rango normal (p. ej. 03-01 → 03-31)
+      : actual >= t.desde || actual <= t.hasta;                // cruza el año (p. ej. 12-01 → 01-06)
+  }
+
+  // Capa común a todos los efectos: un canvas sobre toda la página que no
+  // bloquea los clics, se adapta al tamaño de la ventana y se pausa cuando
+  // la pestaña no está visible (ahorra batería).
+  //   onResize(width, height): ajustar la cantidad de elementos
+  //   onFrame(ctx, width, height): mover y dibujar un fotograma
+  function crearCapaTemporada(onResize, onFrame) {
+    const canvas = document.createElement("canvas");
+    canvas.className = "season-layer";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+
+    let width = 0;
+    let height = 0;
+    let frame = null;                                          // fotograma pendiente
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      onResize(width, height);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      onFrame(ctx, width, height);
+      frame = requestAnimationFrame(draw);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        cancelAnimationFrame(frame);
+        frame = null;
+      } else if (frame === null) {
+        frame = requestAnimationFrame(draw);
+      }
+    });
+    window.addEventListener("resize", resize);
+
+    resize();
+    frame = requestAnimationFrame(draw);
+  }
+
+  // Nieve: copos pequeños que caen con un ligero balanceo
+  function efectoNieve() {
+    const flakes = [];
+    let w = 0;
+    let h = 0;
+
+    const newFlake = (anywhere) => ({
+      x: Math.random() * w,
+      y: anywhere ? Math.random() * h : -5,
+      r: 1 + Math.random() * 2.5,                              // tamaño
+      speed: 0.4 + Math.random() * 0.9,                        // caída
+      phase: Math.random() * Math.PI * 2,                      // balanceo lateral
+      sway: 0.2 + Math.random() * 0.5,
+      alpha: 0.5 + Math.random() * 0.5
+    });
+
+    crearCapaTemporada(
+      (width, height) => {
+        w = width;
+        h = height;
+        const target = Math.min(120, Math.round(w / 12));      // menos copos en móvil
+        while (flakes.length < target) flakes.push(newFlake(true));
+        flakes.length = target;
+      },
+      (ctx) => {
+        // Copos blancos en modo oscuro; azul grisáceo claro en modo claro (el blanco no se vería)
+        const dark = document.documentElement.getAttribute("data-theme") === "dark";
+        const rgb = dark ? "255, 255, 255" : "150, 185, 205";
+        flakes.forEach((f, i) => {
+          f.y += f.speed;
+          f.phase += 0.01;
+          f.x += Math.sin(f.phase) * f.sway;
+          if (f.y > h + 5) flakes[i] = newFlake(false);
+          if (f.x > w + 5) f.x = -5;
+          if (f.x < -5) f.x = w + 5;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${rgb}, ${f.alpha})`;
+          ctx.fill();
+        });
+      }
+    );
+  }
+
+  // Latido de corazón (doble golpe "pum-pum… pum-pum"): devuelve la escala para el tiempo t (segundos)
+  function escalaLatido(t) {
+    const period = 1.2;                                        // ~50 latidos por minuto, tranquilo
+    const p = (t % period) / period;
+    const golpe = (centro, ancho) => Math.exp(-(((p - centro) / ancho) ** 2));
+    return 1 + 0.22 * (golpe(0.08, 0.045) + 0.6 * golpe(0.26, 0.045));
+  }
+
+  // Aparecer / desaparecer: devuelve la opacidad (0–1) para el tiempo t (segundos) en un ciclo de "periodo".
+  // Ciclo: visible (55 %) → se desvanece (10 %) → invisible (25 %) → reaparece (10 %)
+  function opacidadDesvanecer(t, periodo) {
+    const p = (t % periodo) / periodo;
+    const suave = (x) => x * x * (3 - 2 * x);                  // transición suave (sin saltos)
+    if (p < 0.55) return 1;
+    if (p < 0.65) return 1 - suave((p - 0.55) / 0.1);
+    if (p < 0.9) return 0;
+    return suave((p - 0.9) / 0.1);
+  }
+
+  // Emojis flotantes: suben despacio desde abajo con balanceo y un leve giro.
+  // Usa la lista "emojis" de la temporada en config.js (reutilizable: Halloween, San Valentín...).
+  // opciones.latido: true → además laten como un corazón (cada uno a su ritmo).
+  // opciones.desvanecer: true → por el camino desaparecen y reaparecen (cada uno a su ritmo).
+  function efectoEmojis(temporada, opciones = {}) {
+    const lista = Array.isArray(temporada.emojis)
+      ? temporada.emojis.filter((e) => typeof e === "string" && e.trim() !== "")   // ignora vacíos
+      : [];
+    const emojis = lista.length ? lista : ["✨"];
+    const items = [];
+    let w = 0;
+    let h = 0;
+
+    const newItem = (anywhere) => ({
+      emoji: emojis[Math.floor(Math.random() * emojis.length)],
+      x: Math.random() * w,
+      y: anywhere ? Math.random() * h : h + 40,
+      size: 18 + Math.random() * 16,                           // 18–34 px
+      speed: 0.25 + Math.random() * 0.45,                      // subida lenta
+      phase: Math.random() * Math.PI * 2,
+      sway: 0.3 + Math.random() * 0.5,
+      alpha: 0.55 + Math.random() * 0.3,                       // semitransparentes
+      beat: Math.random() * 1.2,                               // desfase del latido
+      fadePeriod: 6 + Math.random() * 4,                       // ciclo de aparecer/desaparecer: 6–10 s
+      fadeOffset: Math.random() * 10                           // desfase (no desaparecen todos a la vez)
+    });
+
+    crearCapaTemporada(
+      (width, height) => {
+        w = width;
+        h = height;
+        const target = Math.max(6, Math.min(20, Math.round(w / 70)));   // pocos: 6 en móvil, 20 máx.
+        while (items.length < target) items.push(newItem(true));
+        items.length = target;
+      },
+      (ctx) => {
+        const now = performance.now() / 1000;
+        items.forEach((it, i) => {
+          it.y -= it.speed;
+          it.phase += 0.012;
+          it.x += Math.sin(it.phase) * it.sway;
+          if (it.y < -40) items[i] = newItem(false);
+          if (it.x > w + 40) it.x = -40;
+          if (it.x < -40) it.x = w + 40;
+          const fade = opciones.desvanecer
+            ? opacidadDesvanecer(now + it.fadeOffset, it.fadePeriod)
+            : 1;
+          if (fade <= 0) return;                               // invisible: no se dibuja (sigue moviéndose)
+          ctx.save();
+          ctx.globalAlpha = it.alpha * fade;
+          ctx.translate(it.x, it.y);
+          ctx.rotate(Math.sin(it.phase) * 0.25);               // leve giro de lado a lado
+          if (opciones.latido) {
+            const s = escalaLatido(now + it.beat);
+            ctx.scale(s, s);
+          }
+          ctx.font = `${it.size}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(it.emoji, 0, 0);
+          ctx.restore();
+        });
+      }
+    );
+  }
+
+  // id de la temporada en config.js → efecto que se muestra
+  const EFECTOS_TEMPORADA = {
+    navidad: efectoNieve,
+    halloween: (t) => efectoEmojis(t, { desvanecer: true }),
+    sanvalentin: (t) => efectoEmojis(t, { latido: true })
+  };
+
+  try {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const temporadas = Array.isArray(config.temporadas) ? config.temporadas : [];
+    if (!reduceMotion && temporadas.length) {
+      const hoy = fechaTemporadas();
+      temporadas.forEach((t) => {
+        const efecto = EFECTOS_TEMPORADA[t && t.id];
+        if (efecto && temporadaActiva(t, hoy)) efecto(t);
+      });
+    }
+  } catch (err) {
+    /* un efecto decorativo nunca debe romper la web */
+  }
+
+  /* -----------------------------------------------------
      Modo oscuro / claro
      - El tema inicial ya lo aplica el script del <head> (evita parpadeo).
      - Sin elección manual, se sigue siempre la preferencia del sistema.

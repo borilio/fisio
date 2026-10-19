@@ -22,6 +22,44 @@ window.SITE_CONFIG = {
     hasta: ""
   },
 
+  // TEMPORADAS: efectos visuales en toda la web en ciertas épocas del año.
+  // - id: qué efecto se usa. Disponibles:
+  //     "navidad"   → nieve cayendo
+  //     "halloween"   → emojis flotando hacia arriba que aparecen y desaparecen
+  //     "sanvalentin" → emojis flotando hacia arriba que además laten como un corazón
+  // - emojis: (solo en temporadas de emojis) lista de emojis que se mezclan al azar.
+  // - mostrar: interruptor general. false = la temporada se ignora por completo.
+  // - desde / hasta: fechas SIN año ("MM-DD"), se repiten cada año, ambas incluidas.
+  //     Pueden cruzar el cambio de año (p. ej. "12-01" → "01-06").
+  // - forzar: true = se muestra siempre, sin mirar las fechas (útil para probar).
+  //     Necesita mostrar: true.
+  // (Si el usuario tiene activado "reducir movimiento" en su sistema, no se muestran efectos.)
+  temporadas: [
+    {
+      id: "navidad",
+      mostrar: true,
+      forzar: false,
+      desde: "12-01",
+      hasta: "01-06"
+    },
+    {
+      id: "halloween",
+      mostrar: true,
+      forzar: true,
+      desde: "10-20",
+      hasta: "10-31",
+      emojis: ["🎃", "🎃", "👻", "👻", "🦇", "", "🕷️", "🍬", "🍭"]
+    },
+    {
+      id: "sanvalentin",
+      mostrar: true,
+      forzar: false,
+      desde: "02-10",
+      hasta: "02-14",
+      emojis: ["❤️", "❤️", "💕", "💖", "💗", "💘","🏹","💚","🧡"]
+    }
+  ],
+
   // Datos de contacto
   // Teléfono tal y como se muestra. El enlace para llamar se genera solo
   // (si no empieza por +, se añade el prefijo +34).
