@@ -869,11 +869,71 @@ a.contact-card__item:focus-visible .contact-card__value {
   border-radius: 9999px;
   background: var(--accent-soft);
   color: var(--accent-ink);
+  overflow: hidden;                 /* recorta los iconos animados que salen del círculo (sobre) */
 }
 
 .contact-card__icon svg {
   width: 1.2rem;
   height: 1.2rem;
+}
+
+/* Marcador de la dirección: da un saltito y rebota al caer, como un pin en el mapa.
+   Uso: class="pin-bounce" en el <svg> del icono (dentro de un <a>). */
+.pin-bounce {
+  transform-origin: center bottom;  /* se aplasta contra el "suelo" */
+}
+
+a:hover .pin-bounce,
+a:focus-visible .pin-bounce {
+  animation: pin-bounce 1.4s ease-in-out infinite;
+}
+
+@keyframes pin-bounce {
+  0%, 60%, 100% { transform: none; }
+  20% { transform: translateY(-28%); animation-timing-function: ease-in; }  /* sube */
+  38% { transform: translateY(0) scale(1.12, 0.88); }                      /* cae y se aplasta */
+  48% { transform: translateY(-8%); }                                       /* pequeño rebote */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a:hover .pin-bounce,
+  a:focus-visible .pin-bounce {
+    animation: none;
+  }
+}
+
+/* Reloj del horario: las agujas dan vueltas rápidas (el tiempo vuela) y se paran.
+   Al pasar el ratón por la línea del horario (no es un enlace).
+   El minutero da 4 vueltas y la aguja de las horas 1: terminan donde empezaron. */
+.clock-spin__minute,
+.clock-spin__hour {
+  transform-box: view-box;
+  transform-origin: 12px 12px;      /* centro de la esfera */
+}
+
+.contact-card__item:hover .clock-spin__minute {
+  animation: clock-spin-minute 2.6s ease-in-out infinite;
+}
+
+.contact-card__item:hover .clock-spin__hour {
+  animation: clock-spin-hour 2.6s ease-in-out infinite;
+}
+
+@keyframes clock-spin-minute {
+  0%        { transform: rotate(0); }
+  65%, 100% { transform: rotate(1440deg); }
+}
+
+@keyframes clock-spin-hour {
+  0%        { transform: rotate(0); }
+  65%, 100% { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-card__item:hover .clock-spin__minute,
+  .contact-card__item:hover .clock-spin__hour {
+    animation: none;
+  }
 }
 
 .contact-card__text {

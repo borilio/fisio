@@ -103,11 +103,11 @@ window.SITE_CONFIG = {
   // Cada día admite varios tramos; [] = cerrado.
   // A partir de aquí se genera el texto del horario y el aviso "Abierto/Cerrado ahora".
   horarioSemanal: {
-    lunes:     [["09:30", "13:30"], ["16:00", "20:00"]],
-    martes:    [["09:30", "13:30"], ["16:00", "20:00"]],
-    miercoles: [["09:30", "13:30"], ["16:00", "20:00"]],
-    jueves:    [["09:30", "13:30"], ["16:00", "20:00"]],
-    viernes:   [["09:30", "13:30"], ["16:00", "20:00"]],
+    lunes:     [["09:00", "13:30"], ["16:00", "19:30"]],
+    martes:    [["09:00", "13:30"], ["16:00", "19:30"]],
+    miercoles: [["09:00", "13:30"], ["16:00", "19:30"]],
+    jueves:    [["09:00", "13:30"], ["16:00", "19:30"]],
+    viernes:   [["09:00", "13:30"], ["16:00", "19:30"]],
     sabado:    [],
     domingo:   []
   },
