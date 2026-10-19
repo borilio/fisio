@@ -1121,12 +1121,11 @@ html[data-theme="dark"] .nav-toggle {
   transform: translateY(-1px);
 }
 
+/* Modo oscuro: adapta las clases de Tailwind usadas en el HTML.
+   (!important: Bootstrap también define .bg-white con !important)
+   Si usas otra clase de color de Tailwind y en modo oscuro se ve mal, añádela aquí. */
 html[data-theme="dark"] .bg-white,
-html[data-theme="dark"] .bg-white\/70,
-html[data-theme="dark"] .bg-white\/90,
-html[data-theme="dark"] .bg-slate-50,
-html[data-theme="dark"] .bg-slate-100,
-html[data-theme="dark"] .bg-slate-200 {
+html[data-theme="dark"] .bg-white\/70 {
   background-color: var(--surface) !important;
 }
 
@@ -1139,33 +1138,20 @@ html[data-theme="dark"] .bg-slate-100 {
 }
 
 html[data-theme="dark"] .text-slate-900,
-html[data-theme="dark"] .text-slate-800,
-html[data-theme="dark"] .text-slate-700,
-html[data-theme="dark"] .text-slate-600,
-html[data-theme="dark"] .text-slate-500,
-html[data-theme="dark"] .text-slate-400 {
+html[data-theme="dark"] .text-slate-800 {
   color: var(--text) !important;
 }
 
-html[data-theme="dark"] .text-slate-600,
-html[data-theme="dark"] .text-slate-500,
-html[data-theme="dark"] .text-slate-400 {
+html[data-theme="dark"] .text-slate-600 {
   color: var(--text-soft) !important;
 }
 
-html[data-theme="dark"] .border-slate-200,
-html[data-theme="dark"] .border-slate-100,
-html[data-theme="dark"] .ring-slate-200,
-html[data-theme="dark"] .border-slate-200\/80 {
+html[data-theme="dark"] .border-slate-200 {
   border-color: var(--border) !important;
 }
 
 html[data-theme="dark"] .bg-brand-50 {
   background-color: rgba(31, 111, 100, 0.18) !important;
-}
-
-html[data-theme="dark"] .bg-brand-100 {
-  background-color: rgba(31, 111, 100, 0.22) !important;
 }
 
 html[data-theme="dark"] .text-brand-700,
