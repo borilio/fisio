@@ -57,7 +57,7 @@
         lines.push(name);
         lines.push(ranges.map(([a, b]) => `<strong>${formatTime(a)} – ${formatTime(b)}</strong>`).join(" y "));
       } else {
-        lines.push(`${name}: cerrado`);
+        lines.push(`${name}: <strong>cerrado</strong>`);
       }
     });
     return lines;
@@ -95,8 +95,9 @@
   const statusEls = document.querySelectorAll("[data-open-status]");
 
   function madridNow() {
-    // PRUEBA: martes 13-oct-2026, 10:00 (si quisiera poner las 13:35, pondría minutes: 13 * 60 + 35)
-    // return { y: 2026, m: 10, d: 13, minutes: 10 * 60 + 0 };   
+    // TESTING PRUEBA: martes 13-oct-2026, 10:00 (si quisiera poner las 13:35, pondría minutes: 13 * 60 + 35)
+    // Sirve para probar los horarios generados, los estados abierto / cerrado y los efectos de temporada (halloween, navidad, etc)
+    // return { y: 2026, m: 10, d: 31, minutes: 12 * 60 + 0 };   
     const parts = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Europe/Madrid", year: "numeric", month: "2-digit", day: "2-digit",
       hour: "2-digit", minute: "2-digit", hourCycle: "h23"
@@ -153,13 +154,23 @@
     const today = dayInfo(now, 0);
     const todayRanges = week[DAY_KEYS[today.dow]] || [];
 
+    // Cada texto es [etiqueta, resto]: la etiqueta va en el color del estado
+    // (verde / rojo / ámbar) y el resto en el color normal del texto.
     if (todayRanges.length && isFestivo(today)) {
-      return { state: "holiday", long: "Hoy es festivo · Puede que estemos cerrados", short: "Festivo: puede estar cerrado" };
+      return {
+        state: "holiday",
+        long: ["Hoy es festivo", "Puede que estemos cerrados"],
+        short: ["Festivo", "puede estar cerrado"]
+      };
     }
 
     const current = todayRanges.find(([a, b]) => toMinutes(a) <= now.minutes && now.minutes < toMinutes(b));
     if (current) {
-      return { state: "open", long: `Abierto ahora · Cierra a las ${formatTime(current[1])}`, short: "Abierto ahora" };
+      return {
+        state: "open",
+        long: ["Abierto ahora", `Cierra a las ${formatTime(current[1])}`],
+        short: ["Abierto ahora", ""]
+      };
     }
 
     for (let offset = 0; offset <= 7; offset++) {
@@ -171,12 +182,12 @@
         const note = isFestivo(info) ? " (festivo: puede variar)" : "";
         return {
           state: "closed",
-          long: `Cerrado ahora · Abre ${when} a las ${formatTime(next[0])}${note}`,
-          short: `Cerrado · abre ${when} a las ${formatTime(next[0])}`
+          long: ["Cerrado ahora", `Abre ${when} a las ${formatTime(next[0])}${note}`],
+          short: ["Cerrado", `abre ${when} a las ${formatTime(next[0])}`]
         };
       }
     }
-    return { state: "closed", long: "Cerrado ahora", short: "Cerrado ahora" };
+    return { state: "closed", long: ["Cerrado ahora", ""], short: ["Cerrado ahora", ""] };
   }
 
   function renderStatus() {
@@ -184,8 +195,18 @@
       const status = computeStatus();
       statusEls.forEach((el) => {
         el.dataset.state = status.state;
-        el.querySelector(".open-status__text").textContent =
-          el.dataset.openStatus === "short" ? status.short : status.long;
+        const [label, rest] = el.dataset.openStatus === "short" ? status.short : status.long;
+        const labelEl = document.createElement("span");
+        labelEl.className = "open-status__label";
+        labelEl.textContent = label;
+        const parts = [labelEl];
+        if (rest) {
+          const restEl = document.createElement("span");
+          restEl.className = "open-status__rest";
+          restEl.textContent = ` · ${rest}`;
+          parts.push(restEl);
+        }
+        el.querySelector(".open-status__text").replaceChildren(...parts);
         el.hidden = false;
       });
     } catch (err) {
