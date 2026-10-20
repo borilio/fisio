@@ -22,6 +22,14 @@
   --accent-ink: #cf7a26;                    /* iconos */
   --accent-text: #a85a14;                   /* texto (contraste suficiente sobre claro) */
 
+  /* Acento frío (crioterapia en los equipos) */
+  --cold-soft: rgba(56, 152, 214, 0.14);
+  --cold-ink: #2b7fb8;
+
+  /* Acento rojo (infrarrojos en los equipos) */
+  --red-soft: rgba(220, 38, 38, 0.12);
+  --red-ink: #dc2626;
+
   /* Aviso "Abierto / Cerrado ahora" */
   --status-open: #15803d;
   --status-closed: #b91c1c;
@@ -57,6 +65,12 @@ html[data-theme="dark"] {
   --accent-soft: rgba(242, 176, 102, 0.14);
   --accent-ink: #f2b066;
   --accent-text: #f2b066;
+
+  --cold-soft: rgba(125, 196, 240, 0.14);
+  --cold-ink: #7dc4f0;
+
+  --red-soft: rgba(248, 113, 113, 0.14);
+  --red-ink: #f87171;
 
   --status-open: #4ade80;
   --status-closed: #f87171;
@@ -161,6 +175,296 @@ iframe {
   display: block;
   background: linear-gradient(135deg, #edf7f5 0%, #e2e8f0 100%);
   border: 0;
+}
+
+/* =====================================================
+   EQUIPOS DE ELECTROTERAPIA (Instalaciones)
+   Tarjeta con un mosaico de casillas: icono + nombre + frase.
+   - (sin variante)    → verde de la marca
+   - .equip-item--hot  → naranja de la marca
+   - .equip-item--red  → rojo (calor: infrarrojos)
+   - .equip-item--cold → azul (frío: crioterapia)
+   - .equip-item--wide → ocupa dos casillas (corrientes, con etiquetas)
+   Cada icono se anima al pasar el ratón por su casilla.
+   ===================================================== */
+.equip-card {
+  padding: 1.25rem 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.equip-card__head {
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.equip-card__title {
+  margin: 0;
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.equip-card__subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+}
+
+/* Móvil: una columna, icono a la izquierda. Desde 640px: casillas en 2 columnas; desde 1024px: 4 */
+.equip-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .equip-card {
+    padding: 1.5rem;
+  }
+
+  .equip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .equip-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.equip-item {
+  --equip-soft: rgba(31, 111, 100, 0.1);   /* fondo del icono (verde de la marca) */
+  --equip-ink: var(--brand);               /* color del icono */
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: 0.9rem;
+  row-gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.equip-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--equip-ink);
+  box-shadow: 0 10px 20px -8px rgba(15, 23, 42, 0.18);
+}
+
+.equip-item--hot {
+  --equip-soft: var(--accent-soft);
+  --equip-ink: var(--accent-ink);
+}
+
+.equip-item--cold {
+  --equip-soft: var(--cold-soft);
+  --equip-ink: var(--cold-ink);
+}
+
+.equip-item--red {
+  --equip-soft: var(--red-soft);
+  --equip-ink: var(--red-ink);
+}
+
+@media (min-width: 640px) {
+  .equip-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 1rem;
+  }
+
+  .equip-item--wide {
+    grid-column: span 2;
+  }
+
+  .equip-item__icon {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.equip-item__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  grid-row: span 2;                 /* móvil: el icono ocupa la altura del nombre y la frase */
+  border-radius: 9999px;
+  background: var(--equip-soft);
+  color: var(--equip-ink);
+  overflow: hidden;
+}
+
+/* Móvil: nombre, frase y etiquetas siempre en la columna de la derecha */
+.equip-item > :not(.equip-item__icon) {
+  grid-column: 2;
+}
+
+.equip-item__icon svg {
+  width: 1.45rem;
+  height: 1.45rem;
+  overflow: visible;
+}
+
+.equip-item__name {
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.equip-item__text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.equip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.equip-tag {
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  background: var(--equip-soft);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* --- Animaciones de los iconos (al pasar el ratón por la casilla) --- */
+.equip-ico path,
+.equip-ico circle,
+.equip-ico rect {
+  transform-box: view-box;
+}
+
+/* Infrarrojos: la lámpara se enciende (la bombilla brilla) y los rayos de calor bajan uno tras otro */
+.equip-item:hover .equip-ico__bulb {
+  animation: equip-bulb 1.4s ease-in-out infinite;
+}
+
+.equip-item:hover .equip-ico__ray {
+  animation: equip-ray 1.4s ease-out infinite;
+}
+.equip-item:hover .equip-ico__ray:nth-of-type(5) { animation-delay: 0.15s; }
+.equip-item:hover .equip-ico__ray:nth-of-type(6) { animation-delay: 0.3s; }
+
+@keyframes equip-bulb {
+  0%, 100% { fill-opacity: 0.35; }
+  50%      { fill-opacity: 1; }
+}
+
+@keyframes equip-ray {
+  0%   { transform: translateY(-2px); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: translateY(2px); opacity: 0; }
+}
+
+/* Microondas: las ondas se encienden de dentro hacia fuera */
+.equip-item:hover .equip-ico--waves path {
+  animation: equip-waves 1.2s ease-out infinite;
+}
+.equip-item:hover .equip-ico--waves path:nth-of-type(2) { animation-delay: 0.15s; }
+.equip-item:hover .equip-ico--waves path:nth-of-type(3) { animation-delay: 0.3s; }
+
+@keyframes equip-waves {
+  0%, 100% { opacity: 0.2; }
+  30%      { opacity: 1; }
+}
+
+/* Ultrasonidos: las ondas se expanden desde el centro */
+.equip-item:hover .equip-ico--ripple path {
+  transform-origin: 12px 12px;
+  animation: equip-ripple 1.2s ease-out infinite;
+}
+.equip-item:hover .equip-ico--ripple path:nth-of-type(2) { animation-delay: 0.25s; }
+
+@keyframes equip-ripple {
+  0%   { transform: scale(0.7); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+/* Laserterapia: el rayo se dispara y destella al llegar */
+.equip-item:hover .equip-ico__beam {
+  stroke-dasharray: 7.5;
+  animation: equip-beam 1.4s ease-in infinite;
+}
+.equip-item:hover .equip-ico__burst {
+  transform-origin: 18.5px 12px;
+  animation: equip-burst 1.4s ease-out infinite;
+}
+
+@keyframes equip-beam {
+  0%        { stroke-dashoffset: 7.5; }
+  35%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes equip-burst {
+  0%, 30%   { transform: scale(0.3); opacity: 0; }
+  45%       { transform: scale(1.2); opacity: 1; }
+  80%, 100% { transform: scale(1); opacity: 0; }
+}
+
+/* Crioterapia: el copo gira despacio */
+.equip-item:hover .equip-ico--snow {
+  animation: equip-snow 3s linear infinite;
+}
+
+@keyframes equip-snow {
+  to { transform: rotate(360deg); }
+}
+
+/* Magnetoterapia: las líneas del campo magnético laten */
+.equip-item:hover .equip-ico__field {
+  animation: equip-field 1.2s ease-in-out infinite;
+}
+.equip-item:hover .equip-ico__field:nth-of-type(4) { animation-delay: 0.2s; }
+
+@keyframes equip-field {
+  0%, 100% { opacity: 0.15; transform: translateY(1px); }
+  50%      { opacity: 1; transform: translateY(0); }
+}
+
+/* Corrientes: el rayo chispea */
+.equip-item:hover .equip-ico--bolt {
+  animation: equip-bolt 1.2s steps(1, end) infinite;
+}
+
+@keyframes equip-bolt {
+  0%, 100% { opacity: 1; transform: none; }
+  10%      { opacity: 0.25; }
+  20%      { opacity: 1; transform: scale(1.12); }
+  30%      { opacity: 0.4; transform: none; }
+  40%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .equip-item,
+  .equip-item:hover {
+    transform: none;
+  }
+
+  .equip-item:hover .equip-ico,
+  .equip-item:hover .equip-ico * {
+    animation: none !important;
+  }
 }
 
 .legal-list {

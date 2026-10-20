@@ -235,6 +235,109 @@
             <img src="img/instalaciones/rehab.webp" alt="Sala general" class="image-placeholder aspect-[1854/848] w-full object-cover lg:aspect-auto lg:h-[400px]">
             <figcaption class="bg-brand-50 px-4 py-3 text-sm text-slate-600">Sala general de fisioterapia dotada de 3 camillas, espejos, mecanoterapia, tracción, cervical, steps, colchonetas, tablas de Freeman y platos de Bohler, así como diverso material para la propiocepción y potenciación (pesas, thera-bands, poleas, escaleras de dedos, etc).</figcaption>
           </figure>
+
+          <!-- Equipos de electroterapia: cada casilla anima su icono al pasar el ratón -->
+          <div class="equip-card md:col-span-2">
+            <div class="equip-card__head">
+              <h3 class="equip-card__title">Equipos de electroterapia</h3>
+              <p class="equip-card__subtitle">Tecnología al servicio de tu recuperación.</p>
+            </div>
+
+            <ul class="equip-grid">
+              <li class="equip-item equip-item--red">
+                <span class="equip-item__icon" aria-hidden="true">
+                  <svg class="equip-ico equip-ico--lamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1.5V4"/>
+                    <path d="M4 12a8 8 0 0 1 16 0Z"/>
+                    <path class="equip-ico__bulb" d="M9.5 12a2.5 2.5 0 0 0 5 0" fill="currentColor" fill-opacity=".35"/>
+                    <path class="equip-ico__ray" d="M7 17l-1.2 2.8"/>
+                    <path class="equip-ico__ray" d="M12 17.5v3"/>
+                    <path class="equip-ico__ray" d="M17 17l1.2 2.8"/>
+                  </svg>
+                </span>
+                <span class="equip-item__name">Infrarrojos</span>
+                <span class="equip-item__text">Calor suave que relaja la musculatura y alivia el dolor.</span>
+              </li>
+
+              <li class="equip-item equip-item--cold">
+                <span class="equip-item__icon" aria-hidden="true">
+                  <svg class="equip-ico equip-ico--snow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L12 22M3.34 7L20.66 17M3.34 17L20.66 7"/>
+                    <path d="M9.88 3.88L12 6L14.12 3.88M3.91 9.78L6.8 9L6.03 6.1M6.03 17.9L6.8 15L3.91 14.22M14.12 20.12L12 18L9.88 20.12M20.09 14.22L17.2 15L17.97 17.9M17.97 6.1L17.2 9L20.09 9.78"/>
+                  </svg>
+                </span>
+                <span class="equip-item__name">Crioterapia</span>
+                <span class="equip-item__text">Frío para calmar el dolor y la inflamación.</span>
+              </li>
+
+              <li class="equip-item equip-item--hot">
+                <span class="equip-item__icon" aria-hidden="true">
+                  <svg class="equip-ico equip-ico--waves" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/>
+                    <path d="M9 8.5a5 5 0 0 1 0 7"/>
+                    <path d="M13 5.5a9.5 9.5 0 0 1 0 13"/>
+                    <path d="M17 2.5a14 14 0 0 1 0 19"/>
+                  </svg>
+                </span>
+                <span class="equip-item__name">Microondas</span>
+                <span class="equip-item__text">Calor profundo para músculos y articulaciones.</span>
+              </li>
+
+              <li class="equip-item">
+                <span class="equip-item__icon" aria-hidden="true">
+                  <svg class="equip-ico equip-ico--ripple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="2.5"/>
+                    <path d="M7.5 7.5a6.4 6.4 0 0 0 0 9M16.5 7.5a6.4 6.4 0 0 1 0 9"/>
+                    <path d="M4.5 4.5a10.6 10.6 0 0 0 0 15M19.5 4.5a10.6 10.6 0 0 1 0 15"/>
+                  </svg>
+                </span>
+                <span class="equip-item__name">Ultrasonidos</span>
+                <span class="equip-item__text">Vibración que actúa en profundidad sobre tendones y tejidos blandos.</span>
+              </li>
+
+              <li class="equip-item">
+                <span class="equip-item__icon" aria-hidden="true">
+                  <svg class="equip-ico equip-ico--laser" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1.5" y="9.5" width="6.5" height="5" rx="1.2"/>
+                    <path class="equip-ico__beam" d="M8 12h7.5"/>
+                    <path class="equip-ico__burst" d="M18.5 7.3v1.9M18.5 14.8v1.9M23 12h-1.9M21.7 8.8l-1.3 1.3M21.7 15.2l-1.3-1.3"/>
+                  </svg>
+                </span>
+                <span class="equip-item__name">Laserterapia</span>
+                <span class="equip-item__text">Luz que ayuda a reducir la inflamación y favorece la regeneración.</span>
+              </li>
+
+              <li class="equip-item">
+                <span class="equip-item__icon" aria-hidden="true">
+                  <svg class="equip-ico equip-ico--magnet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 10.5h4v4a3 3 0 0 0 6 0v-4h4v4a7 7 0 0 1-14 0Z"/>
+                    <path d="M5 13.5h4M15 13.5h4"/>
+                    <path class="equip-ico__field" d="M7 7.5a5 3 0 0 1 10 0" stroke-width="1.6" stroke-dasharray="1.8 2"/>
+                    <path class="equip-ico__field" d="M4 5a8 4 0 0 1 16 0" stroke-width="1.6" stroke-dasharray="1.8 2"/>
+                  </svg>
+                </span>
+                <span class="equip-item__name">Magnetoterapia</span>
+                <span class="equip-item__text">Campos magnéticos que estimulan la recuperación de huesos y tejidos.</span>
+              </li>
+
+              <li class="equip-item equip-item--wide equip-item--hot">
+                <span class="equip-item__icon" aria-hidden="true">
+                  <svg class="equip-ico equip-ico--bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2Z"/>
+                  </svg>
+                </span>
+                <span class="equip-item__name">Corrientes eléctricas</span>
+                <span class="equip-item__text">Estímulos eléctricos suaves para aliviar el dolor, reducir la inflamación y fortalecer la musculatura.</span>
+                <span class="equip-tags">
+                  <span class="equip-tag">Analgésicas (TENS)</span>
+                  <span class="equip-tag">Interferenciales</span>
+                  <span class="equip-tag">Galvánicas (iontoforesis)</span>
+                  <span class="equip-tag">Antiinflamatorias</span>
+                  <span class="equip-tag">Potenciación muscular</span>
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
