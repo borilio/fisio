@@ -2730,6 +2730,20 @@ html[data-theme="dark"] .legal-text .legal-field--pending {
   height: auto;
 }
 
+/* Dos versiones del logo: la normal y la de fondos oscuros (texto en blanco),
+   según el tema activo (también con el interruptor manual). */
+.site-footer__logo--dark {
+  display: none;
+}
+
+html[data-theme="dark"] .site-footer__logo--light {
+  display: none;
+}
+
+html[data-theme="dark"] .site-footer__logo--dark {
+  display: block;
+}
+
 .site-footer__tagline {
   max-width: 18rem;
   margin-top: 0.9rem;
