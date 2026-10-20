@@ -49,7 +49,7 @@ window.SITE_CONFIG = {
     },
     {
       id: "halloween",
-      mostrar: true,
+      mostrar: false,
       forzar: false,
       desde: "10-20",
       hasta: "10-31",

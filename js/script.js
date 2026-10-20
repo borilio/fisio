@@ -477,7 +477,7 @@
       (width, height) => {
         w = width;
         h = height;
-        const target = Math.max(6, Math.min(20, Math.round(w / 70)));   // pocos: 6 en móvil, 20 máx.
+        const target = Math.max(3, Math.min(5, Math.round(w / 200)));   // pocos: entre 3 y 5 según el ancho
         while (items.length < target) items.push(newItem(true));
         items.length = target;
       },
