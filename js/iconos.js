@@ -179,6 +179,36 @@
     peaton: {
       extra: 'stroke-linecap="round" stroke-linejoin="round"',
       svg: '<circle cx="13" cy="4" r="2"/><path d="m9.5 21 2.5-6.5 3 3V21"/><path d="M12 14.5 12.5 8.5 8 11v3"/><path d="m12.5 8.5 2.5 3.5 3 1"/>'
+    },
+
+    // Hueso (tratamientos: traumatología y ortopedia)
+    hueso: {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<path transform="rotate(-45 12 12)" d="M7.5 10.75H16.5A2.5 2.5 0 1 1 19.25 12A2.5 2.5 0 1 1 16.5 13.25H7.5A2.5 2.5 0 1 1 4.75 12A2.5 2.5 0 1 1 7.5 10.75Z"/>'
+    },
+
+    // Pesa (tratamientos: deportivas)
+    pesa: {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>'
+    },
+
+    // Maletín (tratamientos: laborales)
+    maletin: {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 5v2"/><path d="M3 12.5h18"/><path d="M12 11.5v2"/>'
+    },
+
+    // Cerebro (tratamientos: patologías neurológicas)
+    cerebro: {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<path d="M12 5a3 3 0 0 0-5.6-1.4A3 3 0 0 0 4 8.5a3 3 0 0 0 .5 5.4A3.5 3.5 0 0 0 9 19.5a3 3 0 0 0 3-1.5Z"/><path d="M12 5a3 3 0 0 1 5.6-1.4A3 3 0 0 1 20 8.5a3 3 0 0 1-.5 5.4A3.5 3.5 0 0 1 15 19.5a3 3 0 0 1-3-1.5Z"/><path d="M12 5v13"/><path d="M8 9.5a2 2 0 0 1 2 2M16 9.5a2 2 0 0 0-2 2"/>'
+    },
+
+    // Círculo con + (tratamientos: otros)
+    mas: {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'
     }
   };
 

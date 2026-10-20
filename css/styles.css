@@ -499,6 +499,297 @@ iframe {
 }
 
 /* =====================================================
+   TRATAMIENTOS
+   Tarjetas por categoría: cabecera de color (icono + título) + lista.
+   - .treat-card--wide → ocupa 2 columnas (traumatología, con sus grupos en 2 columnas)
+   - .treat-card--full → ocupa toda la fila (otros tratamientos, lista en columnas)
+   - .treat-card--blue / --rose / --orange / --indigo / --violet / --green → color de la cabecera
+   - Móvil (< 768px): cada tarjeta se despliega al tocar su cabecera (script.js añade
+     .is-collapsible a .treat-grid; sin JavaScript, las tarjetas se ven abiertas).
+   ===================================================== */
+.treat-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .treat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .treat-card--wide,
+  .treat-card--full {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .treat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .treat-card--wide {
+    grid-column: span 2;
+  }
+}
+
+.treat-card {
+  /* Colores de la cabecera (cada variante los cambia) */
+  --treat-c1: #d1fae5;
+  --treat-c2: #ccfbf1;
+  --treat-ink: #047857;
+  --treat-sheen: rgba(255, 255, 255, 0.75);
+  --treat-icon-bg: rgba(255, 255, 255, 0.7);
+
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.treat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--treat-ink);
+}
+
+.treat-card--blue   { --treat-c1: #dbeafe; --treat-c2: #e0f2fe; --treat-ink: #1d4ed8; }
+.treat-card--rose   { --treat-c1: #ffe4e6; --treat-c2: #fce7f3; --treat-ink: #be123c; }
+.treat-card--orange { --treat-c1: #ffedd5; --treat-c2: #fef3c7; --treat-ink: #c2410c; }
+.treat-card--indigo { --treat-c1: #e0e7ff; --treat-c2: #ede9fe; --treat-ink: #4338ca; }
+.treat-card--violet { --treat-c1: #f3e8ff; --treat-c2: #fae8ff; --treat-ink: #7e22ce; }
+.treat-card--green  { --treat-c1: #d1fae5; --treat-c2: #ccfbf1; --treat-ink: #047857; }
+
+html[data-theme="dark"] .treat-card {
+  --treat-sheen: rgba(255, 255, 255, 0.08);
+  --treat-icon-bg: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .treat-card--blue   { --treat-c1: rgba(59, 130, 246, 0.28);  --treat-c2: rgba(14, 165, 233, 0.1);  --treat-ink: #93c5fd; }
+html[data-theme="dark"] .treat-card--rose   { --treat-c1: rgba(244, 63, 94, 0.26);   --treat-c2: rgba(236, 72, 153, 0.1);  --treat-ink: #fda4af; }
+html[data-theme="dark"] .treat-card--orange { --treat-c1: rgba(249, 115, 22, 0.26);  --treat-c2: rgba(245, 158, 11, 0.1);  --treat-ink: #fdba74; }
+html[data-theme="dark"] .treat-card--indigo { --treat-c1: rgba(99, 102, 241, 0.28);  --treat-c2: rgba(139, 92, 246, 0.1);  --treat-ink: #a5b4fc; }
+html[data-theme="dark"] .treat-card--violet { --treat-c1: rgba(168, 85, 247, 0.28);  --treat-c2: rgba(217, 70, 239, 0.1);  --treat-ink: #d8b4fe; }
+html[data-theme="dark"] .treat-card--green  { --treat-c1: rgba(16, 185, 129, 0.26);  --treat-c2: rgba(20, 184, 166, 0.1);  --treat-ink: #6ee7b7; }
+
+/* Por defecto, todas las cabeceras en el verde de la marca.
+   🤓 Truco (script.js): el código Konami (↑ ↑ ↓ ↓ ← → ← → B A) o tocar 10 veces el título
+   "Tratamientos" añade .treat-colores a <html> y se ven los colores por categoría.
+   Para dejar los colores siempre, borra estos dos bloques. */
+html:not(.treat-colores) .treat-grid .treat-card {
+  --treat-c1: #e3f4ef;
+  --treat-c2: #f4fbf8;
+  --treat-ink: var(--brand);
+}
+
+html[data-theme="dark"]:not(.treat-colores) .treat-grid .treat-card {
+  --treat-c1: rgba(122, 215, 192, 0.18);
+  --treat-c2: rgba(122, 215, 192, 0.05);
+  --treat-ink: var(--brand);
+}
+
+/* Cabecera: degradado de su color + un brillo en la esquina (no es un color plano) */
+.treat-card__head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.1rem 1.5rem;
+  background:
+    radial-gradient(120% 160% at 0% 0%, var(--treat-sheen) 0%, transparent 45%),
+    linear-gradient(135deg, var(--treat-c1) 0%, var(--treat-c2) 100%);
+}
+
+.treat-card__inner {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.treat-card__inner > .treat-card__group:first-child {
+  margin-top: 0;
+}
+
+.treat-card__icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  background: var(--treat-icon-bg);
+  color: var(--treat-ink);
+}
+
+.treat-card__icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+/* El icono da un pequeño salto al pasar el ratón por la tarjeta */
+.treat-card:hover .treat-card__icon svg {
+  animation: treat-pop 0.6s ease;
+}
+
+@keyframes treat-pop {
+  0%, 100% { transform: none; }
+  40%      { transform: scale(1.18) rotate(-8deg); }
+  70%      { transform: scale(0.95) rotate(4deg); }
+}
+
+.treat-card__title {
+  margin: 0;
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+/* Subgrupos (Columna vertebral, Musculares…, Vasculares) */
+.treat-card__group {
+  margin: 1rem 0 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.treat-card__groups {
+  display: grid;
+  gap: 0 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .treat-card__groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.treat-card__groups .treat-card__group {
+  margin-top: 0.5rem;
+}
+
+/* Listas con un punto de color */
+.treat-list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.treat-list li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.925rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.treat-list li::before {
+  content: "";
+  position: absolute;
+  top: 0.6em;
+  left: 0.15rem;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background: var(--treat-ink);
+  opacity: 0.6;
+}
+
+@media (min-width: 640px) {
+  .treat-list--columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .treat-list--columns {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Móvil: tarjetas plegables (solo si script.js ha activado .is-collapsible) */
+@media (max-width: 767px) {
+  .treat-grid.is-collapsible .treat-card__head {
+    cursor: pointer;
+    padding-right: 3rem;
+  }
+
+  /* Flecha que gira al abrir */
+  .treat-grid.is-collapsible .treat-card__head::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 1.4rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-right: 2px solid var(--treat-ink);
+    border-bottom: 2px solid var(--treat-ink);
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform 0.25s ease;
+  }
+
+  .treat-grid.is-collapsible .treat-card.is-open .treat-card__head::after {
+    transform: translateY(-30%) rotate(225deg);
+  }
+
+  .treat-grid.is-collapsible .treat-card__head:focus-visible {
+    outline: 2px solid var(--treat-ink);
+    outline-offset: -4px;
+    border-radius: 20px;
+  }
+
+  /* Despliegue suave: la fila pasa de 0 a su altura */
+  .treat-grid.is-collapsible .treat-card__body {
+    display: grid;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+  }
+
+  .treat-grid.is-collapsible.is-ready .treat-card__body {
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .treat-grid.is-collapsible .treat-card:not(.is-open) .treat-card__body {
+    grid-template-rows: 0fr;
+  }
+
+  .treat-grid.is-collapsible .treat-card__inner {
+    min-height: 0;
+  }
+
+  /* Al plegar, el relleno interior también desaparece (si no, asomaría la primera línea) */
+  .treat-grid.is-collapsible.is-ready .treat-card__inner {
+    transition: padding 0.3s ease;
+  }
+
+  .treat-grid.is-collapsible .treat-card:not(.is-open) .treat-card__inner {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .treat-card,
+  .treat-card:hover {
+    transform: none;
+  }
+
+  .treat-grid.is-ready .treat-card__body,
+  .treat-grid.is-ready .treat-card__inner {
+    transition: none !important;
+  }
+
+  .treat-card:hover .treat-card__icon svg {
+    animation: none;
+  }
+}
+
+/* =====================================================
    ACCIDENTES DE TRÁFICO
    - Destacados: UNESPA (verde de la marca, con su logo) y "0 €" (naranja)
    - Ventajas, pasos (el 1.º enlaza a Contacto), a quién atendemos y texto completo desplegable

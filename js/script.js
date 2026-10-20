@@ -833,6 +833,88 @@
   renderMap();
 
   /* -----------------------------------------------------
+     Tratamientos: en móvil (< 768px) cada tarjeta se despliega
+     al tocar su cabecera. En pantallas grandes se ven abiertas.
+     ----------------------------------------------------- */
+  const treatGrid = document.querySelector(".treat-grid");
+
+  if (treatGrid) {
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+    const treatHeads = treatGrid.querySelectorAll(".treat-card__head");
+
+    const applyTreatMode = () => {
+      const isMobile = mobileQuery.matches;
+      treatGrid.classList.toggle("is-collapsible", isMobile);
+      treatHeads.forEach((head) => {
+        if (isMobile) {
+          head.setAttribute("role", "button");
+          head.tabIndex = 0;
+          head.setAttribute("aria-expanded", String(head.parentElement.classList.contains("is-open")));
+        } else {
+          head.removeAttribute("role");
+          head.removeAttribute("tabindex");
+          head.removeAttribute("aria-expanded");
+        }
+      });
+    };
+
+    const toggleTreatCard = (head) => {
+      if (!mobileQuery.matches) return;
+      const isOpen = head.parentElement.classList.toggle("is-open");
+      head.setAttribute("aria-expanded", String(isOpen));
+    };
+
+    treatHeads.forEach((head) => {
+      head.addEventListener("click", () => toggleTreatCard(head));
+      head.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleTreatCard(head);
+        }
+      });
+    });
+
+    applyTreatMode();
+    mobileQuery.addEventListener("change", applyTreatMode);
+    // La animación de despliegue se activa después de pintar (así no se ve plegarse al cargar)
+    requestAnimationFrame(() => treatGrid.classList.add("is-ready"));
+  }
+
+  /* -----------------------------------------------------
+     🤓 Truco: colores por categoría en las tarjetas de Tratamientos
+     - Ordenador: código Konami (↑ ↑ ↓ ↓ ← → ← → B A)
+     - Móvil: tocar 10 veces seguidas el título "Tratamientos" (como el modo desarrollador de Android)
+     Activa/desactiva .treat-colores en <html>. No se guarda: al recargar, vuelve al verde.
+     ----------------------------------------------------- */
+  const toggleTreatColors = () => document.documentElement.classList.toggle("treat-colores");
+
+  const KONAMI = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
+  let konamiPos = 0;
+  document.addEventListener("keydown", (e) => {
+    const key = e.key.toLowerCase();
+    konamiPos = key === KONAMI[konamiPos] ? konamiPos + 1 : (key === KONAMI[0] ? 1 : 0);
+    if (konamiPos === KONAMI.length) {
+      konamiPos = 0;
+      toggleTreatColors();
+    }
+  });
+
+  const treatTitle = document.querySelector("#tratamientos .section-title");
+  if (treatTitle) {
+    let taps = 0;
+    let tapTimer = null;
+    treatTitle.addEventListener("click", () => {
+      taps += 1;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(() => { taps = 0; }, 1500);   // los 10 toques, con menos de 1,5 s entre uno y otro
+      if (taps === 10) {
+        taps = 0;
+        toggleTreatColors();
+      }
+    });
+  }
+
+  /* -----------------------------------------------------
      Año en el footer
      ----------------------------------------------------- */
   const yearEl = document.getElementById("year");

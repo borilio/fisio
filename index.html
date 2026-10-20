@@ -300,28 +300,159 @@
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
         <div class="mb-8 max-w-2xl">
           <h2 class="section-title">Tratamientos</h2>
-          <p class="dev-notice"><span class="dev-notice__dot"></span>Sección pendiente de desarrollar</p>
-          <p class="section-subtitle">Recuperación integral, adaptada a cada persona.</p>
-          <p class="section-copy">Abordamos la rehabilitación desde una perspectiva individual, con protocolos claros y acompañamiento continuo durante cada fase del tratamiento.</p>
+          <p class="section-subtitle">Especializados en el alivio del dolor y en el tratamiento de patologías crónicas y agudas.</p>
         </div>
 
-        <div class="grid gap-4 md:grid-cols-3">
-          <article class="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-            <div class="mb-4 inline-flex rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Física</div>
-            <h3 class="font-display text-xl font-bold text-slate-900">Fisioterapia general</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600">Tratamiento de dolor, movilidad y fortalecimiento para devolver la calidad de vida a pacientes con lesiones o limitaciones funcionales.</p>
+        <div class="treat-grid">
+          <!-- Traumatología (tarjeta ancha: sus 4 grupos en 2 columnas) -->
+          <article class="treat-card treat-card--wide treat-card--blue">
+            <div class="treat-card__head">
+              <span class="treat-card__icon"><span data-icon="hueso"></span></span>
+              <h3 class="treat-card__title">Traumatología y ortopedia</h3>
+            </div>
+            <div class="treat-card__body">
+              <div class="treat-card__inner">
+                <div class="treat-card__groups">
+                  <div>
+                    <h4 class="treat-card__group">Columna vertebral</h4>
+                    <ul class="treat-list">
+                      <li>Cervicalgias</li>
+                      <li>Lumbalgias</li>
+                      <li>Ciatalgias</li>
+                      <li>Hernias discales, etc.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="treat-card__group">Musculares</h4>
+                    <ul class="treat-list">
+                      <li>Contracturas</li>
+                      <li>Desgarros</li>
+                      <li>Tendinitis</li>
+                      <li>Roturas fibrilares, etc.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="treat-card__group">Articulares</h4>
+                    <ul class="treat-list">
+                      <li>Luxaciones</li>
+                      <li>Esguinces</li>
+                      <li>Lesiones de menisco y ligamentos</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="treat-card__group">Postoperatorios</h4>
+                    <ul class="treat-list">
+                      <li>Recuperación funcional</li>
+                      <li>Cicatrices</li>
+                      <li>Prótesis, etc.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </article>
 
-          <article class="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-            <div class="mb-4 inline-flex rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Deportiva</div>
-            <h3 class="font-display text-xl font-bold text-slate-900">Rehabilitación deportiva</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600">Plan de recuperación para lesiones en deporte y entrenamiento, con enfoque en retorno seguro y control progresivo de la actividad.</p>
+          <article class="treat-card treat-card--rose">
+            <div class="treat-card__head">
+              <span class="treat-card__icon"><span data-icon="mano"></span></span>
+              <h3 class="treat-card__title">Reumatológicos</h3>
+            </div>
+            <div class="treat-card__body">
+              <div class="treat-card__inner">
+                <ul class="treat-list">
+                  <li>Artrosis, artritis, reuma</li>
+                  <li>Capsulitis, espondilitis, periartritis</li>
+                  <li>Procesos degenerativos</li>
+                  <li>Retracción de Dupuytren</li>
+                </ul>
+                <h4 class="treat-card__group">Vasculares</h4>
+                <ul class="treat-list">
+                  <li>Inflamaciones</li>
+                  <li>Edemas vasculares o linfáticos</li>
+                  <li>Piernas cansadas y/o trastornos de circulación de retorno</li>
+                </ul>
+              </div>
+            </div>
           </article>
 
-          <article class="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-            <div class="mb-4 inline-flex rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Trauma</div>
-            <h3 class="font-display text-xl font-bold text-slate-900">Lesiones y traumatismos</h3>
-            <p class="mt-3 text-sm leading-6 text-slate-600">Atención para esguinces, contracturas, golpes, fracturas y secuelas postraumáticas, con seguimiento y prevención del dolor.</p>
+          <article class="treat-card treat-card--orange">
+            <div class="treat-card__head">
+              <span class="treat-card__icon"><span data-icon="pesa"></span></span>
+              <h3 class="treat-card__title">Deportivas</h3>
+            </div>
+            <div class="treat-card__body">
+              <div class="treat-card__inner">
+                <ul class="treat-list">
+                  <li>Codo de tenista (epicondilitis) y codo de golfista (epitrocleitis)</li>
+                  <li>Periostitis</li>
+                  <li>Tendinitis específicas</li>
+                  <li>Acortamientos musculares o fasciales</li>
+                  <li>Pubalgias (osteopatía de pubis)</li>
+                  <li>Esguinces, luxaciones…</li>
+                  <li>Tratamiento de reeducación al esfuerzo</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="treat-card treat-card--indigo">
+            <div class="treat-card__head">
+              <span class="treat-card__icon"><span data-icon="maletin"></span></span>
+              <h3 class="treat-card__title">Laborales</h3>
+            </div>
+            <div class="treat-card__body">
+              <div class="treat-card__inner">
+                <ul class="treat-list">
+                  <li>Cervicalgias y braquialgias</li>
+                  <li>Dorsalgias, lumbalgias y ciáticas</li>
+                  <li>Hombro doloroso y/o congelado, síndrome de impactación del hombro</li>
+                  <li>Síndrome del supraespinoso (manguito de los rotadores)</li>
+                  <li>Sudeck, algodistrofias, etc.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="treat-card treat-card--violet">
+            <div class="treat-card__head">
+              <span class="treat-card__icon"><span data-icon="cerebro"></span></span>
+              <h3 class="treat-card__title">Patologías neurológicas infantiles y del adulto</h3>
+            </div>
+            <div class="treat-card__body">
+              <div class="treat-card__inner">
+                <ul class="treat-list">
+                  <li>Guillain-Barré</li>
+                  <li>Fibromialgias</li>
+                  <li>Esclerosis múltiple</li>
+                  <li>Parkinson</li>
+                  <li>Hemiplejías</li>
+                  <li>Espina bífida</li>
+                  <li>ACV, ictus, etc.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Otros (tarjeta ancha: la lista en columnas) -->
+          <article class="treat-card treat-card--full treat-card--green">
+            <div class="treat-card__head">
+              <span class="treat-card__icon"><span data-icon="mas"></span></span>
+              <h3 class="treat-card__title">Otros tratamientos</h3>
+            </div>
+            <div class="treat-card__body">
+              <div class="treat-card__inner">
+                <ul class="treat-list treat-list--columns">
+                  <li>Amputaciones</li>
+                  <li>Cirugía general y plástica</li>
+                  <li>Fisioterapia respiratoria</li>
+                  <li>Escuela de espalda</li>
+                  <li>Masaje para bebés e infantil Shantala</li>
+                  <li>Rehabilitación geriátrica, neonatología y obstétrica</li>
+                  <li>Terapia de inducción miofascial y craneosacra</li>
+                  <li>Técnicas de Mitchell y osteopatía</li>
+                </ul>
+              </div>
+            </div>
           </article>
         </div>
       </div>
