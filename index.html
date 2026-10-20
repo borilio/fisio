@@ -396,24 +396,122 @@
     <!-- ========================================================= -->
     <section id="accidentes" class="bg-slate-100">
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
-        <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div>
-            <h2 class="section-title">Accidentes de tráfico</h2>
-            <p class="dev-notice"><span class="dev-notice__dot"></span>Sección pendiente de desarrollar</p>
-            <p class="section-subtitle">Tu recuperación después de un accidente, con ayuda y seguimiento.</p>
-            <p class="section-copy">Si has sufrido un accidente de tráfico, tratamos las secuelas físicas de forma individualizada y coordinamos la documentación necesaria para facilitar la gestión con aseguradoras y profesionales implicados.</p>
+        <div class="mb-8 max-w-2xl">
+          <h2 class="section-title">Accidentes de tráfico</h2>
+          <p class="section-subtitle">¿Has sufrido un accidente? Nosotros nos encargamos de todo.</p>
+        </div>
+
+        <!-- Los dos destacados: UNESPA y sin ningún coste -->
+        <div class="traffic-highlights">
+          <div class="traffic-unespa">
+            <span class="traffic-unespa__kicker">Centro adherido a</span>
+            <img src="img/logos/unespa.png" alt="UNESPA" class="traffic-unespa__logo" width="445" height="87">
+            <span class="traffic-unespa__text">Trabajamos con todas las aseguradoras de vehículos.</span>
+            <a class="traffic-unespa__link" href="https://www.unespa.es/" target="_blank" rel="noopener">¿Qué es UNESPA? <span aria-hidden="true">↗</span><span class="visually-hidden"> (se abre en otra pestaña)</span></a>
           </div>
 
-          <div class="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 class="font-display text-xl font-bold text-slate-900">Qué incluimos</h3>
-            <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
-              <li>• Evaluación inicial y diagnóstico funcional.</li>
-              <li>• Plan de tratamiento personalizado.</li>
-              <li>• Seguimiento de evolución y objetivos.</li>
-              <li>• Acompañamiento en la gestión del proceso.</li>
-            </ul>
+          <div class="traffic-free">
+            <strong class="traffic-free__amount">0&nbsp;€</strong>
+            <span class="traffic-free__title">Sin ningún coste para ti</span>
+            <span class="traffic-free__text">Nos hacemos cargo de todo: autorizaciones, trámites y gestiones con la aseguradora.</span>
           </div>
         </div>
+
+        <!-- Ventajas -->
+        <ul class="traffic-perks">
+          <li class="traffic-perk">
+            <span class="traffic-perk__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8Z"/><path d="M14 2.5V8h5.5"/><path d="m9 14.5 2 2 4-4"/></svg>
+            </span>
+            <span class="traffic-perk__title">Sin papeleos</span>
+            <span class="traffic-perk__text">Sin autorizaciones ni gestiones con las compañías de seguros: los trámites son cosa nuestra.</span>
+          </li>
+          <li class="traffic-perk">
+            <span class="traffic-perk__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v5a4 4 0 0 0 8 0V3"/><path d="M4 3h2M12 3h2"/><path d="M9 12v2.5a5.5 5.5 0 0 0 11 0V13"/><circle cx="20" cy="11" r="2"/></svg>
+            </span>
+            <span class="traffic-perk__title">Médico especialista</span>
+            <span class="traffic-perk__text">Te atiende desde el primer momento y hace el seguimiento hasta el final del tratamiento.</span>
+          </li>
+          <li class="traffic-perk">
+            <span class="traffic-perk__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></svg>
+            </span>
+            <span class="traffic-perk__title">Fisioterapia especializada</span>
+            <span class="traffic-perk__text">Tratamientos manuales y específicos para cada lesión, con fisioterapeutas de gran experiencia.</span>
+          </li>
+        </ul>
+
+        <!-- Cómo funciona -->
+        <div class="traffic-block">
+          <h3 class="traffic-block__title">Cómo funciona</h3>
+          <ol class="traffic-steps">
+            <li class="traffic-step">
+              <span class="traffic-step__num" aria-hidden="true">1</span>
+              <span class="traffic-step__body">
+                <span class="traffic-step__title">Llámanos</span>
+                <span class="traffic-step__text">Cuéntanos qué ha pasado, sin compromiso, y te damos cita.</span>
+                <a class="traffic-step__link" href="#contacto">Ver teléfono y contacto <span aria-hidden="true">→</span></a>
+              </span>
+            </li>
+            <li class="traffic-step">
+              <span class="traffic-step__num" aria-hidden="true">2</span>
+              <span class="traffic-step__body">
+                <span class="traffic-step__title">Hablamos con la aseguradora</span>
+                <span class="traffic-step__text">Nos encargamos de las autorizaciones y de todos los trámites.</span>
+              </span>
+            </li>
+            <li class="traffic-step">
+              <span class="traffic-step__num" aria-hidden="true">3</span>
+              <span class="traffic-step__body">
+                <span class="traffic-step__title">Empiezas tu tratamiento</span>
+                <span class="traffic-step__text">Con seguimiento médico y fisioterapia hasta el final.</span>
+              </span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- A quién atendemos -->
+        <div class="traffic-block">
+          <h3 class="traffic-block__title">¿A quién atendemos?</h3>
+          <ul class="traffic-who">
+            <li class="traffic-who__item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11.5 7 6.5h10l2 5"/><path d="M3.5 11.5h17v5h-17Z"/><circle cx="7.5" cy="18" r="1.5"/><circle cx="16.5" cy="18" r="1.5"/></svg>
+              Conductores
+            </li>
+            <li class="traffic-who__item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><circle cx="16.5" cy="9" r="2.5"/><path d="M15.5 14.1A5 5 0 0 1 21 19"/></svg>
+              Acompañantes
+            </li>
+            <li class="traffic-who__item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="16.5" r="3"/><circle cx="19" cy="16.5" r="3"/><path d="M8 16.5h6l2.5-4.5H9.5L8 10H4.5"/><path d="M19 16.5 15.5 7.5H18"/><path d="M12 12v4.5"/></svg>
+              Motoristas
+            </li>
+            <li class="traffic-who__item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 10h7l2.5 6.5"/><path d="m9 10 3 6.5 4-6.5"/><path d="M15 6.5h2l-1 3.5"/><path d="M7.5 7.5h3"/></svg>
+              Ciclistas
+            </li>
+            <li class="traffic-who__item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="3" width="15" height="15" rx="2.5"/><path d="M4.5 10.5h15"/><path d="M7.5 18v2.5M16.5 18v2.5"/><circle cx="8.5" cy="14.5" r=".8" fill="currentColor"/><circle cx="15.5" cy="14.5" r=".8" fill="currentColor"/></svg>
+              Transporte público
+            </li>
+            <li class="traffic-who__item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="m9.5 21 2.5-6.5 3 3V21"/><path d="M12 14.5 12.5 8.5 8 11v3"/><path d="m12.5 8.5 2.5 3.5 3 1"/></svg>
+              Peatones atropellados
+            </li>
+          </ul>
+        </div>
+
+        <!-- Texto completo (desplegable) -->
+        <details class="traffic-more">
+          <summary class="traffic-more__summary">Más información</summary>
+          <div class="traffic-more__body">
+            <p>Nuestro centro, Clínica de Fisioterapia Costa del Sol, forma parte de <strong>UNESPA</strong> para la atención de lesionados en accidentes de tráfico. Según el Convenio Marco de Asistencia Sanitaria, y con la colaboración de todas las compañías de seguros, podemos realizar el tratamiento médico y/o rehabilitador a todas las personas que han sufrido lesiones en un accidente de tráfico, sin que tengan que preocuparse de las autorizaciones ni de las gestiones con las compañías de seguros: nosotros nos ocupamos de todos los trámites.</p>
+            <p>Ofrecemos una recuperación basada en tratamientos manuales y específicos para cada lesión, con una atención siempre personalizada y de calidad. Desde el primer momento te atiende un médico especialista, que hace el seguimiento hasta la finalización del tratamiento, junto a fisioterapeutas especializados y con gran experiencia.</p>
+            <p>Tanto si conduces como si viajas de acompañante, en coche, moto, bicicleta o transporte público, o si sufres un atropello como peatón, tienes derecho a exigir y a recibir el tratamiento sanitario adecuado. En Clínica de Fisioterapia Costa del Sol te lo damos, ocupándonos de todas las gestiones administrativas y <strong>sin ningún gasto para ti</strong>.</p>
+          </div>
+        </details>
+
       </div>
     </section>
 

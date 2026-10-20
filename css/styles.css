@@ -498,6 +498,373 @@ iframe {
   }
 }
 
+/* =====================================================
+   ACCIDENTES DE TRÁFICO
+   - Destacados: UNESPA (verde de la marca, con su logo) y "0 €" (naranja)
+   - Ventajas, pasos (el 1.º enlaza a Contacto), a quién atendemos y texto completo desplegable
+   ===================================================== */
+.traffic-highlights {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .traffic-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* UNESPA: bloque verde, el nombre muy grande */
+.traffic-unespa {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: var(--on-brand);
+  box-shadow: var(--card-shadow);
+}
+
+/* Logo oficial (PNG azul con fondo transparente): se pinta del color del texto del bloque
+   con un filtro → blanco en modo claro, casi negro en modo oscuro (fondo verde menta) */
+.traffic-unespa__logo {
+  width: auto;
+  height: clamp(2.4rem, 6vw, 3.2rem);
+  margin: 0.5rem 0 0.25rem;
+  filter: brightness(0) invert(1);
+}
+
+html[data-theme="dark"] .traffic-unespa__logo {
+  filter: brightness(0);
+}
+
+.traffic-unespa__kicker {
+  font-size: 0.95rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.traffic-unespa__text {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.92;
+}
+
+/* Enlace externo a la web de UNESPA (mismo color que el texto del bloque) */
+.traffic-unespa__link {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+}
+
+.traffic-unespa__link:hover,
+.traffic-unespa__link:focus-visible {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.traffic-unespa__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Sin ningún coste: "0 €" enorme en naranja */
+.traffic-free {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1.5rem;
+  border: 2px solid var(--accent);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
+}
+
+.traffic-free__amount {
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: clamp(3.4rem, 8vw, 4.75rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-text);
+}
+
+.traffic-free__title {
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.traffic-free__text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+/* Ventajas */
+.traffic-perks {
+  display: grid;
+  gap: 1rem;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .traffic-perks {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.traffic-perk {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.traffic-perk:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand);
+  box-shadow: 0 10px 20px -8px rgba(15, 23, 42, 0.18);
+}
+
+.traffic-perk__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.25rem;
+  border-radius: 9999px;
+  background: rgba(31, 111, 100, 0.1);
+  color: var(--brand);
+}
+
+.traffic-perk__icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.traffic-perk__title {
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.traffic-perk__text {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+
+/* Bloques con título (Cómo funciona / A quién atendemos) */
+.traffic-block {
+  margin-bottom: 2.5rem;
+}
+
+.traffic-block__title {
+  margin: 0 0 1rem;
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+/* Pasos numerados, unidos por una línea en ordenador */
+.traffic-steps {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .traffic-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.traffic-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.traffic-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-top: 0.45rem;             /* el título queda a la altura del número */
+}
+
+.traffic-step__num {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: var(--brand);
+  color: var(--on-brand);
+  font-family: "Sora", system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.traffic-step__title {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.traffic-step__text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.traffic-step__link {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.traffic-step__link span {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.traffic-step__link:hover,
+.traffic-step__link:focus-visible {
+  color: var(--brand-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.traffic-step__link:hover span,
+.traffic-step__link:focus-visible span {
+  transform: translateX(3px);
+}
+
+/* A quién atendemos: etiquetas con icono */
+.traffic-who {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.traffic-who__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.traffic-who__item svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--accent-ink);
+  flex-shrink: 0;
+}
+
+/* Texto completo (desplegable) */
+.traffic-more {
+  margin-bottom: 0;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.traffic-more__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--brand);
+  list-style: none;
+}
+
+.traffic-more__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Flecha que gira al abrir */
+.traffic-more__summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 0.2s ease;
+}
+
+.traffic-more[open] .traffic-more__summary::after {
+  transform: rotate(225deg) translate(-2px, -2px);
+}
+
+.traffic-more__summary:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 18px;
+}
+
+.traffic-more__body {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.traffic-more__body p {
+  margin: 0 0 0.85rem;
+}
+
+.traffic-more__body p:last-child {
+  margin-bottom: 0;
+}
+
+.traffic-more__body strong {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .traffic-perk,
+  .traffic-perk:hover {
+    transform: none;
+  }
+}
+
 .legal-list {
   list-style: none;
   padding-left: 1rem;
