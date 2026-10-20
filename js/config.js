@@ -1,16 +1,25 @@
-/* =====================================================
+/* #####################################################
    DATOS DE LA CLÍNICA
    Edita aquí y se actualiza toda la web.
    - Respeta las comillas "..." y las comas al final de cada línea.
-   - Del aviso legal, aquí solo están los datos del titular (bloque "legal");
-     el texto en sí se edita en index.html.
-   ===================================================== */
+   ##################################################### */
 window.SITE_CONFIG = {
 
-  // Versión de la web: se muestra en el pie, junto al copyright
-  version: "1.0.0",
+  /* =====================================================
+     WEB
+     ===================================================== */
+  // - version: se muestra en el pie, junto al copyright.
+  // - url: dirección oficial de la web (la usa la "ficha" invisible para Google).
+  web: {
+    version: "1.0.0",
+    url: "https://fisioterapiacostadelsol.com/"
+  },
 
-  // AVISO IMPORTANTE (eventual): aparece al principio de la portada y se puede cerrar.
+
+  /* =====================================================
+     AVISO IMPORTANTE (eventual)
+     ===================================================== */
+  // Aparece al principio de la portada y se puede cerrar.
   // - mostrar: true para mostrarlo, false para ignorarlo por completo.
   // - desde / hasta: se muestra entre esas dos fechas, ambas incluidas ("AAAA-MM-DD").
   //     desde "" = desde ya;  hasta "" = sin fecha de fin (siempre que mostrar sea true).
@@ -25,9 +34,13 @@ window.SITE_CONFIG = {
     hasta: ""
   },
 
-  // TEMPORADAS: efectos visuales en toda la web en ciertas épocas del año.
+
+  /* =====================================================
+     TEMPORADAS
+     ===================================================== */
+  // Efectos visuales en toda la web en ciertas épocas del año.
   // - id: qué efecto se usa. Disponibles:
-  //     "navidad"   → nieve cayendo
+  //     "navidad"     → nieve cayendo
   //     "halloween"   → emojis flotando hacia arriba que aparecen y desaparecen
   //     "sanvalentin" → emojis flotando hacia arriba que además laten como un corazón
   // - emojis: lista de emojis. En los efectos de emojis se mezclan al azar.
@@ -65,30 +78,37 @@ window.SITE_CONFIG = {
     }
   ],
 
-  // Datos de contacto
-  // Teléfono tal y como se muestra. El enlace para llamar se genera solo
-  // (si no empieza por +, se añade el prefijo +34).
-  telefono: "952 44 66 55",
 
-  // Email y asunto que aparece al pulsar "Enviar email".
-  email: "info@fisioterapiacostadelsol.com",
-  asuntoEmail: "Consulta Web",
+  /* =====================================================
+     CONTACTO
+     ===================================================== */
+  contacto: {
+    // Teléfono tal y como se muestra. El enlace para llamar se genera solo
+    // (si no empieza por +, se añade el prefijo +34).
+    telefono: "952 44 66 55",
 
-  direccion: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga",
+    // Email y asunto que aparece al pulsar "Enviar email".
+    email: "info@fisioterapiacostadelsol.com",
+    asuntoEmail: "Consulta Web",
 
-  // Para Google (no se ve en la web): dirección de la web y dirección postal desglosada.
-  // Se usa para la "ficha" invisible que lee Google (búsquedas locales).
-  // Conviene que coincida con la ficha de Google Maps de la clínica.
-  web: "https://fisioterapiacostadelsol.com/",
-  direccionPostal: {
-    calle: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel",
-    localidad: "Benalmádena",
-    codigoPostal: "29631",
-    provincia: "Málaga"
+    // Dirección tal y como se muestra en la web.
+    direccion: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga",
+
+    // La misma dirección, desglosada. No se ve en la web: la usa la "ficha" invisible
+    // que lee Google (búsquedas locales). Conviene que coincida con la ficha de Google Maps.
+    direccionPostal: {
+      calle: "Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel",
+      localidad: "Benalmádena",
+      codigoPostal: "29631",
+      provincia: "Málaga"
+    }
   },
 
-  // Datos del titular para el aviso legal.
-  // (Dirección, teléfono y email del aviso legal se toman de los campos de arriba.)
+
+  /* =====================================================
+     DATOS LEGALES (titular del aviso legal)
+     ===================================================== */
+  // Dirección, teléfono y email del aviso legal se toman de "contacto".
   // Lo que esté como "PENDIENTE" se resalta en rojo en el aviso legal.
   legal: {
     titular: "María José Luzón Rodríguez",
@@ -99,7 +119,11 @@ window.SITE_CONFIG = {
     titulo: "Diplomada en Fisioterapia"
   },
 
-  // Horario de apertura (hora de España). Formato "HH:MM".
+
+  /* =====================================================
+     HORARIO
+     ===================================================== */
+  // Hora de España. Formato "HH:MM".
   // Cada día admite varios tramos; [] = cerrado.
   // A partir de aquí se genera el texto del horario y el aviso "Abierto/Cerrado ahora".
   horarioSemanal: {
@@ -112,7 +136,11 @@ window.SITE_CONFIG = {
     domingo:   []
   },
 
-  // Festivos: ese día no se dice "Cerrado", sino que se avisa de que PUEDE estar cerrado.
+
+  /* =====================================================
+     FESTIVOS
+     ===================================================== */
+  // Ese día no se dice "Cerrado", sino que se avisa de que PUEDE estar cerrado.
   festivos: {
     // Se repiten cada año (formato "MM-DD"): nacionales + Andalucía (28-02) + local (24-06, San Juan).
     fijos: ["01-01", "01-06", "02-28", "05-01", "06-24", "08-15", "10-12", "11-01", "12-06", "12-08", "12-25"],
@@ -125,6 +153,10 @@ window.SITE_CONFIG = {
     otros: []
   },
 
+
+  /* =====================================================
+     MAPA (Google Maps)
+     ===================================================== */
   mapa: {
     // Google Maps > tu ficha > Compartir > Insertar un mapa > copiar solo lo que va en src="..."
     embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3203.0333642337337!2d-4.5353024222942!3d36.6015054788715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd72fc9adf00f32b%3A0x5ba100d9b97b64e7!2sFisioterapia%20Costa%20del%20Sol!5e0!3m2!1ses!2ses!4v1791539616490!5m2!1ses!2ses",

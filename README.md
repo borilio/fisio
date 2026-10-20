@@ -21,8 +21,10 @@ Web de la clínica Fisioterapia Costa del Sol (Benalmádena, Málaga). Hecha con
 
 | Apartado | Qué contiene |
 | --- | --- |
+| **Web** | Versión de la web (se muestra en el pie) y dirección oficial |
 | **Aviso** | Aviso eventual al principio de la web (cierres, novedades…), con fechas de inicio y fin |
-| **Contacto** | Teléfono, email y dirección |
+| **Temporadas** | Efectos de temporada (nieve en Navidad, emojis en Halloween y San Valentín), con sus fechas |
+| **Contacto** | Teléfono, email y dirección (también la dirección desglosada para Google) |
 | **Legal** | Datos de la titular que aparecen en el aviso legal |
 | **Horario y festivos** | Horario de apertura y festivos, usados para el aviso "Abierto / Cerrado ahora" |
 | **Mapa** | Enlaces del mapa de Google y de "Cómo llegar" |

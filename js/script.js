@@ -14,14 +14,17 @@
     return path.split(".").reduce((obj, key) => (obj == null ? undefined : obj[key]), config);
   }
 
+  const web = config.web || {};                              // { version, url }
+  const contacto = config.contacto || {};                    // { telefono, email, asuntoEmail, direccion, direccionPostal }
+
   const links = {};
-  if (config.telefono) {
-    const digits = config.telefono.replace(/[^\d+]/g, "");
+  if (contacto.telefono) {
+    const digits = contacto.telefono.replace(/[^\d+]/g, "");
     links.tel = "tel:" + (digits.startsWith("+") ? digits : "+34" + digits);
   }
-  if (config.email) {
-    links.mailto = "mailto:" + config.email +
-      (config.asuntoEmail ? "?subject=" + encodeURIComponent(config.asuntoEmail) : "");
+  if (contacto.email) {
+    links.mailto = "mailto:" + contacto.email +
+      (contacto.asuntoEmail ? "?subject=" + encodeURIComponent(contacto.asuntoEmail) : "");
   }
 
   /* -----------------------------------------------------
@@ -88,10 +91,10 @@
      Se genera a partir de config.js (nombre, teléfono, dirección,
      horario...) y se añade invisible en el <head>.
      ----------------------------------------------------- */
-  if (config.web) {
-    const web = config.web.replace(/\/?$/, "/");
+  if (web.url) {
+    const url = web.url.replace(/\/?$/, "/");
     const legal = config.legal || {};
-    const postal = config.direccionPostal;
+    const postal = contacto.direccionPostal;
     const SCHEMA_DAYS = {
       lunes: "Monday", martes: "Tuesday", miercoles: "Wednesday", jueves: "Thursday",
       viernes: "Friday", sabado: "Saturday", domingo: "Sunday"
@@ -108,13 +111,13 @@
     const data = {
       "@context": "https://schema.org",
       "@type": "Physiotherapy",
-      "@id": web + "#clinica",
+      "@id": url + "#clinica",
       name: legal.nombreComercial || "Fisioterapia Costa del Sol",
-      url: web,
-      image: web + "img/og-imagen.jpg",
-      logo: web + "img/logo_cuadrado.png",
+      url,
+      image: url + "img/og-imagen.jpg",
+      logo: url + "img/logo_cuadrado.png",
       telephone: links.tel ? links.tel.slice(4) : undefined,      // "+34952446655"
-      email: config.email,
+      email: contacto.email,
       address: postal ? {
         "@type": "PostalAddress",
         streetAddress: postal.calle,
@@ -542,13 +545,13 @@
   }
 
   /* -----------------------------------------------------
-     Versión en el pie (config.version) + emoji de las temporadas activas
+     Versión en el pie (config.web.version) + emoji de las temporadas activas
      Ej.: "· v1.0.0 🎃"
      ----------------------------------------------------- */
   const versionEl = document.getElementById("site-version");
   if (versionEl) {
     const partes = [];
-    if (config.version) partes.push(`v${config.version}`);
+    if (web.version) partes.push(`v${web.version}`);
     partes.push(...emojisTemporadasActivas);
     if (partes.length) {
       versionEl.textContent = `· ${partes.join(" ")}`;
