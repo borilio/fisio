@@ -102,13 +102,8 @@
           <span>Apariencia</span>
           <span class="theme-switch" aria-hidden="true">
             <span class="theme-switch__knob">
-              <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <circle cx="12" cy="12" r="4"/>
-                <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
-              </svg>
-              <svg class="theme-switch__icon theme-switch__icon--moon" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>
-              </svg>
+              <span data-icon="sol" class="theme-switch__icon theme-switch__icon--sun"></span>
+              <span data-icon="luna" class="theme-switch__icon theme-switch__icon--moon"></span>
             </span>
           </span>
         </button>
@@ -119,20 +114,13 @@
              En móvil se oculta aquí y aparece dentro del menú desplegable. -->
         <button type="button" class="theme-switch theme-switch--header" data-theme-toggle role="switch" aria-checked="false" aria-label="Modo oscuro" title="Cambiar a modo oscuro">
           <span class="theme-switch__knob">
-            <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <circle cx="12" cy="12" r="4"/>
-              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
-            </svg>
-            <svg class="theme-switch__icon theme-switch__icon--moon" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-              <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>
-            </svg>
+            <span data-icon="sol" class="theme-switch__icon theme-switch__icon--sun"></span>
+            <span data-icon="luna" class="theme-switch__icon theme-switch__icon--moon"></span>
           </span>
         </button>
 
         <button type="button" id="nav-toggle" class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
-            <path d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+          <span data-icon="menu" class="h-5 w-5"></span>
         </button>
       </div>
     </div>
@@ -153,8 +141,8 @@
         <!-- Aviso importante eventual: lo muestra script.js si config.aviso.mostrar es true -->
         <div class="site-notice" id="site-notice" role="region" aria-labelledby="site-notice-title" hidden>
           <!-- Icono según el tipo (el CSS muestra solo el que corresponde) -->
-          <svg class="site-notice__icon site-notice__icon--urgente" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg>
-          <svg class="site-notice__icon site-notice__icon--info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.5h.01"/></svg>
+          <span data-icon="aviso-urgente" class="site-notice__icon site-notice__icon--urgente"></span>
+          <span data-icon="aviso-info" class="site-notice__icon site-notice__icon--info"></span>
           <div class="site-notice__body">
             <p class="site-notice__title" id="site-notice-title"></p>
             <p class="site-notice__text"></p>
@@ -167,9 +155,9 @@
           Comprometidos con<br><span class="hero-highlight">tu bienestar</span>
         </h1>
         <ul class="hero-trust">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Desde 1995</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Fisioterapeutas colegiados</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Trato personalizado</li>
+          <li><span data-icon="check"></span>Desde 1995</li>
+          <li><span data-icon="check"></span>Fisioterapeutas colegiados</li>
+          <li><span data-icon="check"></span>Trato personalizado</li>
         </ul>
         <div class="mobile-cta-stack mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a href="#contacto" class="btn-neon inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-semibold no-underline transition duration-200 sm:w-auto">Pedir cita</a>
@@ -246,79 +234,49 @@
             <ul class="equip-grid">
               <li class="equip-item equip-item--red">
                 <span class="equip-item__icon" aria-hidden="true">
-                  <svg class="equip-ico equip-ico--lamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 1.5V4"/>
-                    <path d="M4 12a8 8 0 0 1 16 0Z"/>
-                    <path class="equip-ico__bulb" d="M9.5 12a2.5 2.5 0 0 0 5 0" fill="currentColor" fill-opacity=".35"/>
-                    <path class="equip-ico__ray" d="M7 17l-1.2 2.8"/>
-                    <path class="equip-ico__ray" d="M12 17.5v3"/>
-                    <path class="equip-ico__ray" d="M17 17l1.2 2.8"/>
-                  </svg>
+                  <span data-icon="lampara" class="equip-ico equip-ico--lamp"></span>
                 </span>
                 <span class="equip-item__name">Infrarrojos</span>
               </li>
 
               <li class="equip-item equip-item--cold">
                 <span class="equip-item__icon" aria-hidden="true">
-                  <svg class="equip-ico equip-ico--snow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L12 22M3.34 7L20.66 17M3.34 17L20.66 7"/>
-                    <path d="M9.88 3.88L12 6L14.12 3.88M3.91 9.78L6.8 9L6.03 6.1M6.03 17.9L6.8 15L3.91 14.22M14.12 20.12L12 18L9.88 20.12M20.09 14.22L17.2 15L17.97 17.9M17.97 6.1L17.2 9L20.09 9.78"/>
-                  </svg>
+                  <span data-icon="copo" class="equip-ico equip-ico--snow"></span>
                 </span>
                 <span class="equip-item__name">Crioterapia</span>
               </li>
 
               <li class="equip-item equip-item--hot">
                 <span class="equip-item__icon" aria-hidden="true">
-                  <svg class="equip-ico equip-ico--waves" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/>
-                    <path d="M9 8.5a5 5 0 0 1 0 7"/>
-                    <path d="M13 5.5a9.5 9.5 0 0 1 0 13"/>
-                    <path d="M17 2.5a14 14 0 0 1 0 19"/>
-                  </svg>
+                  <span data-icon="microondas" class="equip-ico equip-ico--waves"></span>
                 </span>
                 <span class="equip-item__name">Microondas</span>
               </li>
 
               <li class="equip-item">
                 <span class="equip-item__icon" aria-hidden="true">
-                  <svg class="equip-ico equip-ico--ripple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="2.5"/>
-                    <path d="M7.5 7.5a6.4 6.4 0 0 0 0 9M16.5 7.5a6.4 6.4 0 0 1 0 9"/>
-                    <path d="M4.5 4.5a10.6 10.6 0 0 0 0 15M19.5 4.5a10.6 10.6 0 0 1 0 15"/>
-                  </svg>
+                  <span data-icon="ultrasonidos" class="equip-ico equip-ico--ripple"></span>
                 </span>
                 <span class="equip-item__name">Ultrasonidos</span>
               </li>
 
               <li class="equip-item">
                 <span class="equip-item__icon" aria-hidden="true">
-                  <svg class="equip-ico equip-ico--laser" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="1.5" y="9.5" width="6.5" height="5" rx="1.2"/>
-                    <path class="equip-ico__beam" d="M8 12h7.5"/>
-                    <path class="equip-ico__burst" d="M18.5 7.3v1.9M18.5 14.8v1.9M23 12h-1.9M21.7 8.8l-1.3 1.3M21.7 15.2l-1.3-1.3"/>
-                  </svg>
+                  <span data-icon="laser" class="equip-ico equip-ico--laser"></span>
                 </span>
                 <span class="equip-item__name">Laserterapia</span>
               </li>
 
               <li class="equip-item">
                 <span class="equip-item__icon" aria-hidden="true">
-                  <svg class="equip-ico equip-ico--magnet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 10.5h4v4a3 3 0 0 0 6 0v-4h4v4a7 7 0 0 1-14 0Z"/>
-                    <path d="M5 13.5h4M15 13.5h4"/>
-                    <path class="equip-ico__field" d="M7 7.5a5 3 0 0 1 10 0" stroke-width="1.6" stroke-dasharray="1.8 2"/>
-                    <path class="equip-ico__field" d="M4 5a8 4 0 0 1 16 0" stroke-width="1.6" stroke-dasharray="1.8 2"/>
-                  </svg>
+                  <span data-icon="iman" class="equip-ico equip-ico--magnet"></span>
                 </span>
                 <span class="equip-item__name">Magnetoterapia</span>
               </li>
 
               <li class="equip-item equip-item--wide equip-item--hot">
                 <span class="equip-item__icon" aria-hidden="true">
-                  <svg class="equip-ico equip-ico--bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2Z"/>
-                  </svg>
+                  <span data-icon="rayo" class="equip-ico equip-ico--bolt"></span>
                 </span>
                 <span class="equip-item__name">Corrientes eléctricas</span>
                 <span class="equip-tags">
@@ -421,21 +379,21 @@
         <ul class="traffic-perks">
           <li class="traffic-perk">
             <span class="traffic-perk__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8Z"/><path d="M14 2.5V8h5.5"/><path d="m9 14.5 2 2 4-4"/></svg>
+              <span data-icon="documento"></span>
             </span>
             <span class="traffic-perk__title">Sin papeleos</span>
             <span class="traffic-perk__text">Sin autorizaciones ni gestiones con las compañías de seguros: los trámites son cosa nuestra.</span>
           </li>
           <li class="traffic-perk">
             <span class="traffic-perk__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v5a4 4 0 0 0 8 0V3"/><path d="M4 3h2M12 3h2"/><path d="M9 12v2.5a5.5 5.5 0 0 0 11 0V13"/><circle cx="20" cy="11" r="2"/></svg>
+              <span data-icon="fonendo"></span>
             </span>
             <span class="traffic-perk__title">Médico especialista</span>
             <span class="traffic-perk__text">Te atiende desde el primer momento y hace el seguimiento hasta el final del tratamiento.</span>
           </li>
           <li class="traffic-perk">
             <span class="traffic-perk__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></svg>
+              <span data-icon="mano"></span>
             </span>
             <span class="traffic-perk__title">Fisioterapia especializada</span>
             <span class="traffic-perk__text">Tratamientos manuales y específicos para cada lesión, con fisioterapeutas de gran experiencia.</span>
@@ -476,28 +434,28 @@
           <h3 class="traffic-block__title">¿A quién atendemos?</h3>
           <ul class="traffic-who">
             <li class="traffic-who__item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11.5 7 6.5h10l2 5"/><path d="M3.5 11.5h17v5h-17Z"/><circle cx="7.5" cy="18" r="1.5"/><circle cx="16.5" cy="18" r="1.5"/></svg>
+              <span data-icon="coche"></span>
               Conductores
             </li>
             <li class="traffic-who__item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><circle cx="16.5" cy="9" r="2.5"/><path d="M15.5 14.1A5 5 0 0 1 21 19"/></svg>
+              <span data-icon="personas"></span>
               Acompañantes
             </li>
             <li class="traffic-who__item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="16.5" r="3"/><circle cx="19" cy="16.5" r="3"/><path d="M8 16.5h6l2.5-4.5H9.5L8 10H4.5"/><path d="M19 16.5 15.5 7.5H18"/><path d="M12 12v4.5"/></svg>
+              <span data-icon="moto"></span>
               Motoristas
             </li>
             <li class="traffic-who__item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 10h7l2.5 6.5"/><path d="m9 10 3 6.5 4-6.5"/><path d="M15 6.5h2l-1 3.5"/><path d="M7.5 7.5h3"/></svg>
+              <span data-icon="bici"></span>
               Ciclistas
             </li>
             <li class="traffic-who__item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="3" width="15" height="15" rx="2.5"/><path d="M4.5 10.5h15"/><path d="M7.5 18v2.5M16.5 18v2.5"/><circle cx="8.5" cy="14.5" r=".8" fill="currentColor"/><circle cx="15.5" cy="14.5" r=".8" fill="currentColor"/></svg>
+              <span data-icon="autobus"></span>
               Transporte público
             </li>
             <li class="traffic-who__item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="m9.5 21 2.5-6.5 3 3V21"/><path d="M12 14.5 12.5 8.5 8 11v3"/><path d="m12.5 8.5 2.5 3.5 3 1"/></svg>
-              Peatones atropellados
+              <span data-icon="peaton"></span>
+              Peatones
             </li>
           </ul>
         </div>
@@ -529,7 +487,7 @@
         <div class="mb-6 grid gap-3 sm:grid-cols-3">
           <a class="contact-action contact-action--primary" href="tel:+34952446655" data-config-href="tel">
             <span class="contact-action__icon">
-              <svg class="phone-ring" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.2Z"/></svg>
+              <span data-icon="telefono" class="phone-ring"></span>
             </span>
             <span>
               <span class="contact-action__title">Llamar</span>
@@ -540,7 +498,7 @@
 
           <a class="contact-action" href="https://www.google.com/maps/dir/?api=1&amp;destination=Fisioterapia+Costa+del+Sol,+Benalm%C3%A1dena" data-config-href="mapa.ruta" target="_blank" rel="noopener">
             <span class="contact-action__icon">
-              <svg class="compass-seek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 19-9-9 19-2-8-8-2Z"/></svg>
+              <span data-icon="brujula" class="compass-seek"></span>
             </span>
             <span>
               <span class="contact-action__title">Cómo llegar</span>
@@ -550,7 +508,7 @@
 
           <a class="contact-action" href="mailto:fisioterapiacostadelsol@hotmail.com?subject=Consulta%20Web" data-config-href="mailto">
             <span class="contact-action__icon">
-              <svg class="mail-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><g class="mail-send__lines" stroke-width="1.6" stroke-linecap="round"><path d="M-7 8.5h5.5M-10 12h8.5M-6 15.5h4.5"/></g><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path class="mail-send__flap" d="m3.5 7.5 7.4 5.2a1.9 1.9 0 0 0 2.2 0l7.4-5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span data-icon="sobre" class="mail-send"></span>
             </span>
             <span>
               <span class="contact-action__title">Enviar email</span>
@@ -564,7 +522,7 @@
           <div class="contact-card">
             <a class="contact-card__item" href="tel:+34952446655" data-config-href="tel">
               <span class="contact-card__icon">
-                <svg class="phone-ring" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8.1 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.2Z"/></svg>
+                <span data-icon="telefono" class="phone-ring"></span>
               </span>
               <span class="contact-card__text">
                 <span class="contact-card__label">Teléfono</span>
@@ -574,7 +532,7 @@
 
             <a class="contact-card__item" href="mailto:fisioterapiacostadelsol@hotmail.com?subject=Consulta%20Web" data-config-href="mailto">
               <span class="contact-card__icon">
-                <svg class="mail-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><g class="mail-send__lines" stroke-width="1.6" stroke-linecap="round"><path d="M-7 8.5h5.5M-10 12h8.5M-6 15.5h4.5"/></g><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path class="mail-send__flap" d="m3.5 7.5 7.4 5.2a1.9 1.9 0 0 0 2.2 0l7.4-5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span data-icon="sobre" class="mail-send"></span>
               </span>
               <span class="contact-card__text">
                 <span class="contact-card__label">Email</span>
@@ -584,7 +542,7 @@
 
             <a class="contact-card__item" href="https://maps.google.com/?cid=6602559463821632743" data-config-href="mapa.ficha" target="_blank" rel="noopener">
               <span class="contact-card__icon">
-                <svg class="pin-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span data-icon="marcador" class="pin-bounce"></span>
               </span>
               <span class="contact-card__text">
                 <span class="contact-card__label">Dirección</span>
@@ -594,7 +552,7 @@
 
             <div class="contact-card__item">
               <span class="contact-card__icon">
-                <svg class="clock-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path class="clock-spin__minute" d="M12 7v5"/><path class="clock-spin__hour" d="M12 12l3 2"/></svg>
+                <span data-icon="reloj" class="clock-spin"></span>
               </span>
               <span class="contact-card__text">
                 <span class="contact-card__label">Horario</span>
@@ -610,7 +568,7 @@
             <div class="contact-map__frame" id="map-frame">
               <div class="contact-map__placeholder" id="map-notice">
                 <span class="contact-map__pin">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span data-icon="marcador"></span>
                 </span>
                 <p class="contact-map__note">Para ver el mapa es necesario aceptar las cookies de Google Maps.</p>
                 <button type="button" class="contact-map__button" data-cookie-accept>Aceptar cookies y ver mapa</button>
@@ -788,6 +746,7 @@
     </div>
   </div>
 
+  <script src="js/iconos.js"></script>
   <script src="js/config.js"></script>
   <script src="js/script.js"></script>
 </body>
