@@ -158,7 +158,8 @@ window.SITE_CONFIG = {
      CONVENIOS
      ===================================================== */
   // Entidades con las que la clínica tiene convenio. Se pintan solas en la sección "Convenios".
-  // - destacados: tarjetas grandes con su logo, un título y una lista.
+  // - destacados: tarjetas grandes con su logo, un título, una lista y (opcional) una nota
+  //     debajo (admite <strong>...</strong> para negrita).
   // - categorias: pestañas; cada una con su lista de entidades.
   //     icono: nombre de un icono de js/iconos.js.
   //     enlace: (opcional) sección relacionada de la web, p. ej. "#accidentes".
@@ -182,6 +183,7 @@ window.SITE_CONFIG = {
         logo: "img/logos/clinica-arroyo.webp",
         titulo: "A través de Clínica Arroyo",
         lista: ["Sanitas", "Adeslas"],
+        nota: "Para estas compañías, la atención se gestiona <strong>siempre a través de Clínica Arroyo</strong>.",
       }
     ],
 

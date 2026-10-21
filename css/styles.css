@@ -911,6 +911,18 @@ html[data-theme="dark"] .conv-tablist {
   font-weight: 500;
 }
 
+/* Nota opcional de una tarjeta destacada (config: nota) */
+.conv-feature__note {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.conv-feature__note strong {
+  color: var(--text);
+}
+
 /* Sin movimiento: la cinta no se mueve sola (lo controla script.js), pero se puede arrastrar */
 @media (prefers-reduced-motion: reduce) {
   .conv-panel {

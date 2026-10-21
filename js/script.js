@@ -1026,6 +1026,7 @@
             <h3 class="conv-feature__name">${escapeHtml(d.nombre)}</h3>
             ${d.titulo ? `<p class="conv-feature__title">${escapeHtml(d.titulo)}</p>` : ""}
             ${(d.lista || []).length ? `<ul class="conv-feature__list">${d.lista.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : ""}
+            ${d.nota ? `<p class="conv-feature__note">${d.nota}</p>` : ""}
           </div>
         </article>`).join("");
     }
