@@ -14,6 +14,8 @@
      el estilo común (p. ej. la luna rellena o la ✓ de trazo grueso).
    - Las clases DENTRO del dibujo (p. ej. mail-send__flap) son piezas que se animan por separado.
    - Para añadir un icono: copia el contenido de su <svg> (lo de dentro) en una entrada nueva.
+   - Desde otro script: window.svgIcono("nombre", "clase") devuelve el <svg> como texto
+     (lo usa script.js para los iconos de Convenios, que se generan desde config.js).
    ===================================================== */
 (() => {
   "use strict";
@@ -209,22 +211,45 @@
     mas: {
       extra: 'stroke-linecap="round" stroke-linejoin="round"',
       svg: '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'
+    },
+
+    // Escudo con cruz (convenios: compañías sanitarias)
+    'escudo-salud': {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.4 7.5 10 4.3-1.6 7.5-5.4 7.5-10v-6Z"/><path d="M12 8.5v6M9 11.5h6"/>'
+    },
+
+    // Trofeo (convenios: federaciones deportivas)
+    trofeo: {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<path d="M7 3.5h10v5.5a5 5 0 0 1-10 0Z"/><path d="M7 5.5H4.5a3 3 0 0 0 3 4.5M17 5.5h2.5a3 3 0 0 1-3 4.5"/><path d="M12 14v4"/><path d="M8 21h8M9.5 18h5"/>'
+    },
+
+    // Círculo con interrogación (convenios: aviso "¿No encuentras tu compañía?")
+    pregunta: {
+      extra: 'stroke-linecap="round" stroke-linejoin="round"',
+      svg: '<circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.8 2.6-2.8 2.6"/><path d="M12 16.8h.01"/>'
     }
   };
 
   const BASE = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"';
 
-  document.querySelectorAll("[data-icon]").forEach((el) => {
-    const icono = ICONOS[el.dataset.icon];
+  // Devuelve el <svg> de un icono como texto ("" si no existe)
+  function svgIcono(nombre, clase) {
+    const icono = ICONOS[nombre];
     if (!icono) {
-      console.warn("Icono desconocido:", el.dataset.icon);
-      return;
+      console.warn("Icono desconocido:", nombre);
+      return "";
     }
-    const clase = el.getAttribute("class");
     const atributos = icono.attrs || BASE + (icono.extra ? " " + icono.extra : "");
-    el.outerHTML =
-      `<svg ${atributos}${clase ? ` class="${clase}"` : ""} aria-hidden="true">` +
-      icono.svg +
-      "</svg>";
+    return `<svg ${atributos}${clase ? ` class="${clase}"` : ""} aria-hidden="true">${icono.svg}</svg>`;
+  }
+
+  // Para el contenido que se genera después con JavaScript (p. ej. Convenios en script.js)
+  window.svgIcono = svgIcono;
+
+  document.querySelectorAll("[data-icon]").forEach((el) => {
+    const svg = svgIcono(el.dataset.icon, el.getAttribute("class"));
+    if (svg) el.outerHTML = svg;
   });
 })();

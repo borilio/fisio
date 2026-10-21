@@ -155,6 +155,86 @@ window.SITE_CONFIG = {
 
 
   /* =====================================================
+     CONVENIOS
+     ===================================================== */
+  // Entidades con las que la clínica tiene convenio. Se pintan solas en la sección "Convenios".
+  // - destacados: tarjetas grandes con su logo, un título y una lista.
+  // - categorias: pestañas; cada una con su lista de entidades.
+  //     icono: nombre de un icono de js/iconos.js.
+  //     enlace: (opcional) sección relacionada de la web, p. ej. "#accidentes".
+  //     nota: (opcional) frase que aparece encima de los logos de esa pestaña.
+  //       Admite <strong>...</strong> para negrita.
+  // - Cada entidad: { nombre: "...", logo: "img/logos/archivo.png" }
+  //     logo "" = todavía no hay logo: se muestra el nombre escrito en su lugar.
+  //     Los logos deben tener fondo TRANSPARENTE: en modo oscuro se muestran en blanco.
+  //     placa: true = ese logo se muestra a color sobre una placa clara también en modo oscuro
+  //       (para logos que en blanco no se entienden, p. ej. letras dentro de un recuadro de color).
+  convenios: {
+    destacados: [
+      {
+        nombre: "Patronato Deportivo de Benalmádena",
+        logo: "img/logos/patronato.webp",
+        titulo: "Clubes deportivos municipales",
+        lista: ["Hockey", "Gimnasia rítmica", "Pádel", "Tenis", "Bádminton"],
+      },
+      {
+        nombre: "Clínica Arroyo",
+        logo: "img/logos/clinica-arroyo.webp",
+        titulo: "A través de Clínica Arroyo",
+        lista: ["Sanitas", "Adeslas"],
+      }
+    ],
+
+    categorias: [
+      {
+        titulo: "Compañías sanitarias",
+        icono: "escudo-salud",
+        entidades: [
+          { nombre: "ASSSA", logo: "img/logos/asssa.webp" },
+          { nombre: "DKV", logo: "img/logos/dkv.svg" },
+          { nombre: "HNA", logo: "img/logos/hna.webp" },
+          { nombre: "Mapfre", logo: "img/logos/mapfre.svg" },
+          { nombre: "Medifiatc", logo: "img/logos/medifiatc.svg" },
+          { nombre: "Sersanet", logo: "img/logos/sersanet.webp" }
+        ]
+      },
+      {
+        titulo: "Accidentes de tráfico",
+        icono: "coche",
+        enlace: "#accidentes",
+        nota: "Gracias al convenio <strong>UNESPA</strong>, atendemos a lesionados de <strong>todas las aseguradoras de vehículos</strong>.<br>También colaboramos con varias gestoras sanitarias.",
+        entidades: [
+          { nombre: "UNESPA", logo: "img/logos/unespa.webp" },
+          { nombre: "Gerosalud", logo: "img/logos/gerosalud.svg" },
+          { nombre: "Gestimédica", logo: "img/logos/gestimedica.webp" },
+          { nombre: "HNA-Fision", logo: "img/logos/fision.webp" },
+          { nombre: "Siglo XXI", logo: "img/logos/sigloxxi.webp" }
+        ]
+      },
+      {
+        titulo: "Mutuas laborales",
+        icono: "maletin",
+        entidades: [
+          { nombre: "Mutua Intercomarcal", logo: "img/logos/mutua-intercomarcal.webp" }
+        ]
+      },
+      {
+        titulo: "Federaciones deportivas",
+        icono: "trofeo",
+        entidades: [
+          { nombre: "Beiman", logo: "img/logos/beiman.svg" },
+          { nombre: "Baloncesto", logo: "" },
+          { nombre: "Balonmano", logo: "" },
+          { nombre: "Fútbol", logo: "" },
+          { nombre: "Judo", logo: "" },
+          { nombre: "Natación", logo: "" }
+        ]
+      }
+    ]
+  },
+
+
+  /* =====================================================
      MAPA (Google Maps)
      ===================================================== */
   mapa: {

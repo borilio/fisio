@@ -468,18 +468,25 @@
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
         <div class="mb-8 max-w-2xl">
           <h2 class="section-title">Convenios</h2>
-          <p class="dev-notice"><span class="dev-notice__dot"></span>Sección pendiente de desarrollar</p>
-          <p class="section-subtitle">Trabajamos con entidades y aseguradoras.</p>
-          <p class="section-copy">Asesoramos sobre la vía de atención más adecuada y facilitamos la tramitación para que puedas iniciar tu tratamiento con la máxima comodidad.</p>
+          <p class="section-subtitle">Además de tratar al paciente de forma privada, tenemos firmados diversos convenios de colaboración con distintas entidades.</p>
         </div>
 
-        <ul class="flex flex-wrap gap-3">
-          <li class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">Mutua de trabajo</li>
-          <li class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">Seguros de salud</li>
-          <li class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">Accidentes de tráfico</li>
-          <li class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">Convenios empresariales</li>
-          <li class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">Aseguradoras</li>
-        </ul>
+        <!-- Todo el contenido se genera desde js/config.js (bloque "convenios") en script.js -->
+        <!-- Cinta de logos en movimiento (decorativa: la información está en las pestañas) -->
+        <div class="conv-marquee" data-conv-marquee aria-hidden="true"></div>
+
+        <!-- Pestañas por tipo de entidad -->
+        <div class="conv-tabs" data-conv-tabs></div>
+
+        <!-- Convenios destacados (Patronato, Clínica Arroyo) -->
+        <div class="conv-featured" data-conv-destacados></div>
+
+        <!-- ¿No encuentras tu compañía? → Contacto -->
+        <div class="conv-help">
+          <span class="conv-help__icon"><span data-icon="pregunta"></span></span>
+          <p class="conv-help__text"><strong>¿No encuentras tu compañía o tienes dudas?</strong> Contacta con nosotros y te lo confirmamos.</p>
+          <a class="conv-help__link" href="#contacto">Ir a contacto <span aria-hidden="true">→</span></a>
+        </div>
       </div>
     </section>
 
@@ -497,7 +504,7 @@
         <div class="traffic-highlights">
           <div class="traffic-unespa">
             <span class="traffic-unespa__kicker">Centro adherido a</span>
-            <img src="img/logos/unespa.png" alt="UNESPA" class="traffic-unespa__logo" width="445" height="87">
+            <img src="img/logos/unespa.webp" alt="UNESPA" class="traffic-unespa__logo" width="445" height="87">
             <span class="traffic-unespa__text">Trabajamos con todas las aseguradoras de vehículos.</span>
             <a class="traffic-unespa__link" href="https://www.unespa.es/" target="_blank" rel="noopener">¿Qué es UNESPA? <span aria-hidden="true">↗</span><span class="visually-hidden"> (se abre en otra pestaña)</span></a>
           </div>

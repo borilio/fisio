@@ -833,6 +833,205 @@
   renderMap();
 
   /* -----------------------------------------------------
+     Convenios (config.convenios)
+     - Cinta de logos en movimiento (decorativa)
+     - Pestañas por tipo de entidad (accesibles con teclado: flechas, Inicio, Fin)
+     - Tarjetas destacadas (Patronato, Clínica Arroyo)
+     Cada entidad muestra su logo si lo tiene; si no, su nombre escrito.
+     ----------------------------------------------------- */
+  const convenios = config.convenios;
+  const icono = (nombre, clase) => (window.svgIcono ? window.svgIcono(nombre, clase) : "");
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+  // Logo (o nombre escrito si aún no hay logo)
+  const convLogo = (e) =>
+    e.logo
+      ? `<img class="conv-logo__img" src="${escapeHtml(e.logo)}" alt="${escapeHtml(e.nombre)}" loading="lazy">`
+      : `<span class="conv-logo__name">${escapeHtml(e.nombre)}</span>`;
+  // Logos que en modo oscuro van a color sobre placa clara (config: placa: true)
+  const placa = (e) => (e.placa && e.logo ? " conv-logo--placa" : "");
+
+  /* Cinta de logos: se desplaza sola y se puede arrastrar (dedo: scroll nativo; ratón: arrastre).
+     Es infinita: el contenido va dos veces y, al pasar de una copia, se salta a la otra sin que se note.
+     Se para al pasar el ratón, al tocarla o arrastrarla, y se reanuda 1,5 s después de soltar.
+     Con el ratón, al soltar el arrastre sigue deslizándose y frena poco a poco (inercia). */
+  function iniciarCinta(cinta) {
+    const track = cinta.querySelector(".conv-marquee__track");
+    const VELOCIDAD = 30;                                   // píxeles por segundo (movimiento automático)
+    const FRENADO = 0.95;                                   // inercia del ratón: cuanto más cerca de 1, más se desliza
+    const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let pos = 0;                                            // posición con decimales (scrollLeft redondea)
+    let pausada = false;
+    let reanudar = null;
+    let ultimo = 0;
+    let ratonDentro = false;
+    let inercia = 0;                                        // velocidad al soltar el arrastre (px por ms)
+
+    const mitad = () => (track.scrollWidth + parseFloat(getComputedStyle(track).columnGap || 0)) / 2;
+    const ajustar = () => {                                 // bucle infinito en ambos sentidos
+      const m = mitad();
+      if (m <= 0) return;
+      if (pos >= m) pos -= m;
+      if (pos < 1) pos += m;                                // al llegar al principio, salta a la segunda copia
+      cinta.scrollLeft = pos;
+    };
+    const pausar = () => { pausada = true; clearTimeout(reanudar); };
+    const soltar = () => {                                  // reanuda a los 1,5 s (si el ratón no sigue encima)
+      clearTimeout(reanudar);
+      if (ratonDentro) return;
+      reanudar = setTimeout(() => { pausada = false; }, 1500);
+    };
+
+    const paso = (t) => {
+      const dt = ultimo ? Math.min(t - ultimo, 50) : 0;     // ms desde el fotograma anterior
+      if (inercia) {
+        // Tras soltar el arrastre: sigue deslizándose y frena poco a poco
+        pos += inercia * dt;
+        inercia *= Math.pow(FRENADO, dt / 16);
+        if (Math.abs(inercia) < 0.02) {
+          inercia = 0;
+          soltar();
+        }
+        ajustar();
+      } else if (dt && !pausada && !sinMovimiento) {
+        pos += (VELOCIDAD * dt) / 1000;
+        ajustar();
+      }
+      ultimo = t;
+      requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+
+    // Ratón por encima: pausa. (Solo ratón: en el móvil, tocar no cuenta como "estar encima")
+    cinta.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
+      ratonDentro = true;
+      pausar();
+    });
+    cinta.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
+      ratonDentro = false;
+      if (!cinta.classList.contains("is-dragging") && !inercia) soltar();
+    });
+
+    // Dedo: el navegador hace el scroll (con su propia inercia); solo seguimos la posición
+    cinta.addEventListener("touchstart", () => { inercia = 0; pausar(); }, { passive: true });
+    cinta.addEventListener("touchend", soltar, { passive: true });
+    cinta.addEventListener("scroll", () => {
+      if (!pausada || inercia || cinta.classList.contains("is-dragging")) return;   // lo hemos movido nosotros
+      pos = cinta.scrollLeft;
+      const m = mitad();
+      if (pos >= m || pos < 1) ajustar();                   // bucle infinito también al arrastrar
+    }, { passive: true });
+
+    // Ratón: arrastrar con clic (al soltar, sigue con inercia)
+    let antX = 0;
+    let antT = 0;
+    let vel = 0;
+    cinta.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      pausar();
+      inercia = 0;
+      vel = 0;
+      antX = e.clientX;
+      antT = e.timeStamp;
+      cinta.classList.add("is-dragging");
+      try { cinta.setPointerCapture(e.pointerId); } catch (err) { /* sin captura, sigue funcionando */ }
+    });
+    cinta.addEventListener("pointermove", (e) => {
+      if (!cinta.classList.contains("is-dragging")) return;
+      const dx = e.clientX - antX;
+      const dtMov = Math.max(e.timeStamp - antT, 1);
+      pos -= dx;
+      vel = 0.8 * (-dx / dtMov) + 0.2 * vel;                // velocidad suavizada (px por ms)
+      antX = e.clientX;
+      antT = e.timeStamp;
+      ajustar();
+    });
+    const finArrastre = (e) => {
+      if (!cinta.classList.contains("is-dragging")) return;
+      cinta.classList.remove("is-dragging");
+      // Si se soltó en movimiento (último movimiento hace menos de 100 ms), sigue con inercia
+      inercia = e.timeStamp - antT < 100 ? Math.max(-4, Math.min(4, vel)) : 0;
+      if (!inercia) soltar();
+    };
+    cinta.addEventListener("pointerup", finArrastre);
+    cinta.addEventListener("pointercancel", finArrastre);
+  }
+
+
+  if (convenios) {
+    const categorias = convenios.categorias || [];
+    const destacados = convenios.destacados || [];
+
+    // Cinta: todas las entidades, dos veces seguidas para que el bucle no tenga cortes
+    const cinta = document.querySelector("[data-conv-marquee]");
+    const todas = [...destacados, ...categorias.flatMap((c) => c.entidades || [])];
+    if (cinta && todas.length) {
+      const fila = todas.map((e) => `<span class="conv-logo${placa(e)}">${convLogo(e)}</span>`).join("");
+      cinta.innerHTML = `<div class="conv-marquee__track">${fila}${fila}</div>`;
+      iniciarCinta(cinta);
+    }
+
+    // Pestañas
+    const tabsBox = document.querySelector("[data-conv-tabs]");
+    if (tabsBox && categorias.length) {
+      const tabs = categorias.map((c, i) => `
+        <button type="button" class="conv-tab" role="tab" id="conv-tab-${i}" aria-controls="conv-panel-${i}"
+                aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">
+          ${icono(c.icono, "conv-tab__icon")}
+          <span class="conv-tab__title">${escapeHtml(c.titulo)}</span>
+        </button>`).join("");
+
+      const panels = categorias.map((c, i) => `
+        <div class="conv-panel" role="tabpanel" id="conv-panel-${i}" aria-labelledby="conv-tab-${i}" tabindex="0"${i === 0 ? "" : " hidden"}>
+          ${c.nota ? `<p class="conv-panel__note">${c.nota}</p>` : ""}
+          <ul class="conv-grid">
+            ${(c.entidades || []).map((e) => `<li class="conv-logo conv-logo--tile${placa(e)}" title="${escapeHtml(e.nombre)}">${convLogo(e)}</li>`).join("")}
+          </ul>
+          ${c.enlace ? `<a class="conv-panel__link" href="${escapeHtml(c.enlace)}">Cómo funciona la atención por accidente de tráfico <span aria-hidden="true">→</span></a>` : ""}
+        </div>`).join("");
+
+      tabsBox.innerHTML = `<div class="conv-tablist" role="tablist" aria-label="Tipos de convenio">${tabs}</div>${panels}`;
+
+      const tabEls = [...tabsBox.querySelectorAll(".conv-tab")];
+      const select = (i, focus) => {
+        tabEls.forEach((t, j) => {
+          const on = j === i;
+          t.setAttribute("aria-selected", String(on));
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(`conv-panel-${j}`).hidden = !on;
+        });
+        if (focus) tabEls[i].focus();
+      };
+      tabEls.forEach((t, i) => {
+        t.addEventListener("click", () => select(i, false));
+        t.addEventListener("keydown", (e) => {
+          const n = tabEls.length;
+          const destino = { ArrowRight: (i + 1) % n, ArrowDown: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, ArrowUp: (i - 1 + n) % n, Home: 0, End: n - 1 }[e.key];
+          if (destino === undefined) return;
+          e.preventDefault();
+          select(destino, true);
+        });
+      });
+    }
+
+    // Destacados
+    const destBox = document.querySelector("[data-conv-destacados]");
+    if (destBox && destacados.length) {
+      destBox.innerHTML = destacados.map((d) => `
+        <article class="conv-feature">
+          <div class="conv-feature__logo conv-logo${placa(d)}">${convLogo(d)}</div>
+          <div class="conv-feature__body">
+            <h3 class="conv-feature__name">${escapeHtml(d.nombre)}</h3>
+            ${d.titulo ? `<p class="conv-feature__title">${escapeHtml(d.titulo)}</p>` : ""}
+            ${(d.lista || []).length ? `<ul class="conv-feature__list">${d.lista.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : ""}
+          </div>
+        </article>`).join("");
+    }
+  }
+
+  /* -----------------------------------------------------
      Tratamientos: en móvil (< 768px) cada tarjeta se despliega
      al tocar su cabecera. En pantallas grandes se ven abiertas.
      ----------------------------------------------------- */

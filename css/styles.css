@@ -499,6 +499,431 @@ iframe {
 }
 
 /* =====================================================
+   CONVENIOS
+   Todo se genera desde config.convenios (script.js):
+   - .conv-marquee  → cinta de logos que se desliza sola (se para al pasar el ratón)
+   - .conv-tabs     → pestañas por tipo de entidad, con su cuadrícula de logos
+   - .conv-featured → tarjetas destacadas (Patronato, Clínica Arroyo)
+   Logos con fondo transparente: a color en modo claro y en blanco en modo oscuro (filtro).
+   .conv-logo--placa (config: placa: true) → a color sobre placa clara también en modo oscuro.
+   Sin logo, se muestra el nombre escrito.
+   ===================================================== */
+
+/* --- Placa de logo (o nombre) --- */
+.conv-logo {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: 4.25rem;
+  min-width: 9.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+/* Logo que necesita placa clara (también en modo oscuro) */
+.conv-logo--placa {
+  border-color: #e2e8f0;
+  background: #ffffff;
+}
+
+/* Modo oscuro: logos en blanco (salvo los de placa) */
+html[data-theme="dark"] .conv-logo:not(.conv-logo--placa) .conv-logo__img,
+html[data-theme="dark"] .conv-marquee .conv-logo:not(.conv-logo--placa):hover .conv-logo__img {
+  filter: brightness(0) invert(1);
+}
+
+.conv-logo__img {
+  max-width: 8rem;
+  max-height: 2.6rem;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.conv-logo__name {
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-soft);
+  text-align: center;
+  white-space: nowrap;               /* en la cinta: una línea (la placa se ensancha) */
+}
+
+/* En la cuadrícula, el logo nunca ocupa más que el espacio interior de la casilla (respeta el relleno) */
+.conv-logo--tile .conv-logo__img {
+  max-width: 100%;
+  max-height: 2.3rem;
+}
+
+/* En la cuadrícula las casillas tienen ancho fijo: los nombres largos pasan a dos líneas */
+.conv-logo--tile .conv-logo__name {
+  white-space: normal;
+  line-height: 1.25;
+}
+
+/* --- Cinta en movimiento ---
+   La mueve script.js (se desplaza sola y se puede arrastrar con el dedo o el ratón).
+   Es un contenedor con scroll horizontal, con la barra de desplazamiento oculta. */
+.conv-marquee {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;    /* al arrastrar con el dedo no "tira" de la página */
+  scrollbar-width: none;             /* sin barra de desplazamiento (Firefox) */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  margin-bottom: 2.5rem;
+  padding: 0.5rem 0;
+  /* los extremos se difuminan */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.conv-marquee::-webkit-scrollbar {
+  display: none;                     /* sin barra de desplazamiento (Chrome, Safari, Edge) */
+}
+
+.conv-marquee.is-dragging {
+  cursor: grabbing;
+}
+
+.conv-marquee__track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+}
+
+.conv-marquee img {
+  -webkit-user-drag: none;           /* que el logo no se "despegue" al arrastrar */
+  pointer-events: none;
+}
+
+/* Logos de la cinta en gris; recuperan su color al pasar el ratón */
+.conv-marquee .conv-logo__img,
+.conv-marquee .conv-logo__name {
+  filter: grayscale(1);
+  opacity: 0.6;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.conv-marquee .conv-logo:hover .conv-logo__img,
+.conv-marquee .conv-logo:hover .conv-logo__name {
+  filter: none;
+  opacity: 1;
+}
+
+/* --- Pestañas: una sola tarjeta con un selector segmentado arriba y los logos debajo ---
+   Al estar todo dentro de la misma caja se entiende que el selector cambia lo de abajo. */
+.conv-tabs {
+  padding: 1.25rem;
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  background: var(--card-bg);
+}
+
+/* Selector segmentado (una "barra" con las opciones; la activa, en verde) */
+.conv-tablist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+  padding: 0.3rem;
+  border-radius: 16px;
+  background: rgba(31, 111, 100, 0.08);
+}
+
+html[data-theme="dark"] .conv-tablist {
+  background: rgba(122, 215, 192, 0.07);
+}
+
+@media (min-width: 900px) {
+  .conv-tablist {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.conv-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;          /* icono y texto centrados en cada opción */
+  gap: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-soft);
+  font-weight: 600;
+  text-align: left;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.conv-tab:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.conv-tab:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.conv-tab[aria-selected="true"] {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.conv-tab__icon {
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.conv-tab__title {
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+@media (max-width: 639px) {
+  .conv-tabs {
+    padding: 1rem;
+  }
+
+  .conv-tab {
+    gap: 0.45rem;
+    padding: 0.6rem 0.6rem;
+  }
+
+  .conv-tab__title {
+    font-size: 0.9rem;
+  }
+
+  .conv-grid .conv-logo--tile {      /* más prioridad que la regla general de la casilla */
+    padding: 0.8rem 1rem;
+  }
+}
+
+/* Panel de cada pestaña (dentro de la tarjeta: sin recuadro propio) */
+.conv-panel {
+  border-radius: 12px;
+  animation: conv-panel-in 0.35s ease;
+}
+
+.conv-panel:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+}
+
+@keyframes conv-panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+.conv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conv-logo--tile {
+  min-width: 0;
+  padding: 0.9rem 1.25rem;          /* aire alrededor del logo */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.conv-logo--tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -8px rgba(15, 23, 42, 0.25);
+}
+
+/* Aviso "¿No encuentras tu compañía?" → enlace a Contacto.
+   Fondo naranja muy claro; el borde izquierdo y el icono en el naranja de la marca */
+.conv-help {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 2.25rem;              /* separado de la sombra de los destacados */
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));   /* naranja muy claro */
+}
+
+.conv-help__icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  color: var(--accent-ink);
+}
+
+.conv-help__icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.conv-help__text {
+  flex: 1 1 16rem;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.conv-help__text strong {
+  color: var(--text);
+}
+
+.conv-help__link {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  color: var(--brand);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.conv-help__link:hover,
+.conv-help__link:focus-visible {
+  border-color: var(--brand);
+  background: rgba(31, 111, 100, 0.06);
+  color: var(--brand);
+}
+
+.conv-help__link:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Frase opcional encima de los logos de una pestaña (config: nota) */
+.conv-panel__note {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}
+
+.conv-panel__note strong {
+  color: var(--text);
+}
+
+.conv-panel__link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.conv-panel__link:hover,
+.conv-panel__link:focus-visible {
+  color: var(--brand-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Destacados --- */
+.conv-featured {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .conv-featured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.conv-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
+}
+
+/* Placa cuadrada del logo destacado */
+.conv-feature__logo {
+  width: 6rem;
+  min-width: 0;
+  height: 6rem;
+  padding: 0.6rem;
+  border-radius: 18px;
+}
+
+.conv-feature__logo .conv-logo__img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.conv-feature__logo .conv-logo__name {
+  font-size: 0.8rem;
+  white-space: normal;
+}
+
+.conv-feature__name {
+  margin: 0;
+  font-family: "Sora", system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.conv-feature__title {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.conv-feature__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conv-feature__list li {
+  padding: 0.2rem 0.7rem;
+  border-radius: 9999px;
+  background: rgba(31, 111, 100, 0.1);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Sin movimiento: la cinta no se mueve sola (lo controla script.js), pero se puede arrastrar */
+@media (prefers-reduced-motion: reduce) {
+  .conv-panel {
+    animation: none;
+  }
+
+  .conv-logo--tile,
+  .conv-logo--tile:hover {
+    transform: none;
+  }
+}
+
+/* =====================================================
    TRATAMIENTOS
    Tarjetas por categoría: cabecera de color (icono + título) + lista.
    - .treat-card--wide → ocupa 2 columnas (traumatología, con sus grupos en 2 columnas)
@@ -1779,28 +2204,6 @@ a:focus-visible .mail-send__lines {
 html[data-theme="dark"] .contact-action:not(.contact-action--primary):hover,
 html[data-theme="dark"] .contact-action:not(.contact-action--primary):focus-visible {
   background: rgba(122, 215, 192, 0.08);
-}
-
-/* Aviso "Sección pendiente de desarrollar" (temporal, debajo del título) */
-.dev-notice {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.75rem;
-  padding: 0.25rem 0.75rem;
-  border: 1px solid color-mix(in srgb, var(--status-holiday) 35%, transparent);
-  border-radius: 9999px;
-  background: color-mix(in srgb, var(--status-holiday) 12%, transparent);
-  color: var(--status-holiday);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.dev-notice__dot {
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 9999px;
-  background: currentColor;
 }
 
 /* =====================================================
