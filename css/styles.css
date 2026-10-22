@@ -193,6 +193,104 @@ html[data-theme="dark"] .photo-caption {
     var(--surface);
 }
 
+/* Contacto con el botón de WhatsApp (4 botones): 2×2 en tablet, 4 en fila en ordenador.
+   (Selector con atributo para ganar a la clase sm:grid-cols-3 de Tailwind) */
+@media (min-width: 640px) {
+  [data-contact-actions].has-four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-contact-actions].has-four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* =====================================================
+   BOTÓN FLOTANTE DE WHATSAPP (lo crea script.js si config.whatsapp.flotante es true)
+   - Esquina inferior derecha; sube (--wa-lift) mientras se ve el aviso de cookies.
+   - Por debajo del aviso de cookies (z-index 70) y del aviso legal (100).
+   ===================================================== */
+.wa-float {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(1.25rem + var(--wa-lift, 0px) + env(safe-area-inset-bottom, 0px));
+  z-index: 65;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background: #25d366;              /* verde oficial de WhatsApp */
+  color: #ffffff;
+  box-shadow: 0 10px 25px -6px rgba(0, 0, 0, 0.35);
+  text-decoration: none;
+  transition: bottom 0.3s ease, transform 0.25s ease, opacity 0.25s ease, box-shadow 0.2s ease;
+}
+
+.wa-float:hover,
+.wa-float:focus-visible {
+  color: #ffffff;
+  transform: scale(1.07);
+  box-shadow: 0 14px 30px -6px rgba(0, 0, 0, 0.4);
+}
+
+.wa-float:focus-visible {
+  outline: 3px solid #25d366;
+  outline-offset: 3px;
+}
+
+.wa-float__icon {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+/* Oculto mientras se ve el pie de página (script.js), para no tapar sus enlaces */
+.wa-float.is-hidden {
+  opacity: 0;
+  transform: scale(0.6);
+  pointer-events: none;
+}
+
+/* Etiqueta "¿Hablamos?" a la izquierda del botón: aparece al pasar el ratón (solo ordenador) */
+.wa-float__label {
+  position: absolute;
+  right: calc(100% + 0.75rem);
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .wa-float:hover .wa-float__label,
+  .wa-float:focus-visible .wa-float__label {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float,
+  .wa-float__label {
+    transition: none;
+  }
+
+  .wa-float:hover,
+  .wa-float:focus-visible {
+    transform: none;
+  }
+}
+
 /* =====================================================
    EQUIPOS DE ELECTROTERAPIA (Instalaciones)
    Tarjeta con un mosaico de casillas: icono + nombre.

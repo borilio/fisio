@@ -598,7 +598,7 @@
         </div>
 
         <!-- Botones de acción directa -->
-        <div class="mb-6 grid gap-3 sm:grid-cols-3">
+        <div class="mb-6 grid gap-3 sm:grid-cols-3" data-contact-actions>
           <a class="contact-action contact-action--primary" href="tel:+34952446655" data-config-href="tel">
             <span class="contact-action__icon">
               <span data-icon="telefono" class="phone-ring"></span>
@@ -782,7 +782,7 @@
         <p><span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> | NIF: <span class="legal-field" data-config="legal.nif">25708121D</span> | Dirección postal: <span class="legal-field" data-config="contacto.direccion">Avd. Salvador Vicente, Conjunto Parquemiel, 6, Arroyo de la Miel, Benalmádena — 29631 Málaga</span> | Correo electrónico: <span class="legal-field" data-config="contacto.email">info@fisioterapiacostadelsol.com</span></p>
 
         <h4>¿Cómo obtenemos sus datos?</h4>
-        <p>A través de este sitio web no se recoge ningún dato personal. Únicamente tratamos los datos que usted nos facilite directamente al contactar con nosotros por correo electrónico o por teléfono, o al acudir a la clínica.</p>
+        <p>A través de este sitio web no se recoge ningún dato personal. Únicamente tratamos los datos que usted nos facilite directamente al contactar con nosotros por correo electrónico<span data-solo-whatsapp hidden>, por WhatsApp</span> o por teléfono, o al acudir a la clínica.</p>
 
         <h4>¿Qué datos tratamos?</h4>
         <ul class="legal-list">
@@ -809,13 +809,16 @@
         <p>Los datos se conservarán mientras se mantenga la relación comercial y, en su caso, durante los años necesarios para cumplir con las obligaciones legales que resulten de aplicación.</p>
 
         <h4>¿A qué destinatarios se comunicarán sus datos?</h4>
-        <p>Sus datos no se cederán a terceros, salvo en los casos en que exista una obligación legal (por ejemplo, cuando sean requeridos por las autoridades públicas competentes) o con su autorización expresa. No obstante, para la gestión del correo electrónico utilizamos servicios de Microsoft, que puede acceder a los datos contenidos en los mensajes en su condición de proveedor de dicho servicio.</p>
+        <p>Sus datos no se cederán a terceros, salvo en los casos en que exista una obligación legal (por ejemplo, cuando sean requeridos por las autoridades públicas competentes) o con su autorización expresa. No obstante, para la gestión del correo electrónico utilizamos servicios de Microsoft, que puede acceder a los datos contenidos en los mensajes en su condición de proveedor de dicho servicio.<span data-solo-whatsapp hidden> Del mismo modo, si nos escribe por WhatsApp, los mensajes se gestionan a través de WhatsApp Business, servicio prestado por WhatsApp Ireland Limited (grupo Meta), que puede acceder a ellos en su condición de proveedor de dicho servicio. Le recomendamos no enviar por este medio información sobre su salud más allá de la necesaria para gestionar su cita.</span></p>
 
         <h4>Confidencialidad y seguridad</h4>
         <p><span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> tratará sus datos de forma confidencial y ha adoptado las medidas de seguridad técnicas y organizativas adecuadas para protegerlos.</p>
 
         <h4>Transferencias de datos a terceros países</h4>
-        <p>Los datos que nos envíe por correo electrónico pueden ser tratados por Microsoft en servidores ubicados fuera del Espacio Económico Europeo, principalmente en Estados Unidos. Estas transferencias se realizan al amparo del Marco de Privacidad de Datos UE-EE. UU., en el que Microsoft está certificada, y de las garantías previstas en el RGPD. No se realizan otras transferencias de datos a terceros países.</p>
+        <p>Los datos que nos envíe por correo electrónico pueden ser tratados por Microsoft en servidores ubicados fuera del Espacio Económico Europeo, principalmente en Estados Unidos. Estas transferencias se realizan al amparo del Marco de Privacidad de Datos UE-EE. UU., en el que Microsoft está certificada, y de las garantías previstas en el RGPD.</p>
+        <!-- data-solo-whatsapp: solo se muestra si WhatsApp está activado en config.js (script.js) -->
+        <p data-solo-whatsapp hidden>Los mensajes que nos envíe por WhatsApp pueden ser tratados por Meta Platforms en servidores ubicados en Estados Unidos, al amparo del mismo Marco de Privacidad de Datos UE-EE. UU., en el que Meta está certificada.</p>
+        <p>No se realizan otras transferencias de datos a terceros países.</p>
 
         <h4>¿Cuáles son sus derechos cuando nos facilita sus datos?</h4>
         <p>Cualquier persona tiene derecho a obtener confirmación sobre si en <span class="legal-field" data-config="legal.titular">María José Luzón Rodríguez</span> estamos tratando datos personales que le conciernan, o no.</p>

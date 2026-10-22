@@ -833,6 +833,89 @@
   renderMap();
 
   /* -----------------------------------------------------
+     WhatsApp (config.whatsapp)
+     - flotante: botón fijo en la esquina (sube si el aviso de cookies está visible)
+     - enContacto: botón en Contacto, junto a Llamar / Cómo llegar / Email
+     Sin número, no se crea ninguno.
+     ----------------------------------------------------- */
+  const whatsapp = config.whatsapp || {};
+  const waNumero = String(whatsapp.numero || "").replace(/\D/g, "");
+  const waUrl = waNumero
+    ? "https://wa.me/" + (waNumero.startsWith("34") ? waNumero : "34" + waNumero) +
+      (whatsapp.mensaje ? "?text=" + encodeURIComponent(whatsapp.mensaje) : "")
+    : "";
+
+  // Aviso legal: los textos sobre WhatsApp ([data-solo-whatsapp]) solo se muestran si está activado
+  if (waUrl && (whatsapp.flotante || whatsapp.enContacto)) {
+    document.querySelectorAll("[data-solo-whatsapp]").forEach((el) => { el.hidden = false; });
+  }
+
+  // Botón en la sección Contacto (segundo, justo después de Llamar)
+  const contactActions = document.querySelector("[data-contact-actions]");
+  if (waUrl && whatsapp.enContacto && contactActions) {
+    const waAccion = document.createElement("a");
+    waAccion.className = "contact-action";
+    waAccion.href = waUrl;
+    waAccion.target = "_blank";
+    waAccion.rel = "noopener";
+    waAccion.innerHTML =
+      `<span class="contact-action__icon">${window.svgIcono ? window.svgIcono("whatsapp", "phone-ring") : ""}</span>` +
+      `<span><span class="contact-action__title">WhatsApp</span><span class="contact-action__sub">Escríbenos un mensaje</span></span>`;
+    const llamar = contactActions.firstElementChild;
+    contactActions.insertBefore(waAccion, llamar ? llamar.nextElementSibling : null);
+    contactActions.classList.add("has-four");               // 4 botones: 2×2 en tablet, 4 en fila en ordenador
+  }
+
+  // Línea en la ficha de contacto (justo debajo del teléfono)
+  const fichaTelefono = document.querySelector('#ficha-contacto .contact-card__item[data-config-href="tel"]');
+  if (waUrl && whatsapp.enContacto && fichaTelefono) {
+    // 9 cifras → mismo formato que el teléfono ("666 11 22 33"); si no, tal cual está en config.js
+    const waVisible = /^\d{9}$/.test(waNumero)
+      ? waNumero.replace(/^(\d{3})(\d{2})(\d{2})(\d{2})$/, "$1 $2 $3 $4")
+      : String(whatsapp.numero);
+    const waFicha = document.createElement("a");
+    waFicha.className = "contact-card__item";
+    waFicha.href = waUrl;
+    waFicha.target = "_blank";
+    waFicha.rel = "noopener";
+    waFicha.innerHTML =
+      `<span class="contact-card__icon">${window.svgIcono ? window.svgIcono("whatsapp", "phone-ring") : ""}</span>` +
+      `<span class="contact-card__text"><span class="contact-card__label">WhatsApp</span>` +
+      `<span class="contact-card__value">${waVisible.replace(/[<>&]/g, "")}</span></span>`;
+    fichaTelefono.after(waFicha);
+  }
+
+  // Botón flotante
+  if (waUrl && whatsapp.flotante) {
+    const waBoton = document.createElement("a");
+    waBoton.className = "wa-float";
+    waBoton.href = waUrl;
+    waBoton.target = "_blank";
+    waBoton.rel = "noopener";
+    waBoton.setAttribute("aria-label", "Escríbenos por WhatsApp (se abre en otra pestaña)");
+    waBoton.innerHTML =
+      (window.svgIcono ? window.svgIcono("whatsapp", "wa-float__icon") : "") +
+      (whatsapp.etiqueta ? `<span class="wa-float__label" aria-hidden="true">${String(whatsapp.etiqueta).replace(/[<>&]/g, "")}</span>` : "");
+    document.body.appendChild(waBoton);
+
+    // Al llegar al pie de página, el botón se oculta (para no tapar sus enlaces) y reaparece al subir
+    const pie = document.querySelector(".site-footer");
+    if (pie && "IntersectionObserver" in window) {
+      new IntersectionObserver(([entrada]) => {
+        waBoton.classList.toggle("is-hidden", entrada.isIntersecting);
+      }).observe(pie);
+    }
+
+    // Aviso de cookies visible → el botón sube su altura (variable --wa-lift en styles.css)
+    if (cookieBanner && "ResizeObserver" in window) {
+      new ResizeObserver(() => {
+        const alto = cookieBanner.hidden ? 0 : cookieBanner.offsetHeight;
+        document.documentElement.style.setProperty("--wa-lift", alto ? alto + 16 + "px" : "0px");
+      }).observe(cookieBanner);
+    }
+  }
+
+  /* -----------------------------------------------------
      Convenios (config.convenios)
      - Cinta de logos en movimiento (decorativa)
      - Pestañas por tipo de entidad (accesibles con teclado: flechas, Inicio, Fin)

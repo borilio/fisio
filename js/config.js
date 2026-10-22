@@ -11,7 +11,7 @@ window.SITE_CONFIG = {
   // - version: se muestra en el pie, junto al copyright.
   // - url: dirección oficial de la web (la usa la "ficha" invisible para Google).
   web: {
-    version: "1.0.0",
+    version: "3.0.0",
     url: "https://fisioterapiacostadelsol.com/"
   },
 
@@ -102,6 +102,28 @@ window.SITE_CONFIG = {
       codigoPostal: "29631",
       provincia: "Málaga"
     }
+  },
+
+
+  /* =====================================================
+     WHATSAPP (botón flotante)
+     ===================================================== */
+  // Botones que abren un chat de WhatsApp con la clínica.
+  // - flotante: true = botón verde fijo en la esquina inferior derecha.
+  // - enContacto: true = en la sección Contacto: botón junto a Llamar / Cómo llegar / Email
+  //     y una línea en la ficha de contacto, debajo del teléfono.
+  //     (Los dos en false = no aparece en ningún sitio.)
+  //     Si alguno está activo, el aviso legal muestra también los párrafos sobre WhatsApp.
+  // - numero: número de WhatsApp (con o sin espacios; si no empieza por 34, se añade).
+  //     Si está vacío, no se muestra ningún botón.
+  // - mensaje: texto que aparece ya escrito al abrir el chat ("" = chat vacío).
+  // - etiqueta: texto que aparece al pasar el ratón por el botón (en ordenador).
+  whatsapp: {
+    flotante: false,
+    enContacto: false,
+    numero: "0",
+    mensaje: "Hola, me gustaría pedir información.",
+    etiqueta: "¿Hablamos?"
   },
 
 
