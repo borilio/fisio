@@ -12,6 +12,38 @@
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
 </IfModule>
 
+# -----------------------------------------------------------------
+# Compresión: el HTML, CSS, JS y SVG viajan comprimidos (el navegador los descomprime solo).
+# Necesita dos módulos; si falta alguno, el bloque se ignora sin dar error.
+# -----------------------------------------------------------------
+<IfModule mod_deflate.c>
+  <IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript text/javascript application/json image/svg+xml application/xml
+  </IfModule>
+</IfModule>
+
+# -----------------------------------------------------------------
+# Caché del navegador: quien vuelve a la web no descarga otra vez lo que no ha cambiado.
+# - HTML: siempre la última versión.
+# - CSS y JS: 1 hora (los cambios, p. ej. en config.js, se ven como mucho 1 hora después).
+# - Imágenes: 1 semana · Vídeo: 1 mes · Fuentes: 1 año (no cambian nunca).
+# Si el módulo no está, se ignora sin dar error.
+# -----------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 hour"
+  ExpiresByType application/javascript "access plus 1 hour"
+  ExpiresByType text/javascript "access plus 1 hour"
+  ExpiresByType image/webp "access plus 1 week"
+  ExpiresByType image/png "access plus 1 week"
+  ExpiresByType image/jpeg "access plus 1 week"
+  ExpiresByType image/svg+xml "access plus 1 week"
+  ExpiresByType image/x-icon "access plus 1 week"
+  ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
 RewriteEngine On
 
 # -----------------------------------------------------------------
