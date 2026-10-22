@@ -53,6 +53,10 @@ Los iconos de la web están en [`js/iconos.js`](js/iconos.js), no dentro del HTM
 
 Al cargar la página, cada `<span data-icon>` se sustituye por su dibujo (conservando las clases, que dan las animaciones). Para añadir un icono nuevo, se crea una entrada en `iconos.js` con su nombre y el contenido de su `<svg>`.
 
+## Tailwind: `css/tailwind.css`
+
+Las clases de Tailwind que usa la web (`flex`, `gap-4`, `lg:text-6xl`…) están en un CSS generado, [`css/tailwind.css`](css/tailwind.css), en lugar de cargar Tailwind entero en el navegador. **Solo hay que regenerarlo si se añade una clase de Tailwind nueva** que no se usara antes; las clases propias y las de Bootstrap no necesitan nada. Cómo hacerlo está explicado al principio de [`tailwind.config.js`](tailwind.config.js).
+
 ## Despliegue en Netlify
 
 Netlify está conectado al repositorio y publica la web automáticamente con cada `push` a `main`. Es la URL que se comparte con el cliente para revisar los cambios, externo a cualquier enlace a GitHub.
@@ -66,7 +70,7 @@ El workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) publi
 
 1. Se ejecuta con cada `push` a la rama `main`, o a mano desde **Actions** → *Desplegar web por SFTP* → **Run workflow**.
 2. Sube los archivos por SFTP a la carpeta de la web en el servidor.
-3. El servidor queda igual que el repositorio: lo que se borra en el repositorio también se borra en el servidor. No se suben `.git`, `.vscode`, este `README.md` ni `_headers` (que es solo para Netlify).
+3. El servidor queda igual que el repositorio: lo que se borra en el repositorio también se borra en el servidor. No se suben `.git`, `.vscode`, este `README.md`, `_headers` (que es solo para Netlify), `tools/` ni `tailwind.config.js`.
 
 Los datos de conexión se guardan como *secrets* del repositorio: `SFTP_HOST`, `SFTP_PORT`, `SFTP_USER`, `SFTP_PASS` y `SFTP_DIR`.
 

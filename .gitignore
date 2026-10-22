@@ -1,0 +1,2 @@
+# Ejecutable de Tailwind (~40 MB): solo para regenerar css/tailwind.css (ver tailwind.config.js)
+tools/
