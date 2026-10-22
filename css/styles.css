@@ -177,6 +177,22 @@ iframe {
   border: 0;
 }
 
+/* Pie de las fotos de Instalaciones: fondo neutro con un toque verde a la izquierda
+   y naranja a la derecha (el mismo efecto que el recuadro del mapa) */
+.photo-caption {
+  background:
+    radial-gradient(circle at 15% 30%, rgba(31, 111, 100, 0.14), transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(224, 142, 62, 0.14), transparent 45%),
+    var(--surface);
+}
+
+html[data-theme="dark"] .photo-caption {
+  background:
+    radial-gradient(circle at 15% 30%, rgba(122, 215, 192, 0.14), transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(242, 176, 102, 0.12), transparent 45%),
+    var(--surface);
+}
+
 /* =====================================================
    EQUIPOS DE ELECTROTERAPIA (Instalaciones)
    Tarjeta con un mosaico de casillas: icono + nombre.
@@ -315,10 +331,10 @@ iframe {
   }
 }
 
-/* Ordenador: Corrientes en horizontal (icono a la izquierda, nombre y etiquetas a la derecha),
-   así ocupa menos altura y las dos filas quedan compactas.
+/* Tablet y ordenador (donde Corrientes ocupa dos columnas): en horizontal
+   (icono a la izquierda, nombre y etiquetas a la derecha), así ocupa menos altura.
    (Va después del bloque de 640px para que no lo anule) */
-@media (min-width: 1024px) {
+@media (min-width: 640px) {
   .equip-item--wide {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
