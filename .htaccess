@@ -1,3 +1,17 @@
+# -----------------------------------------------------------------
+# Cabeceras de seguridad (si el servidor no tiene el módulo, se ignoran sin dar error)
+# - nosniff: el navegador no "adivina" el tipo de los archivos
+# - SAMEORIGIN: nadie puede meter la web dentro de un marco en otra web (clickjacking)
+# - Referrer-Policy: al salir a otra web, solo se envía el dominio, no la dirección completa
+# - Permissions-Policy: la web no usa cámara, micrófono, ubicación ni pagos
+# -----------------------------------------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+</IfModule>
+
 RewriteEngine On
 
 # -----------------------------------------------------------------

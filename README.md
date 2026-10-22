@@ -27,7 +27,31 @@ Web de la clínica Fisioterapia Costa del Sol (Benalmádena, Málaga). Hecha con
 | **Contacto** | Teléfono, email y dirección (también la dirección desglosada para Google) |
 | **Legal** | Datos de la titular que aparecen en el aviso legal |
 | **Horario y festivos** | Horario de apertura y festivos, usados para el aviso "Abierto / Cerrado ahora" |
+| **Convenios** | Entidades con convenio: tarjetas destacadas y pestañas (compañías sanitarias, accidentes de tráfico, mutuas, federaciones), con sus logos |
 | **Mapa** | Enlaces del mapa de Google y de "Cómo llegar" |
+
+### Convenios: añadir, quitar o cambiar una entidad
+
+Cada entidad es una línea dentro de su pestaña (`categorias`) en `config.js`:
+
+```js
+{ nombre: "Mapfre", logo: "img/logos/mapfre.svg" },
+```
+
+- **`logo`:** ruta al logo, en `img/logos/`. Mejor en **SVG**, o **WebP** con fondo transparente. Si se deja vacío (`""`), se muestra el nombre escrito.
+- En **modo oscuro** los logos se pintan en blanco automáticamente. Si alguno no se entiende en blanco (por ejemplo, letras blancas dentro de un recuadro de color), se le añade `placa: true` y se mostrará a color sobre una placa clara.
+- Se muestran en el orden de `config.js` (alfabético, salvo UNESPA y Beiman, que van primero en sus pestañas).
+- Las pestañas y las tarjetas destacadas admiten una `nota` opcional (texto encima de los logos o debajo de la lista).
+
+## Iconos: `iconos.js`
+
+Los iconos de la web están en [`js/iconos.js`](js/iconos.js), no dentro del HTML. En el HTML se usan así:
+
+```html
+<span data-icon="telefono" class="phone-ring"></span>
+```
+
+Al cargar la página, cada `<span data-icon>` se sustituye por su dibujo (conservando las clases, que dan las animaciones). Para añadir un icono nuevo, se crea una entrada en `iconos.js` con su nombre y el contenido de su `<svg>`.
 
 ## Despliegue en Netlify
 
@@ -42,7 +66,7 @@ El workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) publi
 
 1. Se ejecuta con cada `push` a la rama `main`, o a mano desde **Actions** → *Desplegar web por SFTP* → **Run workflow**.
 2. Sube los archivos por SFTP a la carpeta de la web en el servidor.
-3. El servidor queda igual que el repositorio: lo que se borra en el repositorio también se borra en el servidor. No se suben `.git`, `.vscode` ni este `README.md`.
+3. El servidor queda igual que el repositorio: lo que se borra en el repositorio también se borra en el servidor. No se suben `.git`, `.vscode`, este `README.md` ni `_headers` (que es solo para Netlify).
 
 Los datos de conexión se guardan como *secrets* del repositorio: `SFTP_HOST`, `SFTP_PORT`, `SFTP_USER`, `SFTP_PASS` y `SFTP_DIR`.
 
