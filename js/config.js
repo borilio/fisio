@@ -182,6 +182,8 @@ window.SITE_CONFIG = {
   // Entidades con las que la clínica tiene convenio. Se pintan solas en la sección "Convenios".
   // - destacados: tarjetas grandes con su logo, un título, una lista y (opcional) una nota
   //     debajo (admite <strong>...</strong> para negrita).
+  //     enlace: (opcional) web de la entidad, con https://. Muestra "Visitar su web ↗"
+  //       (se abre en otra pestaña). Vacío "" = sin enlace.
   // - categorias: pestañas; cada una con su lista de entidades.
   //     icono: nombre de un icono de js/iconos.js.
   //     enlace: (opcional) sección relacionada de la web, p. ej. "#accidentes".
@@ -199,6 +201,7 @@ window.SITE_CONFIG = {
         logo: "img/logos/patronato.webp",
         titulo: "Clubes deportivos municipales",
         lista: ["Hockey", "Gimnasia rítmica", "Pádel", "Tenis", "Bádminton"],
+        enlace: "https://deportes.benalmadena.es/",
       },
       {
         nombre: "Clínica Arroyo",
@@ -206,6 +209,7 @@ window.SITE_CONFIG = {
         titulo: "A través de Clínica Arroyo",
         lista: ["Sanitas", "Adeslas"],
         nota: "Para estas compañías, la atención se gestiona <strong>siempre a través de Clínica Arroyo</strong>.",
+        enlace: "https://clinica-arroyo.com",
       }
     ],
 

@@ -43,6 +43,7 @@ Cada entidad es una línea dentro de su pestaña (`categorias`) en `config.js`:
 - En **modo oscuro** los logos se pintan en blanco automáticamente. Si alguno no se entiende en blanco (por ejemplo, letras blancas dentro de un recuadro de color), se le añade `placa: true` y se mostrará a color sobre una placa clara.
 - Se muestran en el orden de `config.js` (alfabético, salvo UNESPA y Beiman, que van primero en sus pestañas).
 - Las pestañas y las tarjetas destacadas admiten una `nota` opcional (texto encima de los logos o debajo de la lista).
+- Las tarjetas destacadas admiten además un `enlace` opcional a la web de la entidad (con `https://`): muestra "Visitar su web ↗", que se abre en otra pestaña.
 
 ## Iconos: `iconos.js`
 

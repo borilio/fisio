@@ -1182,6 +1182,7 @@
             ${d.titulo ? `<p class="conv-feature__title">${escapeHtml(d.titulo)}</p>` : ""}
             ${(d.lista || []).length ? `<ul class="conv-feature__list">${d.lista.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : ""}
             ${d.nota ? `<p class="conv-feature__note">${d.nota}</p>` : ""}
+            ${d.enlace ? `<a class="conv-feature__link" href="${escapeHtml(d.enlace)}" target="_blank" rel="noopener">Visitar su web <span aria-hidden="true">↗</span><span class="visually-hidden"> de ${escapeHtml(d.nombre)} (se abre en otra pestaña)</span></a>` : ""}
           </div>
         </article>`).join("");
     }

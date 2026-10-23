@@ -1109,6 +1109,33 @@ html[data-theme="dark"] .conv-tablist {
   color: var(--text);
 }
 
+/* Enlace opcional a la web de la entidad (config: enlace) */
+.conv-feature__link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.conv-feature__link span {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.conv-feature__link:hover,
+.conv-feature__link:focus-visible {
+  color: var(--brand-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.conv-feature__link:hover span,
+.conv-feature__link:focus-visible span {
+  transform: translate(2px, -2px);
+}
+
 /* Sin movimiento: la cinta no se mueve sola (lo controla script.js), pero se puede arrastrar */
 @media (prefers-reduced-motion: reduce) {
   .conv-panel {
