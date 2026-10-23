@@ -292,6 +292,78 @@ html[data-theme="dark"] .photo-caption {
 }
 
 /* =====================================================
+   NOTIFICACIONES EMERGENTES ("toast"): las crea notificar() en script.js
+   Clases .notif-* y no .toast: Bootstrap ya usa .toast y la oculta sin .show.
+   Arriba en el centro, bajo la barra de navegación. Por debajo del aviso legal (z-index 100).
+   ===================================================== */
+.notif-zona {
+  position: fixed;
+  top: calc(var(--header-h) + 0.75rem);
+  left: 50%;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  transform: translateX(-50%);
+  pointer-events: none;              /* la zona vacía no bloquea clics */
+}
+
+.notif {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--card-shadow);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  pointer-events: auto;
+  animation: toast-entra 0.3s ease;
+}
+
+.notif.is-closing {
+  animation: toast-sale 0.3s ease forwards;
+}
+
+.notif__icono {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+@keyframes toast-entra {
+  from { opacity: 0; transform: translateY(-12px) scale(0.96); }
+}
+
+@keyframes toast-sale {
+  to { opacity: 0; transform: translateY(-8px) scale(0.98); }
+}
+
+@keyframes toast-fundido-entra {
+  from { opacity: 0; }
+}
+
+@keyframes toast-fundido-sale {
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notif {
+    animation-name: toast-fundido-entra;
+  }
+
+  .notif.is-closing {
+    animation-name: toast-fundido-sale;
+  }
+}
+
+/* =====================================================
    EQUIPOS DE ELECTROTERAPIA (Instalaciones)
    Tarjeta con un mosaico de casillas: icono + nombre.
    - (sin variante)    → verde de la marca

@@ -620,6 +620,8 @@
       alPulsarVecesSeguidas(emojiPie, 10, () => {
         temporadaApagada = !temporadaApagada;
         capasTemporada.forEach((capa) => (temporadaApagada ? capa.pausar() : capa.reanudar()));
+        notificar(temporadaApagada ? "Efectos de temporada desactivados" : "Efectos de temporada activados",
+          { icono: emojisTemporadasActivas[0] });
       });
     }
   }
@@ -1234,7 +1236,10 @@
      - Móvil: tocar 10 veces seguidas el título "Tratamientos" (como el modo desarrollador de Android)
      Activa/desactiva .treat-colores en <html>. No se guarda: al recargar, vuelve al verde.
      ----------------------------------------------------- */
-  const toggleTreatColors = () => document.documentElement.classList.toggle("treat-colores");
+  const toggleTreatColors = () => {
+    const activos = document.documentElement.classList.toggle("treat-colores");
+    notificar(activos ? "¡Easter egg encontrado! Colores activados" : "Colores desactivados", { icono: "🎨" });
+  };
 
   const KONAMI = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
   let konamiPos = 0;
@@ -1249,6 +1254,54 @@
 
   const treatTitle = document.querySelector("#tratamientos .section-title");
   if (treatTitle) alPulsarVecesSeguidas(treatTitle, 10, toggleTreatColors);
+
+  /* -----------------------------------------------------
+     Notificaciones emergentes ("toast"): una píldora arriba en el centro que se va sola.
+       notificar("¡Easter egg encontrado!", { icono: "🥚" });
+       notificar("Texto", { icono: "🎃", duracion: 2000 });   // duración en ms (por defecto 3000)
+     - Si salen varias, se apilan. Al tocarla, se cierra antes.
+     - Los lectores de pantalla la leen (aria-live), sin interrumpir.
+     - También se puede usar desde la consola o desde otros scripts: window.notificar(...)
+     ----------------------------------------------------- */
+  let zonaNotificaciones = null;
+
+  function notificar(texto, opciones = {}) {
+    const { icono = "", duracion = 3000 } = opciones;
+    if (!zonaNotificaciones) {
+      zonaNotificaciones = document.createElement("div");
+      zonaNotificaciones.className = "notif-zona";
+      zonaNotificaciones.setAttribute("role", "status");
+      zonaNotificaciones.setAttribute("aria-live", "polite");
+      document.body.appendChild(zonaNotificaciones);
+    }
+
+    const toast = document.createElement("div");
+    toast.className = "notif";
+    if (icono) {
+      const i = document.createElement("span");
+      i.className = "notif__icono";
+      i.setAttribute("aria-hidden", "true");
+      i.textContent = icono;
+      toast.appendChild(i);
+    }
+    const t = document.createElement("span");
+    t.textContent = texto;
+    toast.appendChild(t);
+    zonaNotificaciones.appendChild(toast);
+
+    let cerrada = false;
+    const cerrar = () => {
+      if (cerrada) return;
+      cerrada = true;
+      toast.classList.add("is-closing");
+      setTimeout(() => toast.remove(), 300);                 // lo que dura la animación de salida
+    };
+    setTimeout(cerrar, duracion);
+    toast.addEventListener("click", cerrar);
+    return cerrar;                                           // por si se quiere cerrar antes desde el código
+  }
+
+  window.notificar = notificar;
 
   /* -----------------------------------------------------
      Utilidad para los trucos: ejecuta "accion" al pulsar "el" N veces seguidas
