@@ -1236,6 +1236,40 @@
   }
 
   /* -----------------------------------------------------
+     Reflejo en la tarjeta de UNESPA (Accidentes): .is-brillando mientras el panel está en pantalla.
+     Al aparecer, el reflejo cruza la tarjeta; después se repite cada 4 s (ver styles.css).
+     ----------------------------------------------------- */
+  const panelUnespa = document.querySelector(".traffic-unespa");
+  if (panelUnespa && "IntersectionObserver" in window) {
+    new IntersectionObserver(([entrada]) => {
+      panelUnespa.classList.toggle("is-brillando", entrada.isIntersecting);
+    }, { threshold: 0.6 }).observe(panelUnespa);
+  }
+
+  /* -----------------------------------------------------
+     Trama de puntos en la tarjeta del 0 € (Accidentes): solo con ratón,
+     se desplaza hasta 10 px al contrario que el cursor (ver styles.css).
+     En móvil y con "reducir movimiento" se queda quieta.
+     ----------------------------------------------------- */
+  const panelGratis = document.querySelector(".traffic-free");
+  if (panelGratis
+      && window.matchMedia("(hover: hover) and (pointer: fine)").matches
+      && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const DESPLAZAMIENTO = 10;
+    panelGratis.addEventListener("pointermove", (e) => {
+      const r = panelGratis.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;     // -0.5 … 0.5
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      panelGratis.style.setProperty("--trama-x", `${(-x * 2 * DESPLAZAMIENTO).toFixed(1)}px`);
+      panelGratis.style.setProperty("--trama-y", `${(-y * 2 * DESPLAZAMIENTO).toFixed(1)}px`);
+    });
+    panelGratis.addEventListener("pointerleave", () => {
+      panelGratis.style.removeProperty("--trama-x");
+      panelGratis.style.removeProperty("--trama-y");
+    });
+  }
+
+  /* -----------------------------------------------------
      🤓 Truco: colores por categoría en las tarjetas de Tratamientos
      - Ordenador: código Konami (↑ ↑ ↓ ↓ ← → ← → B A)
      - Móvil: tocar 10 veces seguidas el título "Tratamientos" (como el modo desarrollador de Android)
