@@ -819,6 +819,7 @@
   let consent = readConsent();
 
   function setConsent(choice) {
+    const cambioDeOpinion = consent !== null;                  // la primera vez no hace falta: el banner se va y ya está
     consent = choice;
     try {
       localStorage.setItem(CONSENT_KEY, JSON.stringify({ choice, date: new Date().toISOString() }));
@@ -827,6 +828,10 @@
     }
     hideCookieBanner();
     renderMap();
+    if (cambioDeOpinion) {
+      notificar(choice === "accepted" ? "Preferencias guardadas: cookies aceptadas" : "Preferencias guardadas: cookies rechazadas",
+        { icono: "🍪" });
+    }
   }
 
   let bannerHideTimer = null;
