@@ -604,8 +604,17 @@
   const versionEl = document.getElementById("site-version");
   if (versionEl) {
     if (web.version || emojisTemporadasActivas.length) {
-      versionEl.textContent = "·" + (web.version ? ` v${web.version}` : "");
+      versionEl.textContent = "·";
       versionEl.hidden = false;
+    }
+
+    // 🤫 Truco: 5 toques seguidos sobre la versión muestran config.web.mensaje (si lo hay).
+    if (web.version) {
+      const versionNum = document.createElement("span");
+      versionNum.className = "site-footer__version-num";
+      versionNum.textContent = ` v${web.version}`;
+      versionEl.appendChild(versionNum);
+      if (web.mensaje) alPulsarVecesSeguidas(versionNum, 5, () => notificar(web.mensaje));
     }
 
     // 🤫 Truco: 10 toques seguidos sobre el emoji de la temporada apagan/encienden su efecto.

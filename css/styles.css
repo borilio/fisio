@@ -3481,7 +3481,8 @@ html[data-theme="dark"] .site-footer__logo--dark {
 }
 
 /* Emoji de la temporada junto a la versión: no se selecciona al pulsarlo varias veces (truco) */
-.site-footer__season {
+.site-footer__season,
+.site-footer__version-num {
   -webkit-user-select: none;
   user-select: none;
 }

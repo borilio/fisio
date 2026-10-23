@@ -9,9 +9,12 @@ window.SITE_CONFIG = {
      WEB
      ===================================================== */
   // - version: se muestra en el pie, junto al copyright.
+  // - mensaje: (opcional) texto que aparece en una notificación al tocar 5 veces seguidas
+  //     la versión del pie. Vacío "" = no hace nada.
   // - url: dirección oficial de la web (la usa la "ficha" invisible para Google).
   web: {
     version: "3.0.0",
+    mensaje: "💖 Programado por Prime Droid",
     url: "https://fisioterapiacostadelsol.com/"
   },
 
