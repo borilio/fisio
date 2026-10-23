@@ -345,6 +345,9 @@
   // la pestaña no está visible (ahorra batería).
   //   onResize(width, height): ajustar la cantidad de elementos
   //   onFrame(ctx, width, height): mover y dibujar un fotograma
+  // Capas de temporada creadas (para poder apagarlas y encenderlas al vuelo; ver más abajo)
+  const capasTemporada = [];
+
   function crearCapaTemporada(onResize, onFrame) {
     const canvas = document.createElement("canvas");
     canvas.className = "season-layer";
@@ -355,6 +358,7 @@
     let width = 0;
     let height = 0;
     let frame = null;                                          // fotograma pendiente
+    let pausada = false;                                       // apagada con el truco del emoji del pie
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -376,7 +380,7 @@
       if (document.hidden) {
         cancelAnimationFrame(frame);
         frame = null;
-      } else if (frame === null) {
+      } else if (frame === null && !pausada) {
         frame = requestAnimationFrame(draw);
       }
     });
@@ -384,6 +388,20 @@
 
     resize();
     frame = requestAnimationFrame(draw);
+
+    capasTemporada.push({
+      pausar() {                                               // deja de dibujar y se oculta
+        pausada = true;
+        cancelAnimationFrame(frame);
+        frame = null;
+        canvas.style.display = "none";
+      },
+      reanudar() {
+        pausada = false;
+        canvas.style.display = "";
+        if (frame === null && !document.hidden) frame = requestAnimationFrame(draw);
+      }
+    });
   }
 
   // Nieve: copos pequeños que caen con un ligero balanceo
@@ -585,12 +603,24 @@
      ----------------------------------------------------- */
   const versionEl = document.getElementById("site-version");
   if (versionEl) {
-    const partes = [];
-    if (web.version) partes.push(`v${web.version}`);
-    partes.push(...emojisTemporadasActivas);
-    if (partes.length) {
-      versionEl.textContent = `· ${partes.join(" ")}`;
+    if (web.version || emojisTemporadasActivas.length) {
+      versionEl.textContent = "·" + (web.version ? ` v${web.version}` : "");
       versionEl.hidden = false;
+    }
+
+    // 🤫 Truco: 10 toques seguidos sobre el emoji de la temporada apagan/encienden su efecto.
+    // No se guarda: al recargar, vuelve a lo que diga config.js.
+    if (emojisTemporadasActivas.length) {
+      const emojiPie = document.createElement("span");
+      emojiPie.className = "site-footer__season";
+      emojiPie.textContent = " " + emojisTemporadasActivas.join(" ");
+      versionEl.appendChild(emojiPie);
+
+      let temporadaApagada = false;
+      alPulsarVecesSeguidas(emojiPie, 10, () => {
+        temporadaApagada = !temporadaApagada;
+        capasTemporada.forEach((capa) => (temporadaApagada ? capa.pausar() : capa.reanudar()));
+      });
     }
   }
 
@@ -1218,16 +1248,23 @@
   });
 
   const treatTitle = document.querySelector("#tratamientos .section-title");
-  if (treatTitle) {
-    let taps = 0;
-    let tapTimer = null;
-    treatTitle.addEventListener("click", () => {
-      taps += 1;
-      clearTimeout(tapTimer);
-      tapTimer = setTimeout(() => { taps = 0; }, 1500);   // los 10 toques, con menos de 1,5 s entre uno y otro
-      if (taps === 10) {
-        taps = 0;
-        toggleTreatColors();
+  if (treatTitle) alPulsarVecesSeguidas(treatTitle, 10, toggleTreatColors);
+
+  /* -----------------------------------------------------
+     Utilidad para los trucos: ejecuta "accion" al pulsar "el" N veces seguidas
+     (con menos de 1,5 s entre un toque y el siguiente; si te paras, vuelve a cero).
+     Lo usan el truco de colores de Tratamientos y el del emoji de temporada del pie.
+     ----------------------------------------------------- */
+  function alPulsarVecesSeguidas(el, veces, accion) {
+    let toques = 0;
+    let temporizador = null;
+    el.addEventListener("click", () => {
+      toques += 1;
+      clearTimeout(temporizador);
+      temporizador = setTimeout(() => { toques = 0; }, 1500);
+      if (toques === veces) {
+        toques = 0;
+        accion();
       }
     });
   }

@@ -3318,6 +3318,12 @@ html[data-theme="dark"] .site-footer__logo--dark {
   white-space: nowrap;
 }
 
+/* Emoji de la temporada junto a la versión: no se selecciona al pulsarlo varias veces (truco) */
+.site-footer__season {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .site-footer__legal {
   display: flex;
   gap: 1.25rem;
