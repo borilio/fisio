@@ -439,20 +439,26 @@
   }
 
   // Aparecer / desaparecer: devuelve la opacidad (0–1) para el tiempo t (segundos) en un ciclo de "periodo".
-  // Ciclo: visible (55 %) → se desvanece (10 %) → invisible (25 %) → reaparece (10 %)
-  function opacidadDesvanecer(t, periodo) {
+  // Ciclo: visible ("visible", por defecto 55 %) → se desvanece ("transicion", 10 %) → invisible (el resto)
+  //        → reaparece ("transicion", 10 %)
+  function opacidadDesvanecer(t, periodo, visible = 0.55, transicion = 0.1) {
     const p = (t % periodo) / periodo;
     const suave = (x) => x * x * (3 - 2 * x);                  // transición suave (sin saltos)
-    if (p < 0.55) return 1;
-    if (p < 0.65) return 1 - suave((p - 0.55) / 0.1);
-    if (p < 0.9) return 0;
-    return suave((p - 0.9) / 0.1);
+    if (p < visible) return 1;
+    if (p < visible + transicion) return 1 - suave((p - visible) / transicion);
+    if (p < 1 - transicion) return 0;
+    return suave((p - (1 - transicion)) / transicion);
   }
 
   // Emojis flotantes: suben despacio desde abajo con balanceo y un leve giro.
   // Usa la lista "emojis" de la temporada en config.js (reutilizable: Halloween, San Valentín...).
   // opciones.latido: true → además laten como un corazón (cada uno a su ritmo).
   // opciones.desvanecer: true → por el camino desaparecen y reaparecen (cada uno a su ritmo).
+  //   opciones.visible: parte del ciclo en que se ven (0–1, por defecto 0.55).
+  //   opciones.transicion: parte del ciclo que dura desvanecerse (y lo mismo reaparecer) (por defecto 0.1).
+  //   opciones.ciclo: [mín, máx] segundos de cada ciclo (por defecto [6, 10]).
+  // opciones.cantidad: [mín, máx] emojis a la vez, según el ancho de pantalla (por defecto [3, 5]).
+  // Además, "huyen" del ratón: si el cursor se acerca, se apartan y luego siguen su camino.
   function efectoEmojis(temporada, opciones = {}) {
     const lista = Array.isArray(temporada.emojis)
       ? temporada.emojis.filter((e) => typeof e === "string" && e.trim() !== "")   // ignora vacíos
@@ -461,6 +467,8 @@
     const items = [];
     let w = 0;
     let h = 0;
+    const [cantidadMin, cantidadMax] = opciones.cantidad || [3, 5];
+    const [cicloMin, cicloMax] = opciones.ciclo || [6, 10];
 
     const newItem = (anywhere) => ({
       emoji: emojis[Math.floor(Math.random() * emojis.length)],
@@ -472,29 +480,55 @@
       sway: 0.3 + Math.random() * 0.5,
       alpha: 0.55 + Math.random() * 0.3,                       // semitransparentes
       beat: Math.random() * 1.2,                               // desfase del latido
-      fadePeriod: 6 + Math.random() * 4,                       // ciclo de aparecer/desaparecer: 6–10 s
-      fadeOffset: Math.random() * 10                           // desfase (no desaparecen todos a la vez)
+      fadePeriod: cicloMin + Math.random() * (cicloMax - cicloMin),   // ciclo de aparecer/desaparecer
+      fadeOffset: Math.random() * 30,                          // desfase (no desaparecen todos a la vez)
+      vx: 0,                                                   // empujón al huir del ratón (se va frenando)
+      vy: 0
     });
+
+    // Posición del ratón (solo ratón: en el móvil el dedo sirve para desplazarse por la página)
+    const RADIO_HUIDA = 120;                                   // distancia (px) a la que empiezan a apartarse
+    let raton = null;
+    window.addEventListener("pointermove", (e) => {
+      if (e.pointerType === "mouse") raton = { x: e.clientX, y: e.clientY };
+    }, { passive: true });
+    document.documentElement.addEventListener("mouseleave", () => { raton = null; });
 
     crearCapaTemporada(
       (width, height) => {
         w = width;
         h = height;
-        const target = Math.max(3, Math.min(5, Math.round(w / 200)));   // pocos: entre 3 y 5 según el ancho
+        const target = Math.max(cantidadMin, Math.min(cantidadMax, Math.round(w / 200)));   // pocos, según el ancho
         while (items.length < target) items.push(newItem(true));
         items.length = target;
       },
       (ctx) => {
         const now = performance.now() / 1000;
         items.forEach((it, i) => {
+          // Huir del ratón: empujón en dirección contraria, más fuerte cuanto más cerca
+          if (raton) {
+            const dx = it.x - raton.x;
+            const dy = it.y - raton.y;
+            const d = Math.hypot(dx, dy);
+            if (d < RADIO_HUIDA && d > 0.1) {
+              const fuerza = (1 - d / RADIO_HUIDA) * 1.2;
+              it.vx += (dx / d) * fuerza;
+              it.vy += (dy / d) * fuerza;
+            }
+          }
+          it.x += it.vx;
+          it.y += it.vy;
+          it.vx *= 0.92;                                       // el empujón se va frenando
+          it.vy *= 0.92;
+
           it.y -= it.speed;
           it.phase += 0.012;
           it.x += Math.sin(it.phase) * it.sway;
-          if (it.y < -40) items[i] = newItem(false);
+          if (it.y < -40 || it.y > h + 80) items[i] = newItem(false);   // fuera de pantalla: uno nuevo abajo
           if (it.x > w + 40) it.x = -40;
           if (it.x < -40) it.x = w + 40;
           const fade = opciones.desvanecer
-            ? opacidadDesvanecer(now + it.fadeOffset, it.fadePeriod)
+            ? opacidadDesvanecer(now + it.fadeOffset, it.fadePeriod, opciones.visible, opciones.transicion)
             : 1;
           if (fade <= 0) return;                               // invisible: no se dibuja (sigue moviéndose)
           ctx.save();
@@ -518,7 +552,8 @@
   // id de la temporada en config.js → efecto que se muestra
   const EFECTOS_TEMPORADA = {
     navidad: efectoNieve,
-    halloween: (t) => efectoEmojis(t, { desvanecer: true }),
+    // Halloween, esporádico: cada emoji se ve 2-3 s y no vuelve hasta pasados 15-19 s
+    halloween: (t) => efectoEmojis(t, { desvanecer: true, cantidad: [2, 3], visible: 0.12, transicion: 0.04, ciclo: [19, 24] }),
     sanvalentin: (t) => efectoEmojis(t, { latido: true })
   };
 

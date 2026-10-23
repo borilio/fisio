@@ -62,7 +62,7 @@ window.SITE_CONFIG = {
     },
     {
       id: "halloween",
-      mostrar: false,
+      mostrar: true,
       forzar: false,
       desde: "10-20",
       hasta: "10-31",
@@ -72,7 +72,7 @@ window.SITE_CONFIG = {
       id: "sanvalentin",
       mostrar: true,
       forzar: false,
-      desde: "02-10",
+      desde: "02-12",
       hasta: "02-14",
       emojis: ["❤️", "❤️", "💕", "💖", "💗", "💘","🏹","💚","🧡"]
     }
